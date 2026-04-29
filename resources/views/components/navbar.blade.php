@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('dashboard') }}">Slacknovo</a>
+        <div class="collapse navbar-collapse show">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.produtos.index') }}">Produtos</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.categorias.index') }}">Categorias</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.cores.index') }}">Cores</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.materiais.index') }}">Materiais</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.fornecedores.index') }}">Fornecedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('admin.caixa.index') }}">Caixa</a></li>
+            </ul>
+        </div>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>
+        </form>
+    </div>
+</nav>

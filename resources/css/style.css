@@ -1,0 +1,102 @@
+:root {
+	--cor-principal: #25d366;
+	--cor-principal-escura: #128c7e;
+	--cor-secundaria: #ffffff;
+	--cor-superficie: #f8fafc;
+	--cor-texto: #0f172a;
+	--cor-borda: #e2e8f0;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background: linear-gradient(180deg, #f8fafc 0%, #eef6f1 100%);
+	color: var(--cor-texto);
+}
+
+main {
+	flex: 1;
+}
+
+.app-navbar {
+	background: #0f172a;
+	box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
+}
+
+.app-hero {
+	background: var(--cor-secundaria);
+	border: 1px solid var(--cor-borda);
+	border-radius: 1rem;
+	padding: 1.25rem;
+	box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+}
+
+.filter-card {
+	background: var(--cor-secundaria);
+	border: 1px solid var(--cor-borda);
+	border-radius: 1rem;
+	padding: 1rem;
+	box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+}
+
+.btn-brand {
+	background-color: var(--cor-principal);
+	border-color: var(--cor-principal);
+	color: #052e1a;
+	font-weight: 600;
+}
+
+.btn-brand:hover {
+	background-color: var(--cor-principal-escura);
+	border-color: var(--cor-principal-escura);
+	color: var(--cor-secundaria);
+}
+
+.product-card {
+	transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.product-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 20px 26px rgba(15, 23, 42, 0.12) !important;
+}
+
+.empty-state {
+	background: var(--cor-secundaria);
+	border: 1px dashed #cbd5e1;
+}
+
+.whatsapp-float {
+	position: fixed;
+	width: 60px;
+	height: 60px;
+	bottom: 40px;
+	right: 40px;
+	background-color: var(--cor-principal);
+	color: var(--cor-secundaria);
+	border-radius: 50px;
+	text-align: center;
+	font-size: 30px;
+	box-shadow: 2px 2px 3px #999;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.whatsapp-float:hover {
+	color: #fff;
+	background-color: var(--cor-principal-escura);
+}
+
+.form-signin {
+	max-width: 400px;
+	padding: 1rem;
+}
+
+.form-signin .logo {
+	width: 120px;
+	height: auto;
+	margin-bottom: 1rem;
+}
