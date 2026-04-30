@@ -72,3 +72,15 @@ php artisan serve
 ```
 
 Se `composer install` falhar por bloqueio de rede (ex.: erro 403 ao baixar do GitHub), use uma rede sem bloqueio/proxy adequado e execute novamente.
+
+
+### Erro `Driver [files] not supported`
+
+Se aparecer esse erro, seu `.env` provavelmente está com `CACHE_STORE=files` (plural).
+Este projeto aceita automaticamente esse valor agora, mas o recomendado é usar:
+
+```env
+CACHE_STORE=file
+SESSION_DRIVER=file
+QUEUE_CONNECTION=database
+```
