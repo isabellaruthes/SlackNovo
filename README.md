@@ -57,3 +57,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Execução local (resolução de erro ao iniciar)
+
+Se o projeto falhar logo no início com erro parecido com `vendor/autoload.php` não encontrado, rode:
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+Se `composer install` falhar por bloqueio de rede (ex.: erro 403 ao baixar do GitHub), use uma rede sem bloqueio/proxy adequado e execute novamente.
