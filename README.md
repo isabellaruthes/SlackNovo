@@ -57,3 +57,50 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Execução local (resolução de erro ao iniciar)
+
+Se o projeto falhar logo no início com erro parecido com `vendor/autoload.php` não encontrado, rode:
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+Se `composer install` falhar por bloqueio de rede (ex.: erro 403 ao baixar do GitHub), use uma rede sem bloqueio/proxy adequado e execute novamente.
+
+
+### Erro `Driver [files] not supported`
+
+Se aparecer esse erro, seu `.env` provavelmente está com `CACHE_STORE=files` (plural).
+Este projeto aceita automaticamente esse valor agora, mas o recomendado é usar:
+
+```env
+CACHE_STORE=file
+SESSION_DRIVER=file
+QUEUE_CONNECTION=database
+```
+
+
+> **Importante:** se o erro continuar mesmo após ajustar o `.env`, limpe os caches de configuração:
+>
+> ```bash
+> php artisan optimize:clear
+> php artisan config:clear
+> ```
+>
+> Em Laravel, valores antigos podem ficar em cache e continuar usando `files` mesmo após a correção.
+
+
+Se ainda ocorrer no carregamento inicial (`GET /`) confira também:
+
+```env
+APP_MAINTENANCE_DRIVER=file
+# APP_MAINTENANCE_STORE=database
+```
+
+Valor `files` (plural) em `APP_MAINTENANCE_DRIVER` também causa `Driver [files] not supported`.

@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('CACHE_STORE', 'database'),
+    'default' => env('CACHE_STORE', 'database') === 'files' ? 'file' : env('CACHE_STORE', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,6 +48,13 @@ return [
         ],
 
         'file' => [
+            'driver' => 'file',
+            'path' => storage_path('framework/cache/data'),
+            'lock_path' => storage_path('framework/cache/data'),
+        ],
+
+        // Compatibilidade para ambientes com CACHE_STORE=files (plural).
+        'files' => [
             'driver' => 'file',
             'path' => storage_path('framework/cache/data'),
             'lock_path' => storage_path('framework/cache/data'),
