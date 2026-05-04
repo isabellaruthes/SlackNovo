@@ -17,6 +17,36 @@ class CaixaController extends Controller
     {
         $entradas = Venda::sum('valor_venda_total');
         $saidas = SaidaCaixa::sum('valor');
+        $vendas = Venda::with('produto')->latest('data_hora')->get();
+        $registros = $vendas
+            ->map(function (Venda $venda): array {
+                $lucro = (float) $venda->valor_venda_total - (float) $venda->valor_compra_total;
+
+                return [
+                    'tipo' => 'venda',
+                    'id' => $venda->id,
+                    'data_hora' => $venda->data_hora,
+                    'valor' => (float) $venda->valor_venda_total,
+                    'lucro' => $lucro,
+                    'comprador' => $venda->comprador,
+                    'venda' => $venda,
+                ];
+            })
+            ->merge(
+                SaidaCaixa::latest('data_saidacaixa')->get()->map(function (SaidaCaixa $saida): array {
+                    return [
+                        'tipo' => 'saida',
+                        'id' => $saida->id,
+                        'data_hora' => $saida->data_saidacaixa,
+                        'valor' => (float) $saida->valor,
+                        'lucro' => null,
+                        'comprador' => '-',
+                        'venda' => null,
+                    ];
+                })
+            )
+            ->sortByDesc('data_hora')
+            ->values();
 
         return view('admin.caixa.index', [
             'saldo' => $entradas - $saidas,
@@ -24,6 +54,7 @@ class CaixaController extends Controller
             'saidas' => $saidas,
             'ultimasVendas' => Venda::latest('data_hora')->limit(10)->get(),
             'ultimasSaidas' => SaidaCaixa::latest('data_saidacaixa')->limit(10)->get(),
+            'registros' => $registros,
         ]);
     }
 
@@ -67,5 +98,18 @@ class CaixaController extends Controller
         $produto->update(['status' => 'vendido']);
 
         return back()->with('success', 'Venda registrada com sucesso.');
+    }
+
+    public function reembolsarVenda(Venda $venda): RedirectResponse
+    {
+        $produto = $venda->produto;
+
+        if ($produto !== null) {
+            $produto->update(['status' => 'disponivel']);
+        }
+
+        $venda->delete();
+
+        return back()->with('success', 'Venda reembolsada com sucesso.');
     }
 }
