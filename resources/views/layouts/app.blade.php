@@ -15,7 +15,7 @@
         @include('components.navbar')
     @endauth
 
-    <main class="container py-3">
+    <main class="@yield('main_class', 'container py-3')">
         @yield('content')
     </main>
 
