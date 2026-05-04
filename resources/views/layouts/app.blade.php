@@ -12,15 +12,7 @@
 
 <body>
     @auth
-        <nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
-            <div class="container">
-                <a class="navbar-brand" href="{{ route('dashboard') }}">Slacknovo</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>
-                </form>
-            </div>
-        </nav>
+        @include('components.navbar')
     @endauth
 
     <main class="container py-3">

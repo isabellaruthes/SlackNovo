@@ -84,3 +84,23 @@ CACHE_STORE=file
 SESSION_DRIVER=file
 QUEUE_CONNECTION=database
 ```
+
+
+> **Importante:** se o erro continuar mesmo após ajustar o `.env`, limpe os caches de configuração:
+>
+> ```bash
+> php artisan optimize:clear
+> php artisan config:clear
+> ```
+>
+> Em Laravel, valores antigos podem ficar em cache e continuar usando `files` mesmo após a correção.
+
+
+Se ainda ocorrer no carregamento inicial (`GET /`) confira também:
+
+```env
+APP_MAINTENANCE_DRIVER=file
+# APP_MAINTENANCE_STORE=database
+```
+
+Valor `files` (plural) em `APP_MAINTENANCE_DRIVER` também causa `Driver [files] not supported`.
