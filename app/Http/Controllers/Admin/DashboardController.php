@@ -9,19 +9,17 @@ use App\Models\Venda;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
 {
     public function index(): View
     {
-        $colunaDataVenda = Schema::hasColumn('vendas', 'data_hora') ? 'data_hora' : 'created_at';
         $inicioJanela = Carbon::now()->startOfMonth()->subMonths(5);
 
         $vendasPorMes = Venda::query()
-            ->where($colunaDataVenda, '>=', $inicioJanela)
-            ->get([$colunaDataVenda])
-            ->groupBy(fn (Venda $venda) => Carbon::parse($venda->{$colunaDataVenda})->format('Y-m'))
+            ->where('data_hora', '>=', $inicioJanela)
+            ->get(['data_hora'])
+            ->groupBy(fn (Venda $venda) => Carbon::parse($venda->data_hora)->format('Y-m'))
             ->map(fn ($grupo) => $grupo->count());
 
         $meses = collect(range(0, 5))->map(fn (int $i) => Carbon::now()->startOfMonth()->subMonths(5 - $i));
@@ -35,18 +33,18 @@ class DashboardController extends Controller
             ->with(['categoria'])
             ->leftJoinSub(
                 Venda::query()
-                    ->select('id_produto', DB::raw('MAX('.$colunaDataVenda.') as ultima_venda_data'))
+                    ->select('id_produto', DB::raw('MAX(data_hora) as ultima_venda_data'))
                     ->groupBy('id_produto'),
                 'ult_venda',
                 'ult_venda.id_produto',
                 '=',
                 'produtos.id'
             )
-            ->leftJoin('vendas as venda_final', function ($join) use ($colunaDataVenda): void {
+            ->leftJoin('vendas as venda_final', function ($join): void {
                 $join->on('venda_final.id_produto', '=', 'produtos.id')
-                    ->on('venda_final.'.$colunaDataVenda, '=', 'ult_venda.ultima_venda_data');
+                    ->on('venda_final.data_hora', '=', 'ult_venda.ultima_venda_data');
             })
-            ->select('produtos.*', 'venda_final.comprador', 'venda_final.'.$colunaDataVenda.' as data_venda')
+            ->select('produtos.*', 'venda_final.comprador', 'venda_final.data_hora as data_venda')
             ->orderByDesc('produtos.created_at')
             ->get();
 
