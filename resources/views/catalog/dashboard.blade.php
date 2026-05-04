@@ -3,10 +3,10 @@
 @section('title', 'Catálogo Público')
 
 @section('content')
-    <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4 rounded-3">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('catalog.public') }}">SlackNovo</a>
-            <a class="btn btn-outline-light btn-sm" href="{{ route('login') }}">
+    <nav class="navbar navbar-expand-lg bg-white border rounded-3 px-3 mb-4 shadow-sm">
+        <div class="container-fluid px-0">
+            <a class="navbar-brand fw-bold" href="{{ route('catalog.public') }}">SlackNovo</a>
+            <a class="btn btn-outline-dark" href="{{ route('login') }}">
                 <i class="bi bi-person-lock me-1"></i>Login do Administrador
             </a>
         </div>
