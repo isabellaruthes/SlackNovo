@@ -100,3 +100,20 @@ main {
 	height: auto;
 	margin-bottom: 1rem;
 }
+
+
+.login-card {
+	border: 1px solid var(--cor-borda);
+	border-radius: 1rem;
+}
+
+.login-card-header {
+	background: linear-gradient(135deg, var(--cor-principal-escura), #0f172a);
+	color: var(--cor-secundaria);
+}
+
+.login-card .input-group-text {
+	background-color: #f1f5f9;
+	border-color: var(--cor-borda);
+	color: var(--cor-principal-escura);
+}
