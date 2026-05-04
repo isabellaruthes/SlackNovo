@@ -36,5 +36,6 @@ Route::middleware('auth')->group(function (): void {
         Route::post('caixa/venda', [CaixaController::class, 'registrarVenda'])->name('caixa.venda');
 
         Route::get('relatorios/produtos', [RelatorioController::class, 'produtos'])->name('relatorios.produtos');
+        Route::get('relatorios/exportar', [RelatorioController::class, 'exportar'])->name('relatorios.exportar');
     });
 });
