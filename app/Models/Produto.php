@@ -10,7 +10,7 @@ class Produto extends Model
     protected $table = 'produtos';
 
     protected $fillable = [
-        'imagen', 'nome', 'estado', 'cliente_consignado', 'consignado_pago', 'tamanho', 'preco_compra', 'preco_venda', 'genero', 'status', 'descricao',
+        'imagen', 'nome', 'estado', 'tipo_produto', 'cliente_consignado', 'consignado_pago', 'tamanho', 'preco_compra', 'preco_venda', 'genero', 'status', 'descricao',
         'id_categoria', 'id_cor', 'id_material', 'id_fornecedor',
     ];
 

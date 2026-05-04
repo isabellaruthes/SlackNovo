@@ -27,6 +27,18 @@
             <label class="form-check-label" for="estado_consignado">Consignado</label>
         </div>
     </div>
+    <div class="col-12">
+        <label class="form-label d-block mb-2">Tipo do produto</label>
+        @php($tipoProdutoAtual = old('tipo_produto', $produto->tipo_produto ?? 'roupa'))
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_roupa" value="roupa" @checked($tipoProdutoAtual === 'roupa')>
+            <label class="form-check-label" for="tipo_roupa">Roupa</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_calcado" value="calcado" @checked($tipoProdutoAtual === 'calcado')>
+            <label class="form-check-label" for="tipo_calcado">Calçado</label>
+        </div>
+    </div>
 
     <div id="consignado_fields" class="row g-3 {{ $estadoAtual === 'consignado' ? '' : 'd-none' }}">
         <div class="col-md-6">
@@ -44,7 +56,22 @@
 
     <div class="col-md-3"><label class="form-label">Preço Compra</label><input class="form-control" name="preco_compra" type="number" step="0.01" value="{{ old('preco_compra', $produto->preco_compra ?? '') }}" required></div>
     <div class="col-md-3"><label class="form-label">Preço Venda</label><input class="form-control" name="preco_venda" type="number" step="0.01" value="{{ old('preco_venda', $produto->preco_venda ?? '') }}" required></div>
-    <div class="col-md-3"><label class="form-label">Tamanho</label><select class="form-select" name="tamanho"><option value="">-</option><option value="pp" @selected(old('tamanho', $produto->tamanho ?? '')==='pp')>PP</option><option value="p" @selected(old('tamanho', $produto->tamanho ?? '')==='p')>P</option><option value="m" @selected(old('tamanho', $produto->tamanho ?? '')==='m')>M</option><option value="g" @selected(old('tamanho', $produto->tamanho ?? '')==='g')>G</option><option value="gg" @selected(old('tamanho', $produto->tamanho ?? '')==='gg')>GG</option><option value="g1" @selected(old('tamanho', $produto->tamanho ?? '')==='g1')>G1</option><option value="g2" @selected(old('tamanho', $produto->tamanho ?? '')==='g2')>G2</option><option value="g3" @selected(old('tamanho', $produto->tamanho ?? '')==='g3')>G3</option><option value="g4" @selected(old('tamanho', $produto->tamanho ?? '')==='g4')>G4</option></select></div>
+    <div class="col-md-3">
+        <label class="form-label">Tamanho</label>
+        @php($tamanhoAtual = old('tamanho', $produto->tamanho ?? ''))
+        <select class="form-select" name="tamanho" id="tamanho_roupa">
+            <option value="">-</option>
+            @foreach (['pp', 'p', 'm', 'g', 'gg', 'g1', 'g2', 'g3', 'g4'] as $tamanho)
+                <option value="{{ $tamanho }}" @selected($tamanhoAtual === $tamanho)>{{ strtoupper($tamanho) }}</option>
+            @endforeach
+        </select>
+        <select class="form-select d-none" name="tamanho" id="tamanho_calcado">
+            <option value="">-</option>
+            @foreach (range(14, 46) as $numero)
+                <option value="{{ $numero }}" @selected($tamanhoAtual === (string) $numero)>{{ $numero }}</option>
+            @endforeach
+        </select>
+    </div>
     <div class="col-md-3"><label class="form-label">Status</label><select class="form-select" name="status"><option value="disponivel">Disponível</option><option value="vendido" @selected(old('status', $produto->status ?? '')==='vendido')>Vendido</option></select></div>
     <div class="col-md-3"><label class="form-label">Gênero</label><select class="form-select" name="genero"><option value="">-</option><option value="masculino">Masculino</option><option value="feminino">Feminino</option><option value="unissex">Unissex</option></select></div>
     <div class="col-md-3"><label class="form-label">Categoria</label><select class="form-select" name="id_categoria"><option value="">-</option>@foreach($categorias as $item)<option value="{{ $item->id }}" @selected((string)old('id_categoria', $produto->id_categoria ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
@@ -58,6 +85,9 @@
     document.addEventListener('DOMContentLoaded', function () {
         const consignadoFields = document.getElementById('consignado_fields');
         const radios = document.querySelectorAll('input[name="estado"]');
+        const tipoProdutoRadios = document.querySelectorAll('input[name="tipo_produto"]');
+        const tamanhoRoupa = document.getElementById('tamanho_roupa');
+        const tamanhoCalcado = document.getElementById('tamanho_calcado');
 
         function toggleConsignadoFields() {
             const selecionado = document.querySelector('input[name="estado"]:checked')?.value;
@@ -65,6 +95,23 @@
         }
 
         radios.forEach(radio => radio.addEventListener('change', toggleConsignadoFields));
+        tipoProdutoRadios.forEach(radio => radio.addEventListener('change', function () {
+            const tipoSelecionado = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;
+            const isCalcado = tipoSelecionado === 'calcado';
+
+            tamanhoRoupa.classList.toggle('d-none', isCalcado);
+            tamanhoCalcado.classList.toggle('d-none', !isCalcado);
+
+            tamanhoRoupa.disabled = isCalcado;
+            tamanhoCalcado.disabled = !isCalcado;
+        }));
+
+        const tipoSelecionadoInicial = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;
+        const isCalcadoInicial = tipoSelecionadoInicial === 'calcado';
+        tamanhoRoupa.classList.toggle('d-none', isCalcadoInicial);
+        tamanhoCalcado.classList.toggle('d-none', !isCalcadoInicial);
+        tamanhoRoupa.disabled = isCalcadoInicial;
+        tamanhoCalcado.disabled = !isCalcadoInicial;
         toggleConsignadoFields();
     });
 </script>
