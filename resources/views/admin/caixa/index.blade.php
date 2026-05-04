@@ -27,4 +27,55 @@
         </form>
     </div>
 </div>
+
+<div class="mt-4">
+    <h2 class="h6">Registros de vendas e saídas de caixa</h2>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>ID</th>
+                    <th>Data e hora</th>
+                    <th>Valor</th>
+                    <th>Lucro por peça</th>
+                    <th>Quem comprou</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($registros as $registro)
+                    <tr>
+                        <td>{{ $registro['tipo'] === 'venda' ? 'Venda' : 'Saída' }}</td>
+                        <td>{{ $registro['id'] }}</td>
+                        <td>{{ \Illuminate\Support\Carbon::parse($registro['data_hora'])->format('d/m/Y H:i') }}</td>
+                        <td>R$ {{ number_format($registro['valor'], 2, ',', '.') }}</td>
+                        <td>
+                            @if ($registro['lucro'] !== null)
+                                R$ {{ number_format($registro['lucro'], 2, ',', '.') }}
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td>{{ $registro['comprador'] }}</td>
+                        <td>
+                            @if ($registro['tipo'] === 'venda')
+                                <form method="POST" action="{{ route('admin.caixa.reembolso', $registro['venda']) }}">
+                                    @csrf
+                                    <button class="btn btn-sm btn-danger" type="submit">Reembolso</button>
+                                </form>
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Nenhum registro encontrado.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
 @endsection

@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function (): void {
         Route::get('caixa', [CaixaController::class, 'index'])->name('caixa.index');
         Route::post('caixa/saida', [CaixaController::class, 'registrarSaida'])->name('caixa.saida');
         Route::post('caixa/venda', [CaixaController::class, 'registrarVenda'])->name('caixa.venda');
+        Route::post('caixa/venda/{venda}/reembolso', [CaixaController::class, 'reembolsarVenda'])->name('caixa.reembolso');
 
         Route::get('relatorios/produtos', [RelatorioController::class, 'produtos'])->name('relatorios.produtos');
         Route::get('relatorios/exportar', [RelatorioController::class, 'exportar'])->name('relatorios.exportar');
