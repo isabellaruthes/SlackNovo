@@ -8,8 +8,10 @@ use App\Models\Cor;
 use App\Models\Fornecedor;
 use App\Models\Material;
 use App\Models\Produto;
+use App\Models\SaidaCaixa;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 
 class ProdutoController extends Controller
@@ -35,7 +37,9 @@ class ProdutoController extends Controller
     {
         $data = $request->validate([
             'nome' => ['required', 'string', 'max:50'],
-            'imagen' => ['nullable', 'string', 'max:120'],
+            'imagen' => ['nullable', 'image', 'max:5120'],
+            'cliente_consignado' => ['nullable', 'string', 'max:120'],
+            'consignado_pago' => ['nullable', 'boolean'],
             'estado' => ['nullable', 'in:novo,usado,consignado'],
             'tamanho' => ['nullable', 'in:pp,p,m,g,gg,g1,g2,g3,g4'],
             'preco_compra' => ['required', 'numeric'],
@@ -49,7 +53,19 @@ class ProdutoController extends Controller
             'id_fornecedor' => ['nullable', 'integer'],
         ]);
 
-        Produto::create($data);
+        $data['consignado_pago'] = $request->boolean('consignado_pago');
+
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')->store('produtos', 'public');
+        }
+
+        if (($data['estado'] ?? null) !== 'consignado') {
+            $data['cliente_consignado'] = null;
+            $data['consignado_pago'] = false;
+        }
+
+        $produto = Produto::create($data);
+        $this->registrarSaidaConsignadoSeNecessario($produto);
 
         return redirect()->route('admin.produtos.index')->with('success', 'Produto criado com sucesso.');
     }
@@ -69,7 +85,9 @@ class ProdutoController extends Controller
     {
         $data = $request->validate([
             'nome' => ['required', 'string', 'max:50'],
-            'imagen' => ['nullable', 'string', 'max:120'],
+            'imagen' => ['nullable', 'image', 'max:5120'],
+            'cliente_consignado' => ['nullable', 'string', 'max:120'],
+            'consignado_pago' => ['nullable', 'boolean'],
             'estado' => ['nullable', 'in:novo,usado,consignado'],
             'tamanho' => ['nullable', 'in:pp,p,m,g,gg,g1,g2,g3,g4'],
             'preco_compra' => ['required', 'numeric'],
@@ -83,9 +101,43 @@ class ProdutoController extends Controller
             'id_fornecedor' => ['nullable', 'integer'],
         ]);
 
+        $data['consignado_pago'] = $request->boolean('consignado_pago');
+
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')->store('produtos', 'public');
+        }
+
+        if (($data['estado'] ?? null) !== 'consignado') {
+            $data['cliente_consignado'] = null;
+            $data['consignado_pago'] = false;
+        }
+
         $produto->update($data);
+        $this->registrarSaidaConsignadoSeNecessario($produto);
 
         return redirect()->route('admin.produtos.index')->with('success', 'Produto atualizado com sucesso.');
+    }
+
+
+    private function registrarSaidaConsignadoSeNecessario(Produto $produto): void
+    {
+        if ($produto->estado !== 'consignado' || ! $produto->consignado_pago) {
+            return;
+        }
+
+        $motivo = 'Pagamento consignado produto #'.$produto->id;
+
+        $jaExisteSaida = SaidaCaixa::query()->where('motivo', $motivo)->exists();
+
+        if ($jaExisteSaida) {
+            return;
+        }
+
+        SaidaCaixa::create([
+            'valor' => $produto->preco_compra,
+            'motivo' => $motivo,
+            'data_saidacaixa' => Carbon::now(),
+        ]);
     }
 
     public function destroy(Produto $produto): RedirectResponse
