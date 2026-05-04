@@ -8,6 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+<<<<<<< codex/fix-database-column-issue-in-vendas-table-1wnphw
         if (! Schema::hasColumn('vendas', 'nome')) {
             Schema::table('vendas', function (Blueprint $table) {
                 $table->string('nome', 50)->nullable();
@@ -49,10 +50,22 @@ return new class extends Migration
                 $table->dateTime('data_hora')->nullable();
             });
         }
+=======
+        Schema::table('vendas', function (Blueprint $table) {
+            $table->string('nome', 50);
+            $table->unsignedBigInteger('id_produto');
+            $table->string('comprador', 50);
+            $table->decimal('valor_unitario', 10, 2);
+            $table->decimal('valor_venda_total', 10, 2);
+            $table->decimal('valor_compra_total', 10, 2);
+            $table->dateTime('data_hora');
+        });
+>>>>>>> main
     }
 
     public function down(): void
     {
+<<<<<<< codex/fix-database-column-issue-in-vendas-table-1wnphw
         $columns = [
             'nome',
             'id_produto',
@@ -70,5 +83,18 @@ return new class extends Migration
                 });
             }
         }
+=======
+        Schema::table('vendas', function (Blueprint $table) {
+            $table->dropColumn([
+                'nome',
+                'id_produto',
+                'comprador',
+                'valor_unitario',
+                'valor_venda_total',
+                'valor_compra_total',
+                'data_hora',
+            ]);
+        });
+>>>>>>> main
     }
 };
