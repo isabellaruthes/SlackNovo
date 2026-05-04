@@ -17,7 +17,7 @@
                 <input name="nome" value="{{ $cor->nome }}" class="form-control form-control-sm">
                 <button class="btn btn-sm btn-success">Salvar</button>
             </form>
-            <form method="POST" action="{{ route('admin.cores.destroy', $cor) }}" class="d-inline">
+            <form method="POST" action="{{ route('admin.cores.destroy', $cor) }}" class="d-inline js-confirm-delete" data-item-label="este registro">
                 @csrf @method('DELETE')
                 <button class="btn btn-sm btn-danger">Excluir</button>
             </form>

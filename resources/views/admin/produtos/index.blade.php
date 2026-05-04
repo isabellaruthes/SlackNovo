@@ -24,7 +24,7 @@
         </td>
         <td>
             <a href="{{ route('admin.produtos.edit', $produto) }}" class="btn btn-sm btn-secondary">Editar</a>
-            <form method="POST" action="{{ route('admin.produtos.destroy', $produto) }}" class="d-inline">
+            <form method="POST" action="{{ route('admin.produtos.destroy', $produto) }}" class="d-inline js-confirm-delete" data-item-label="este registro">
                 @csrf @method('DELETE')
                 <button class="btn btn-sm btn-danger">Excluir</button>
             </form>

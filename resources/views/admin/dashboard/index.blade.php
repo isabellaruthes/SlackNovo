@@ -91,12 +91,59 @@
                                 <p class="mb-1"><strong>Status:</strong> {{ ucfirst($produto->status) }}</p>
                                 <p class="mb-1"><strong>Estoque:</strong> {{ $produto->status === 'vendido' ? 'Vendido' : 'Disponível' }}</p>
                                 <p class="mb-1"><strong>Preço venda:</strong> R$ {{ number_format((float) $produto->preco_venda, 2, ',', '.') }}</p>
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    <a href="{{ route('admin.produtos.edit', $produto) }}" class="btn btn-sm btn-secondary">Editar</a>
+                                    <form method="POST" action="{{ route('admin.produtos.destroy', $produto) }}" class="d-inline js-confirm-delete" data-item-label="{{ $produto->nome }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger" type="submit">Excluir</button>
+                                    </form>
+                                    @if ($produto->status !== 'vendido')
+                                        <button class="btn btn-sm btn-success" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#modalVenderProduto{{ $produto->id }}">Vender</button>
+                                    @endif
+                                </div>
                                 @if ($produto->status === 'vendido')
                                     <p class="mb-1"><strong>Comprador:</strong> {{ $produto->comprador ?? 'Não identificado' }}</p>
                                     <p class="mb-0"><strong>Data da venda:</strong> {{ $produto->data_venda ? \Illuminate\Support\Carbon::parse($produto->data_venda)->format('d/m/Y H:i') : '-' }}</p>
                                 @endif
                             </div>
                         </div>
+                        @if ($produto->status !== 'vendido')
+                            <div class="modal fade" id="modalVenderProduto{{ $produto->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form method="POST" action="{{ route('admin.caixa.venda') }}">
+                                            @csrf
+                                            <input type="hidden" name="id_produto" value="{{ $produto->id }}">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title fs-5">Registrar venda</h2>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nome da venda</label>
+                                                    <input type="text" name="nome" class="form-control" value="{{ $produto->nome }}" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Valor da venda (R$)</label>
+                                                    <input type="number" step="0.01" min="0.01" name="valor_venda" class="form-control"
+                                                        value="{{ number_format((float) $produto->preco_venda, 2, '.', '') }}" required>
+                                                </div>
+                                                <div class="mb-0">
+                                                    <label class="form-label">Comprador</label>
+                                                    <input type="text" name="comprador" class="form-control" placeholder="Nome de quem comprou" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-dark">Confirmar venda</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     @empty
                         <p class="text-muted">Nenhum produto cadastrado.</p>
                     @endforelse
