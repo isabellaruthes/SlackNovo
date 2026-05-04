@@ -7,13 +7,14 @@ use App\Models\Produto;
 use App\Models\SaidaCaixa;
 use App\Models\Venda;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         $colunaDataVenda = Schema::hasColumn('vendas', 'data_hora') ? 'data_hora' : 'created_at';
         $colunaCompradorVenda = Schema::hasColumn('vendas', 'comprador') ? 'comprador' : null;
@@ -63,7 +64,16 @@ class DashboardController extends Controller
         $produtosQuery->addSelect($colunaCompradorVenda ? 'venda_final.'.$colunaCompradorVenda.' as comprador' : DB::raw('NULL as comprador'));
         $produtosQuery->addSelect($podeRelacionarVendaProduto ? 'venda_final.'.$colunaDataVenda.' as data_venda' : DB::raw('NULL as data_venda'));
 
+        $busca = trim((string) $request->string('q'));
+        $status = (string) $request->string('status', '');
+        $categoria = (string) $request->string('categoria', '');
+        $tamanho = (string) $request->string('tamanho', '');
+
         $produtos = $produtosQuery
+            ->when($busca !== '', fn ($query) => $query->where('produtos.nome', 'like', "%{$busca}%"))
+            ->when($status !== '', fn ($query) => $query->where('produtos.status', $status))
+            ->when($categoria !== '', fn ($query) => $query->where('produtos.id_categoria', $categoria))
+            ->when($tamanho !== '', fn ($query) => $query->where('produtos.tamanho', $tamanho))
             ->orderByDesc('produtos.created_at')
             ->get();
 
@@ -74,6 +84,23 @@ class DashboardController extends Controller
             'saidas' => $saidas,
             'saldo' => $entradas - $saidas,
             'produtos' => $produtos,
+            'busca' => $busca,
+            'status' => $status,
+            'categoria' => $categoria,
+            'tamanho' => $tamanho,
+            'categorias' => Produto::query()
+                ->join('categorias', 'categorias.id', '=', 'produtos.id_categoria')
+                ->select('categorias.id', 'categorias.nome')
+                ->distinct()
+                ->orderBy('categorias.nome')
+                ->get(),
+            'tamanhos' => Produto::query()
+                ->whereNotNull('tamanho')
+                ->where('tamanho', '!=', '')
+                ->select('tamanho')
+                ->distinct()
+                ->orderBy('tamanho')
+                ->pluck('tamanho'),
         ]);
     }
 }
