@@ -45,16 +45,21 @@ class CaixaController extends Controller
             'id_produto' => ['required', 'integer', 'exists:produtos,id'],
             'comprador' => ['required', 'string', 'max:50'],
             'nome' => ['required', 'string', 'max:50'],
+            'valor_venda' => ['required', 'numeric', 'min:0.01'],
         ]);
 
         $produto = Produto::findOrFail($data['id_produto']);
+
+        if ($produto->status === 'vendido') {
+            return back()->with('error', 'Este produto já foi vendido.');
+        }
 
         Venda::create([
             'nome' => $data['nome'],
             'id_produto' => $produto->id,
             'comprador' => $data['comprador'],
-            'valor_unitario' => $produto->preco_venda,
-            'valor_venda_total' => $produto->preco_venda,
+            'valor_unitario' => $data['valor_venda'],
+            'valor_venda_total' => $data['valor_venda'],
             'valor_compra_total' => $produto->preco_compra,
             'data_hora' => Carbon::now(),
         ]);
