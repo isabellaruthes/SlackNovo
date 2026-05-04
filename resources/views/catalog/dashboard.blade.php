@@ -3,10 +3,11 @@
 @section('title', 'Catálogo Público')
 
 @section('content')
-    <nav class="navbar navbar-expand-lg bg-white border rounded-3 px-3 mb-4 shadow-sm">
-        <div class="container-fluid px-0">
-            <a class="navbar-brand fw-bold" href="{{ route('catalog.public') }}">SlackNovo</a>
-            <a class="btn btn-outline-dark" href="{{ route('login') }}">
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4"
+        style="background: #0f172a; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);">
+        <div class="container py-1">
+            <a class="navbar-brand" href="{{ route('catalog.public') }}">SlackNovo</a>
+            <a class="btn btn-outline-light btn-sm" href="{{ route('login') }}">
                 <i class="bi bi-person-lock me-1"></i>Login do Administrador
             </a>
         </div>
@@ -84,10 +85,8 @@
         @endforelse
     </div>
 
-
     <footer class="text-white p-4 mt-4"
         style="background: #0f172a; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);">
-
         <div class="row g-3">
             <div class="col-md-4">
                 <h6 class="fw-bold">SlackNovo</h6>
@@ -104,7 +103,6 @@
                     <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
                     <a href="#" class="text-white"><i class="bi bi-tiktok"></i></a>
                 </div>
-
             </div>
         </div>
     </footer>
@@ -112,10 +110,4 @@
     <a class="whatsapp-float" target="_blank" href="https://wa.me/5511999999999" aria-label="Falar no WhatsApp">
         <i class="bi bi-whatsapp"></i>
     </a>
-                <a class="btn btn-success btn-sm" target="_blank" href="https://wa.me/5511999999999">
-                    <i class="bi bi-whatsapp me-1"></i>Falar no WhatsApp
-                </a>
-            </div>
-        </div>
-    </footer>
 @endsection
