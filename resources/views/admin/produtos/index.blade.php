@@ -27,4 +27,3 @@
 </table>
 {{ $produtos->links() }}
 @endsection
-laravel-blueprint/resources/views/auth/login.blade.php
