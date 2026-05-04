@@ -23,11 +23,14 @@ class DashboardController extends Controller
         $vendasTemData = Schema::hasColumn('vendas', $colunaDataVenda);
         $inicioJanela = Carbon::now()->startOfMonth()->subMonths(5);
 
-        $vendasPorMes = Venda::query()
-            ->when(Schema::hasColumn('vendas', $colunaDataVenda), fn ($query) => $query->where($colunaDataVenda, '>=', $inicioJanela))
-            ->get([$colunaDataVenda])
-            ->groupBy(fn (Venda $venda) => Carbon::parse($venda->{$colunaDataVenda})->format('Y-m'))
-            ->map(fn ($grupo) => $grupo->count());
+        $vendasPorMes = collect();
+        if ($vendasTemData) {
+            $vendasPorMes = Venda::query()
+                ->where($colunaDataVenda, '>=', $inicioJanela)
+                ->get([$colunaDataVenda])
+                ->groupBy(fn (Venda $venda) => Carbon::parse($venda->{$colunaDataVenda})->format('Y-m'))
+                ->map(fn ($grupo) => $grupo->count());
+        }
 
         $meses = collect(range(0, 5))->map(fn (int $i) => Carbon::now()->startOfMonth()->subMonths(5 - $i));
         $labelsMeses = $meses->map(fn (Carbon $data) => $data->translatedFormat('M/Y'));
