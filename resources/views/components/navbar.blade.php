@@ -1,7 +1,11 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
+<nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">
     <div class="container">
         <a class="navbar-brand" href="{{ route('dashboard') }}">Slacknovo</a>
-        <div class="collapse navbar-collapse show">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('admin.produtos.index') }}">Produtos</a></li>
