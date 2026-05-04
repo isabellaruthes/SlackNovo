@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $colunaValorSaida = Schema::hasColumn('saida_caixas', 'valor') ? 'valor' : null;
         $vendasTemIdProduto = Schema::hasColumn('vendas', 'id_produto');
         $vendasTemData = Schema::hasColumn('vendas', $colunaDataVenda);
+        $podeRelacionarVendaProduto = $vendasTemIdProduto && $vendasTemData;
         $inicioJanela = Carbon::now()->startOfMonth()->subMonths(5);
 
         $vendasPorMes = collect();
@@ -41,7 +42,7 @@ class DashboardController extends Controller
 
         $produtosQuery = Produto::query()->with(['categoria']);
 
-        if ($vendasTemIdProduto && $vendasTemData) {
+        if ($podeRelacionarVendaProduto) {
             $produtosQuery
                 ->leftJoinSub(
                     Venda::query()
@@ -60,7 +61,7 @@ class DashboardController extends Controller
 
         $produtosQuery->select('produtos.*');
         $produtosQuery->addSelect($colunaCompradorVenda ? 'venda_final.'.$colunaCompradorVenda.' as comprador' : DB::raw('NULL as comprador'));
-        $produtosQuery->addSelect($vendasTemData ? 'venda_final.'.$colunaDataVenda.' as data_venda' : DB::raw('NULL as data_venda'));
+        $produtosQuery->addSelect($podeRelacionarVendaProduto ? 'venda_final.'.$colunaDataVenda.' as data_venda' : DB::raw('NULL as data_venda'));
 
         $produtos = $produtosQuery
             ->orderByDesc('produtos.created_at')
