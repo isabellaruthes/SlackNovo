@@ -84,7 +84,10 @@
         @endforelse
     </div>
 
-    <footer class="bg-dark text-white rounded-3 p-4 mb-2">
+
+    <footer class="text-white p-4 mt-4"
+        style="background: #0f172a; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);">
+
         <div class="row g-3">
             <div class="col-md-4">
                 <h6 class="fw-bold">SlackNovo</h6>
@@ -101,6 +104,14 @@
                     <a href="#" class="text-white"><i class="bi bi-facebook"></i></a>
                     <a href="#" class="text-white"><i class="bi bi-tiktok"></i></a>
                 </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <a class="whatsapp-float" target="_blank" href="https://wa.me/5511999999999" aria-label="Falar no WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
                 <a class="btn btn-success btn-sm" target="_blank" href="https://wa.me/5511999999999">
                     <i class="bi bi-whatsapp me-1"></i>Falar no WhatsApp
                 </a>
