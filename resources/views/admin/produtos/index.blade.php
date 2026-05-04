@@ -6,7 +6,7 @@
     <a href="{{ route('admin.produtos.create') }}" class="btn btn-primary">Novo Produto</a>
 </div>
 <table class="table table-striped">
-    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Status</th><th>Ações</th></tr></thead>
+    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Status</th><th>Consignado</th><th>Ações</th></tr></thead>
     <tbody>
     @foreach($produtos as $produto)
     <tr>
@@ -14,6 +14,14 @@
         <td>{{ $produto->nome }}</td>
         <td>R$ {{ number_format($produto->preco_venda, 2, ',', '.') }}</td>
         <td>{{ $produto->status }}</td>
+        <td>
+            @if ($produto->estado === 'consignado')
+                <div><strong>Cliente:</strong> {{ $produto->cliente_consignado ?: '-' }}</div>
+                <div><strong>Pago:</strong> {{ $produto->consignado_pago ? 'Sim' : 'Não' }}</div>
+            @else
+                -
+            @endif
+        </td>
         <td>
             <a href="{{ route('admin.produtos.edit', $produto) }}" class="btn btn-sm btn-secondary">Editar</a>
             <form method="POST" action="{{ route('admin.produtos.destroy', $produto) }}" class="d-inline">

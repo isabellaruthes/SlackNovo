@@ -4,11 +4,47 @@
         <input class="form-control" name="nome" value="{{ old('nome', $produto->nome ?? '') }}" required>
     </div>
     <div class="col-md-6">
-        <label class="form-label">Imagem (nome do arquivo)</label>
-        <input class="form-control" name="imagen" value="{{ old('imagen', $produto->imagen ?? '') }}">
+        <label class="form-label">Imagem do produto</label>
+        <input class="form-control" name="imagen" type="file" accept="image/*">
+        @if (!empty($produto?->imagen))
+            <small class="text-muted d-block mt-1">Imagem atual: {{ $produto->imagen }}</small>
+        @endif
     </div>
+
+    <div class="col-12">
+        <label class="form-label d-block mb-2">Estado do produto</label>
+        @php($estadoAtual = old('estado', $produto->estado ?? ''))
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="estado" id="estado_novo" value="novo" @checked($estadoAtual === 'novo')>
+            <label class="form-check-label" for="estado_novo">Novo</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="estado" id="estado_usado" value="usado" @checked($estadoAtual === 'usado')>
+            <label class="form-check-label" for="estado_usado">Usado</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="estado" id="estado_consignado" value="consignado" @checked($estadoAtual === 'consignado')>
+            <label class="form-check-label" for="estado_consignado">Consignado</label>
+        </div>
+    </div>
+
+    <div id="consignado_fields" class="row g-3 {{ $estadoAtual === 'consignado' ? '' : 'd-none' }}">
+        <div class="col-md-6">
+            <label class="form-label">Cliente que deixou a peça</label>
+            <input class="form-control" name="cliente_consignado" value="{{ old('cliente_consignado', $produto->cliente_consignado ?? '') }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label d-block">Pagamento do consignado</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="consignado_pago" name="consignado_pago" @checked(old('consignado_pago', $produto->consignado_pago ?? false))>
+                <label class="form-check-label" for="consignado_pago">Já foi pago para a cliente</label>
+            </div>
+        </div>
+    </div>
+
     <div class="col-md-3"><label class="form-label">Preço Compra</label><input class="form-control" name="preco_compra" type="number" step="0.01" value="{{ old('preco_compra', $produto->preco_compra ?? '') }}" required></div>
     <div class="col-md-3"><label class="form-label">Preço Venda</label><input class="form-control" name="preco_venda" type="number" step="0.01" value="{{ old('preco_venda', $produto->preco_venda ?? '') }}" required></div>
+    <div class="col-md-3"><label class="form-label">Tamanho</label><select class="form-select" name="tamanho"><option value="">-</option><option value="pp" @selected(old('tamanho', $produto->tamanho ?? '')==='pp')>PP</option><option value="p" @selected(old('tamanho', $produto->tamanho ?? '')==='p')>P</option><option value="m" @selected(old('tamanho', $produto->tamanho ?? '')==='m')>M</option><option value="g" @selected(old('tamanho', $produto->tamanho ?? '')==='g')>G</option><option value="gg" @selected(old('tamanho', $produto->tamanho ?? '')==='gg')>GG</option><option value="g1" @selected(old('tamanho', $produto->tamanho ?? '')==='g1')>G1</option><option value="g2" @selected(old('tamanho', $produto->tamanho ?? '')==='g2')>G2</option><option value="g3" @selected(old('tamanho', $produto->tamanho ?? '')==='g3')>G3</option><option value="g4" @selected(old('tamanho', $produto->tamanho ?? '')==='g4')>G4</option></select></div>
     <div class="col-md-3"><label class="form-label">Status</label><select class="form-select" name="status"><option value="disponivel">Disponível</option><option value="vendido" @selected(old('status', $produto->status ?? '')==='vendido')>Vendido</option></select></div>
     <div class="col-md-3"><label class="form-label">Gênero</label><select class="form-select" name="genero"><option value="">-</option><option value="masculino">Masculino</option><option value="feminino">Feminino</option><option value="unissex">Unissex</option></select></div>
     <div class="col-md-3"><label class="form-label">Categoria</label><select class="form-select" name="id_categoria"><option value="">-</option>@foreach($categorias as $item)<option value="{{ $item->id }}" @selected((string)old('id_categoria', $produto->id_categoria ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
@@ -17,3 +53,18 @@
     <div class="col-md-3"><label class="form-label">Fornecedor</label><select class="form-select" name="id_fornecedor"><option value="">-</option>@foreach($fornecedores as $item)<option value="{{ $item->id }}" @selected((string)old('id_fornecedor', $produto->id_fornecedor ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
     <div class="col-12"><label class="form-label">Descrição</label><textarea class="form-control" name="descricao" rows="3">{{ old('descricao', $produto->descricao ?? '') }}</textarea></div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const consignadoFields = document.getElementById('consignado_fields');
+        const radios = document.querySelectorAll('input[name="estado"]');
+
+        function toggleConsignadoFields() {
+            const selecionado = document.querySelector('input[name="estado"]:checked')?.value;
+            consignadoFields.classList.toggle('d-none', selecionado !== 'consignado');
+        }
+
+        radios.forEach(radio => radio.addEventListener('change', toggleConsignadoFields));
+        toggleConsignadoFields();
+    });
+</script>
