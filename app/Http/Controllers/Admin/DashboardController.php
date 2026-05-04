@@ -17,11 +17,10 @@ class DashboardController extends Controller
         $inicioJanela = Carbon::now()->startOfMonth()->subMonths(5);
 
         $vendasPorMes = Venda::query()
-            ->selectRaw("DATE_FORMAT(data_hora, '%Y-%m') as mes, COUNT(*) as total")
             ->where('data_hora', '>=', $inicioJanela)
-            ->groupBy('mes')
-            ->orderBy('mes')
-            ->pluck('total', 'mes');
+            ->get(['data_hora'])
+            ->groupBy(fn (Venda $venda) => Carbon::parse($venda->data_hora)->format('Y-m'))
+            ->map(fn ($grupo) => $grupo->count());
 
         $meses = collect(range(0, 5))->map(fn (int $i) => Carbon::now()->startOfMonth()->subMonths(5 - $i));
         $labelsMeses = $meses->map(fn (Carbon $data) => $data->translatedFormat('M/Y'));
