@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Produto;
-use App\Models\SaidaCaixa;
 use App\Models\Venda;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,7 +25,6 @@ class RelatorioController extends Controller
     public function exportar(Request $request): Response
     {
         $data = $request->validate([
-            'tipo' => ['required', 'in:vendas,entradas,saidas'],
             'inicio' => ['nullable', 'date'],
             'fim' => ['nullable', 'date', 'after_or_equal:inicio'],
         ]);
@@ -35,37 +33,69 @@ class RelatorioController extends Controller
         $fim = $data['fim'] ?? null;
 
         $colunaDataVenda = Schema::hasColumn('vendas', 'data_hora') ? 'data_hora' : 'created_at';
-        $colunaDataSaida = Schema::hasColumn('saida_caixas', 'data_saidacaixa') ? 'data_saidacaixa' : 'created_at';
+        $registros = Venda::query()
+            ->when($inicio, fn ($q) => $q->whereDate($colunaDataVenda, '>=', $inicio))
+            ->when($fim, fn ($q) => $q->whereDate($colunaDataVenda, '<=', $fim))
+            ->orderBy($colunaDataVenda)
+            ->get();
 
-        if ($data['tipo'] === 'saidas') {
-            $registros = SaidaCaixa::query()
-                ->when($inicio, fn ($q) => $q->whereDate($colunaDataSaida, '>=', $inicio))
-                ->when($fim, fn ($q) => $q->whereDate($colunaDataSaida, '<=', $fim))
-                ->orderBy($colunaDataSaida)
-                ->get();
-        } else {
-            $registros = Venda::query()
-                ->when($inicio, fn ($q) => $q->whereDate($colunaDataVenda, '>=', $inicio))
-                ->when($fim, fn ($q) => $q->whereDate($colunaDataVenda, '<=', $fim))
-                ->orderBy($colunaDataVenda);
-
-            if ($data['tipo'] === 'vendas') {
-                $registros = $registros->get();
-            } else {
-                $colunas = ['id'];
-                foreach (['nome', 'comprador', 'valor_venda_total', $colunaDataVenda] as $coluna) {
-                    if (Schema::hasColumn('vendas', $coluna)) {
-                        $colunas[] = $coluna;
-                    }
-                }
-
-                $registros = $registros->get(array_values(array_unique($colunas)));
-            }
+        $linhas = ['Relatório de Vendas', ''];
+        foreach ($registros as $venda) {
+            $linhas[] = sprintf(
+                '#%s | Produto: %s | Comprador: %s | Valor: R$ %s | Data: %s',
+                $venda->id,
+                $venda->nome ?? ('ID '.$venda->id_produto),
+                $venda->comprador ?? 'Não informado',
+                number_format((float) ($venda->valor_venda_total ?? 0), 2, ',', '.'),
+                optional($venda->{$colunaDataVenda})->format ? $venda->{$colunaDataVenda}->format('d/m/Y H:i') : (string) $venda->{$colunaDataVenda}
+            );
         }
 
-        return response($registros->toJson(JSON_PRETTY_PRINT), 200, [
-            'Content-Type' => 'application/json',
-            'Content-Disposition' => 'attachment; filename="relatorio-'.$data['tipo'].'.json"',
+        if ($registros->isEmpty()) {
+            $linhas[] = 'Nenhuma venda encontrada no período informado.';
+        }
+
+        $pdf = $this->gerarPdfSimples($linhas);
+
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="relatorio-vendas.pdf"',
         ]);
+    }
+
+    private function gerarPdfSimples(array $linhas): string
+    {
+        $conteudo = "BT\n/F1 10 Tf\n40 800 Td\n";
+        $primeira = true;
+        foreach ($linhas as $linha) {
+            $texto = str_replace(['\\', '(', ')'], ['\\\\', '\\(', '\\)'], $linha);
+            $conteudo .= $primeira ? "({$texto}) Tj\n" : "0 -14 Td\n({$texto}) Tj\n";
+            $primeira = false;
+        }
+        $conteudo .= "ET";
+
+        $objetos = [];
+        $objetos[] = '1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj';
+        $objetos[] = '2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj';
+        $objetos[] = '3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj';
+        $objetos[] = '4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj';
+        $objetos[] = '5 0 obj << /Length '.strlen($conteudo).' >> stream'."\n".$conteudo."\n".'endstream endobj';
+
+        $pdf = "%PDF-1.4\n";
+        $offsets = [0];
+        foreach ($objetos as $obj) {
+            $offsets[] = strlen($pdf);
+            $pdf .= $obj."\n";
+        }
+        $xref = strlen($pdf);
+        $pdf .= 'xref'."\n".'0 '.(count($objetos) + 1)."\n";
+        $pdf .= "0000000000 65535 f \n";
+        for ($i = 1; $i <= count($objetos); $i++) {
+            $pdf .= sprintf('%010d 00000 n ', $offsets[$i])."\n";
+        }
+        $pdf .= 'trailer << /Size '.(count($objetos) + 1).' /Root 1 0 R >>'."\n";
+        $pdf .= 'startxref'."\n".$xref."\n%%EOF";
+
+        return $pdf;
     }
 }
