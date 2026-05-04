@@ -60,7 +60,7 @@
                         <td>{{ $registro['comprador'] }}</td>
                         <td>
                             @if ($registro['tipo'] === 'venda')
-                                @if ($registro['reembolsada'])
+                                @if (!empty($registro['reembolsada']) && $registro['reembolsada'])
                                     <button class="btn btn-sm btn-secondary" type="button" disabled>Reembolsado</button>
                                 @else
                                     <form method="POST" action="{{ route('admin.caixa.reembolso', $registro['venda']) }}">

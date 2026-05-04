@@ -18,6 +18,7 @@ class CaixaController extends Controller
         $entradas = Venda::where('reembolsada', false)->sum('valor_venda_total');
         $saidas = SaidaCaixa::sum('valor');
         $vendas = Venda::with('produto')->latest('data_hora')->get();
+
         $registros = $vendas
             ->map(function (Venda $venda): array {
                 $lucro = (float) $venda->valor_venda_total - (float) $venda->valor_compra_total;
