@@ -8,6 +8,7 @@ use App\Models\SaidaCaixa;
 use App\Models\Venda;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Schema;
 
 class RelatorioController extends Controller
 {
@@ -33,22 +34,32 @@ class RelatorioController extends Controller
         $inicio = $data['inicio'] ?? null;
         $fim = $data['fim'] ?? null;
 
+        $colunaDataVenda = Schema::hasColumn('vendas', 'data_hora') ? 'data_hora' : 'created_at';
+        $colunaDataSaida = Schema::hasColumn('saida_caixas', 'data_saidacaixa') ? 'data_saidacaixa' : 'created_at';
+
         if ($data['tipo'] === 'saidas') {
             $registros = SaidaCaixa::query()
-                ->when($inicio, fn ($q) => $q->whereDate('data_saidacaixa', '>=', $inicio))
-                ->when($fim, fn ($q) => $q->whereDate('data_saidacaixa', '<=', $fim))
-                ->orderBy('data_saidacaixa')
+                ->when($inicio, fn ($q) => $q->whereDate($colunaDataSaida, '>=', $inicio))
+                ->when($fim, fn ($q) => $q->whereDate($colunaDataSaida, '<=', $fim))
+                ->orderBy($colunaDataSaida)
                 ->get();
         } else {
             $registros = Venda::query()
-                ->when($inicio, fn ($q) => $q->whereDate('data_hora', '>=', $inicio))
-                ->when($fim, fn ($q) => $q->whereDate('data_hora', '<=', $fim))
-                ->orderBy('data_hora');
+                ->when($inicio, fn ($q) => $q->whereDate($colunaDataVenda, '>=', $inicio))
+                ->when($fim, fn ($q) => $q->whereDate($colunaDataVenda, '<=', $fim))
+                ->orderBy($colunaDataVenda);
 
             if ($data['tipo'] === 'vendas') {
                 $registros = $registros->get();
             } else {
-                $registros = $registros->get(['id', 'nome', 'comprador', 'valor_venda_total', 'data_hora']);
+                $colunas = ['id'];
+                foreach (['nome', 'comprador', 'valor_venda_total', $colunaDataVenda] as $coluna) {
+                    if (Schema::hasColumn('vendas', $coluna)) {
+                        $colunas[] = $coluna;
+                    }
+                }
+
+                $registros = $registros->get(array_values(array_unique($colunas)));
             }
         }
 
