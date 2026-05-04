@@ -12,7 +12,11 @@ class Venda extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nome', 'id_produto', 'comprador', 'valor_unitario', 'valor_venda_total', 'valor_compra_total', 'data_hora',
+        'nome', 'id_produto', 'comprador', 'valor_unitario', 'valor_venda_total', 'valor_compra_total', 'data_hora', 'reembolsada',
+    ];
+
+    protected $casts = [
+        'reembolsada' => 'boolean',
     ];
 
     public function produto(): BelongsTo

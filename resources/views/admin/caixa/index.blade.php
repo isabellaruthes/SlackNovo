@@ -60,10 +60,14 @@
                         <td>{{ $registro['comprador'] }}</td>
                         <td>
                             @if ($registro['tipo'] === 'venda')
-                                <form method="POST" action="{{ route('admin.caixa.reembolso', $registro['venda']) }}">
-                                    @csrf
-                                    <button class="btn btn-sm btn-danger" type="submit">Reembolso</button>
-                                </form>
+                                @if (!empty($registro['reembolsada']) && $registro['reembolsada'])
+                                    <button class="btn btn-sm btn-secondary" type="button" disabled>Reembolsado</button>
+                                @else
+                                    <form method="POST" action="{{ route('admin.caixa.reembolso', $registro['venda']) }}">
+                                        @csrf
+                                        <button class="btn btn-sm btn-danger" type="submit">Reembolso</button>
+                                    </form>
+                                @endif
                             @else
                                 -
                             @endif

@@ -15,9 +15,10 @@ class CaixaController extends Controller
 {
     public function index(): View
     {
-        $entradas = Venda::sum('valor_venda_total');
+        $entradas = Venda::where('reembolsada', false)->sum('valor_venda_total');
         $saidas = SaidaCaixa::sum('valor');
         $vendas = Venda::with('produto')->latest('data_hora')->get();
+
         $registros = $vendas
             ->map(function (Venda $venda): array {
                 $lucro = (float) $venda->valor_venda_total - (float) $venda->valor_compra_total;
@@ -30,6 +31,7 @@ class CaixaController extends Controller
                     'lucro' => $lucro,
                     'comprador' => $venda->comprador,
                     'venda' => $venda,
+                    'reembolsada' => (bool) $venda->reembolsada,
                 ];
             })
             ->merge(
@@ -42,6 +44,7 @@ class CaixaController extends Controller
                         'lucro' => null,
                         'comprador' => '-',
                         'venda' => null,
+                        'reembolsada' => false,
                     ];
                 })
             )
@@ -93,6 +96,7 @@ class CaixaController extends Controller
             'valor_venda_total' => $data['valor_venda'],
             'valor_compra_total' => $produto->preco_compra,
             'data_hora' => Carbon::now(),
+            'reembolsada' => false,
         ]);
 
         $produto->update(['status' => 'vendido']);
@@ -104,11 +108,15 @@ class CaixaController extends Controller
     {
         $produto = $venda->produto;
 
+        if ($venda->reembolsada) {
+            return back()->with('error', 'Essa venda já foi reembolsada.');
+        }
+
         if ($produto !== null) {
             $produto->update(['status' => 'disponivel']);
         }
 
-        $venda->delete();
+        $venda->update(['reembolsada' => true]);
 
         return back()->with('success', 'Venda reembolsada com sucesso.');
     }
