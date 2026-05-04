@@ -2,6 +2,8 @@
 
 @section('title', 'Catálogo Público')
 
+@section('main_class', 'p-0')
+
 @section('content')
     <nav class="navbar navbar-expand-lg navbar-dark mb-4"
         style="background: #0f172a; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);">
@@ -13,14 +15,15 @@
         </div>
     </nav>
 
-    <section class="bg-light border rounded-3 p-3 p-md-4 mb-4">
+    <div class="container py-4">
+        <section class="bg-light border rounded-3 p-3 p-md-4 mb-4">
         <form method="GET" class="row g-2 align-items-end">
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-4">
                 <label class="form-label">Pesquisar produto</label>
                 <input type="text" name="q" class="form-control" value="{{ $busca }}"
                     placeholder="Nome, código ou descrição...">
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-2">
                 <label class="form-label">Categoria</label>
                 <select class="form-select" name="categoria">
                     <option value="">Todas</option>
@@ -29,7 +32,16 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-2">
+                <label class="form-label">Tamanho</label>
+                <select class="form-select" name="tamanho">
+                    <option value="">Todos</option>
+                    @foreach ($tamanhos as $item)
+                        <option value="{{ $item }}" @selected($tamanho === $item)>{{ $item }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-12 col-md-2">
                 <label class="form-label">Ordenar</label>
                 <select class="form-select" name="ordenar">
                     <option value="default" @selected($ordenar === 'default')>Mais recentes</option>
@@ -39,13 +51,13 @@
                     <option value="name_desc" @selected($ordenar === 'name_desc')>Nome Z-A</option>
                 </select>
             </div>
-            <div class="col-12 col-md-1 d-grid">
+            <div class="col-12 col-md-2 d-grid">
                 <button class="btn btn-dark" type="submit">Filtrar</button>
             </div>
         </form>
-    </section>
+        </section>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
         @forelse ($produtos as $produto)
             <div class="col">
                 <div class="card shadow-sm h-100">
@@ -54,6 +66,7 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title mb-2">{{ $produto->nome }}</h5>
                         <p class="mb-1 text-muted">Código: #{{ $produto->id }}</p>
+                        <p class="mb-2 text-muted">Tamanho: {{ $produto->tamanho ?? 'Não informado' }}</p>
                         <p class="fs-5 fw-bold text-success mb-3">R$ {{ number_format($produto->preco_venda, 2, ',', '.') }}</p>
                         <button class="btn btn-outline-primary mt-auto" data-bs-toggle="modal"
                             data-bs-target="#produtoModal{{ $produto->id }}">Ver detalhes</button>
@@ -83,9 +96,10 @@
         @empty
             <p class="text-muted">Nenhum produto disponível no momento.</p>
         @endforelse
+        </div>
     </div>
 
-    <footer class="text-white p-4 mt-4"
+    <footer class="text-white p-4 mt-auto"
         style="background: #0f172a; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);">
         <div class="row g-3">
             <div class="col-md-4">

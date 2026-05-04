@@ -14,6 +14,7 @@ class CatalogController extends Controller
         $busca = trim((string) $request->string('q'));
         $ordenar = (string) $request->string('ordenar', 'default');
         $categoria = (string) $request->string('categoria', '');
+        $tamanho = (string) $request->string('tamanho', '');
 
         $produtos = Produto::query()
             ->with(['categoria:id,nome', 'cor:id,nome', 'material:id,nome'])
@@ -27,6 +28,7 @@ class CatalogController extends Controller
                 })
             )
             ->when($categoria !== '', fn (Builder $query) => $query->where('id_categoria', $categoria))
+            ->when($tamanho !== '', fn (Builder $query) => $query->where('tamanho', $tamanho))
             ->when($ordenar === 'price_asc', fn ($query) => $query->orderBy('preco_venda'))
             ->when($ordenar === 'price_desc', fn ($query) => $query->orderByDesc('preco_venda'))
             ->when($ordenar === 'name_asc', fn ($query) => $query->orderBy('nome'))
@@ -46,6 +48,15 @@ class CatalogController extends Controller
             'busca' => $busca,
             'ordenar' => $ordenar,
             'categoria' => $categoria,
+            'tamanho' => $tamanho,
+            'tamanhos' => Produto::query()
+                ->where('status', 'disponivel')
+                ->whereNotNull('tamanho')
+                ->where('tamanho', '!=', '')
+                ->select('tamanho')
+                ->distinct()
+                ->orderBy('tamanho')
+                ->pluck('tamanho'),
         ]);
     }
 }
