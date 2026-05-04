@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', 'Catálogo Público')
-@section('main_class', 'container p-0')
 
 @section('content')
     <nav class="navbar navbar-expand-lg navbar-dark mb-4"
@@ -112,3 +111,4 @@
         <i class="bi bi-whatsapp"></i>
     </a>
 @endsection
+
