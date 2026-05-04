@@ -133,7 +133,6 @@ class ProdutoController extends Controller
             && Schema::hasColumn('produtos', 'consignado_pago');
     }
 
-
     private function registrarSaidaConsignadoSeNecessario(Produto $produto): void
     {
         if ($produto->estado !== 'consignado' || ! $produto->consignado_pago) {
