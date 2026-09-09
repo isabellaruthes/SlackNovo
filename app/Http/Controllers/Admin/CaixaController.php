@@ -9,6 +9,7 @@ use App\Models\Venda;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class CaixaController extends Controller
@@ -82,41 +83,60 @@ class CaixaController extends Controller
             'valor_venda' => ['required', 'numeric', 'min:0.01'],
         ]);
 
-        $produto = Produto::findOrFail($data['id_produto']);
+        $registrada = DB::transaction(function () use ($data): bool {
+            $produto = Produto::query()->lockForUpdate()->findOrFail($data['id_produto']);
 
-        if ($produto->status === 'vendido') {
+            if ($produto->status === 'vendido'
+                || Venda::where('id_produto', $produto->id)->where('reembolsada', false)->exists()) {
+                return false;
+            }
+
+            Venda::create([
+                'nome' => $data['nome'],
+                'id_produto' => $produto->id,
+                'comprador' => $data['comprador'],
+                'valor_unitario' => $data['valor_venda'],
+                'valor_venda_total' => $data['valor_venda'],
+                'valor_compra_total' => $produto->preco_compra,
+                'data_hora' => Carbon::now(),
+                'reembolsada' => false,
+            ]);
+
+            $produto->update(['status' => 'vendido']);
+
+            return true;
+        });
+
+        if (! $registrada) {
             return back()->with('error', 'Este produto já foi vendido.');
         }
-
-        Venda::create([
-            'nome' => $data['nome'],
-            'id_produto' => $produto->id,
-            'comprador' => $data['comprador'],
-            'valor_unitario' => $data['valor_venda'],
-            'valor_venda_total' => $data['valor_venda'],
-            'valor_compra_total' => $produto->preco_compra,
-            'data_hora' => Carbon::now(),
-            'reembolsada' => false,
-        ]);
-
-        $produto->update(['status' => 'vendido']);
 
         return back()->with('success', 'Venda registrada com sucesso.');
     }
 
     public function reembolsarVenda(Venda $venda): RedirectResponse
     {
-        $produto = $venda->produto;
+        $reembolsada = DB::transaction(function () use ($venda): bool {
+            $produto = Produto::query()->lockForUpdate()->find($venda->id_produto);
+            $venda = Venda::query()->lockForUpdate()->findOrFail($venda->id);
 
-        if ($venda->reembolsada) {
+            if ($venda->reembolsada) {
+                return false;
+            }
+
+            $venda->update(['reembolsada' => true]);
+
+            if ($produto !== null
+                && ! Venda::where('id_produto', $produto->id)->where('reembolsada', false)->exists()) {
+                $produto->update(['status' => 'disponivel']);
+            }
+
+            return true;
+        });
+
+        if (! $reembolsada) {
             return back()->with('error', 'Essa venda já foi reembolsada.');
         }
-
-        if ($produto !== null) {
-            $produto->update(['status' => 'disponivel']);
-        }
-
-        $venda->update(['reembolsada' => true]);
 
         return back()->with('success', 'Venda reembolsada com sucesso.');
     }

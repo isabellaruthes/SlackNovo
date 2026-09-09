@@ -9,10 +9,13 @@ use App\Models\Fornecedor;
 use App\Models\Material;
 use App\Models\Produto;
 use App\Models\SaidaCaixa;
+use App\Models\Venda;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class ProdutoController extends Controller
@@ -67,11 +70,13 @@ class ProdutoController extends Controller
             $data['consignado_pago'] = false;
         }
 
-        $produto = Produto::create($data);
+        DB::transaction(function () use ($data): void {
+            $produto = Produto::create($data);
 
-        if ($this->suportaCamposConsignado()) {
-            $this->registrarSaidaConsignadoSeNecessario($produto);
-        }
+            if ($this->suportaCamposConsignado()) {
+                $this->registrarSaidaConsignadoSeNecessario($produto);
+            }
+        });
 
         return redirect()->route('admin.produtos.index')->with('success', 'Produto criado com sucesso.');
     }
@@ -120,11 +125,22 @@ class ProdutoController extends Controller
             $data['consignado_pago'] = false;
         }
 
-        $produto->update($data);
+        DB::transaction(function () use ($data, $produto): void {
+            $produto = Produto::query()->lockForUpdate()->findOrFail($produto->id);
 
-        if ($this->suportaCamposConsignado()) {
-            $this->registrarSaidaConsignadoSeNecessario($produto);
-        }
+            if (array_key_exists('status', $data) && $data['status'] !== 'vendido'
+                && Venda::where('id_produto', $produto->id)->where('reembolsada', false)->exists()) {
+                throw ValidationException::withMessages([
+                    'status' => 'Reembolse a venda antes de disponibilizar o produto novamente.',
+                ]);
+            }
+
+            $produto->update($data);
+
+            if ($this->suportaCamposConsignado()) {
+                $this->registrarSaidaConsignadoSeNecessario($produto);
+            }
+        });
 
         return redirect()->route('admin.produtos.index')->with('success', 'Produto atualizado com sucesso.');
     }
