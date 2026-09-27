@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('produtos', function (Blueprint $table): void {
             $table->id();
-            $table->string('imagen', 120);
+            $table->string('imagen', 120)->nullable();
             $table->string('nome', 50);
             $table->enum('estado', ['novo', 'usado', 'consignado'])->nullable();
             $table->enum('tamanho', ['pp', 'p', 'm', 'g', 'gg', 'g1', 'g2', 'g3', 'g4'])->nullable();

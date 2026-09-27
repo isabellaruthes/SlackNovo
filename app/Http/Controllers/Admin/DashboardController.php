@@ -29,6 +29,7 @@ class DashboardController extends Controller
         if ($vendasTemData) {
             $vendasPorMes = Venda::query()
                 ->where($colunaDataVenda, '>=', $inicioJanela)
+                ->when(Schema::hasColumn('vendas', 'reembolsada'), fn ($query) => $query->where('reembolsada', false))
                 ->get([$colunaDataVenda])
                 ->groupBy(fn (Venda $venda) => Carbon::parse($venda->{$colunaDataVenda})->format('Y-m'))
                 ->map(fn ($grupo) => $grupo->count());
@@ -38,7 +39,11 @@ class DashboardController extends Controller
         $labelsMeses = $meses->map(fn (Carbon $data) => $data->translatedFormat('M/Y'));
         $totaisMeses = $meses->map(fn (Carbon $data) => (int) ($vendasPorMes[$data->format('Y-m')] ?? 0));
 
-        $entradas = $colunaValorVenda ? (float) Venda::sum($colunaValorVenda) : 0.0;
+        $entradas = $colunaValorVenda
+            ? (float) Venda::query()
+                ->when(Schema::hasColumn('vendas', 'reembolsada'), fn ($query) => $query->where('reembolsada', false))
+                ->sum($colunaValorVenda)
+            : 0.0;
         $saidas = $colunaValorSaida ? (float) SaidaCaixa::sum($colunaValorSaida) : 0.0;
 
         $produtosQuery = Produto::query()->with(['categoria']);
@@ -61,7 +66,9 @@ class DashboardController extends Controller
         }
 
         $produtosQuery->select('produtos.*');
-        $produtosQuery->addSelect($colunaCompradorVenda ? 'venda_final.'.$colunaCompradorVenda.' as comprador' : DB::raw('NULL as comprador'));
+        $produtosQuery->addSelect($podeRelacionarVendaProduto && $colunaCompradorVenda
+            ? 'venda_final.'.$colunaCompradorVenda.' as comprador'
+            : DB::raw('NULL as comprador'));
         $produtosQuery->addSelect($podeRelacionarVendaProduto ? 'venda_final.'.$colunaDataVenda.' as data_venda' : DB::raw('NULL as data_venda'));
 
         $busca = trim((string) $request->string('q'));

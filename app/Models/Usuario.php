@@ -2,14 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
     protected $table = 'usuarios';
 
-public function getAuthPassword(): string
-{
-    return $this->senha;
-}
+    protected $fillable = ['nome', 'senha'];
+
+    protected $hidden = ['senha'];
+
+    public function getAuthPasswordName(): string
+    {
+        return 'senha';
+    }
+
+    public function getAuthPassword(): string
+    {
+        return $this->senha;
+    }
+
+    public function getRememberTokenName(): ?string
+    {
+        return null;
+    }
 }

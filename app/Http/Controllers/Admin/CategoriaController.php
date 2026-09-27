@@ -12,29 +12,37 @@ class CategoriaController extends Controller
 {
     public function index(): View
     {
-        return view('admin.categorias.index', ['categorias' => Categoria::orderBy('nome')->paginate(15)]);
+        return view('admin.categorias.index', ['categorias' => Categoria::query()->orderBy('nome')->paginate(15)]);
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->validate(['nome' => ['required', 'string', 'max:50']]);
-        Categoria::create($data);
+        Categoria::create($this->validatedData($request));
 
-        return back()->with('success', 'Categoria criada com sucesso.');
+        return $this->redirectWithSuccess('Categoria criada com sucesso.');
     }
 
     public function update(Request $request, Categoria $categoria): RedirectResponse
     {
-        $data = $request->validate(['nome' => ['required', 'string', 'max:50']]);
-        $categoria->update($data);
+        $categoria->update($this->validatedData($request));
 
-        return back()->with('success', 'Categoria atualizada com sucesso.');
+        return $this->redirectWithSuccess('Categoria atualizada com sucesso.');
     }
 
     public function destroy(Categoria $categoria): RedirectResponse
     {
         $categoria->delete();
 
-        return back()->with('success', 'Categoria removida com sucesso.');
+        return $this->redirectWithSuccess('Categoria removida com sucesso.');
+    }
+
+    private function validatedData(Request $request): array
+    {
+        return $request->validate(['nome' => ['required', 'string', 'max:50']]);
+    }
+
+    private function redirectWithSuccess(string $message): RedirectResponse
+    {
+        return back()->with('success', $message);
     }
 }
