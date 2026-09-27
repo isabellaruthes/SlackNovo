@@ -29,6 +29,28 @@ class CriticalFlowsTest extends TestCase
         $this->assertTrue(Hash::check('secret', $user->fresh()->senha));
     }
 
+    public function test_admin_can_manage_categories_with_validation_and_feedback(): void
+    {
+        $this->signIn();
+
+        $this->post(route('admin.categorias.store'), ['nome' => 'Material escolar'])
+            ->assertSessionHas('success');
+
+        $categoria = \App\Models\Categoria::firstOrFail();
+        $this->assertDatabaseHas('categorias', ['nome' => 'Material escolar']);
+
+        $this->put(route('admin.categorias.update', $categoria), ['nome' => 'Papéis e materiais'])
+            ->assertSessionHas('success');
+
+        $this->assertDatabaseHas('categorias', ['id' => $categoria->id, 'nome' => 'Papéis e materiais']);
+
+        $this->delete(route('admin.categorias.destroy', $categoria))->assertSessionHas('success');
+        $this->assertDatabaseMissing('categorias', ['id' => $categoria->id]);
+
+        $this->post(route('admin.categorias.store'), ['nome' => ''])
+            ->assertSessionHasErrors('nome');
+    }
+
     public function test_alternative_usuario_model_supports_password_rehashing(): void
     {
         $user = Usuario::create(['nome' => 'operador', 'senha' => Hash::make('secret', ['rounds' => 5])]);
