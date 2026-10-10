@@ -1,11 +1,20 @@
+@php
+    $produto ??= null;
+    $formValue = static function (string $key, mixed $default = ''): string {
+        $value = old($key, $default);
+
+        return is_scalar($value) ? (string) $value : '';
+    };
+@endphp
+
 <div class="row g-3">
     <div class="col-md-6">
         <label class="form-label">Nome</label>
-        <input class="form-control" name="nome" value="{{ old('nome', $produto->nome ?? '') }}" required>
+        <input class="form-control" name="nome" maxlength="50" value="{{ $formValue('nome', $produto->nome ?? '') }}" required>
     </div>
     <div class="col-md-6">
         <label class="form-label">Imagem do produto</label>
-        <input class="form-control" name="imagen" type="file" accept="image/*">
+        <input class="form-control" name="imagen" type="file" accept="image/jpeg,image/png,image/gif,image/bmp,image/webp">
         @if (!empty($produto?->imagen))
             <small class="text-muted d-block mt-1">Imagem atual: {{ $produto->imagen }}</small>
         @endif
@@ -13,7 +22,7 @@
 
     <div class="col-12">
         <label class="form-label d-block mb-2">Estado do produto</label>
-        @php($estadoAtual = old('estado', $produto->estado ?? ''))
+        @php($estadoAtual = $formValue('estado', $produto->estado ?? ''))
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="estado" id="estado_novo" value="novo" @checked($estadoAtual === 'novo')>
             <label class="form-check-label" for="estado_novo">Novo</label>
@@ -29,7 +38,7 @@
     </div>
     <div class="col-12">
         <label class="form-label d-block mb-2">Tipo do produto</label>
-        @php($tipoProdutoAtual = old('tipo_produto', $produto->tipo_produto ?? 'roupa'))
+        @php($tipoProdutoAtual = $formValue('tipo_produto', $produto->tipo_produto ?? 'roupa'))
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_roupa" value="roupa" @checked($tipoProdutoAtual === 'roupa')>
             <label class="form-check-label" for="tipo_roupa">Roupa</label>
@@ -43,22 +52,22 @@
     <div id="consignado_fields" class="row g-3 {{ $estadoAtual === 'consignado' ? '' : 'd-none' }}">
         <div class="col-md-6">
             <label class="form-label">Cliente que deixou a peça</label>
-            <input class="form-control" name="cliente_consignado" value="{{ old('cliente_consignado', $produto->cliente_consignado ?? '') }}">
+            <input class="form-control" name="cliente_consignado" maxlength="120" value="{{ $formValue('cliente_consignado', $produto->cliente_consignado ?? '') }}">
         </div>
         <div class="col-md-6">
             <label class="form-label d-block">Pagamento do consignado</label>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="consignado_pago" name="consignado_pago" @checked(old('consignado_pago', $produto->consignado_pago ?? false))>
+                <input class="form-check-input" type="checkbox" value="1" id="consignado_pago" name="consignado_pago" @checked($formValue('consignado_pago', $produto->consignado_pago ?? false) === '1')>
                 <label class="form-check-label" for="consignado_pago">Já foi pago para a cliente</label>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3"><label class="form-label">Preço Compra</label><input class="form-control" name="preco_compra" type="number" step="0.01" value="{{ old('preco_compra', $produto->preco_compra ?? '') }}" required></div>
-    <div class="col-md-3"><label class="form-label">Preço Venda</label><input class="form-control" name="preco_venda" type="number" step="0.01" value="{{ old('preco_venda', $produto->preco_venda ?? '') }}" required></div>
+    <div class="col-md-3"><label class="form-label">Preço Compra</label><input class="form-control" name="preco_compra" id="preco_compra" type="number" step="0.01" min="0" max="99999999.99" value="{{ $formValue('preco_compra', $produto->preco_compra ?? '') }}" required></div>
+    <div class="col-md-3"><label class="form-label">Preço Venda</label><input class="form-control" name="preco_venda" type="number" step="0.01" min="0.01" max="99999999.99" value="{{ $formValue('preco_venda', $produto->preco_venda ?? '') }}" required></div>
     <div class="col-md-3">
         <label class="form-label">Tamanho</label>
-        @php($tamanhoAtual = old('tamanho', $produto->tamanho ?? ''))
+        @php($tamanhoAtual = $formValue('tamanho', $produto->tamanho ?? ''))
         <select class="form-select" name="tamanho" id="tamanho_roupa">
             <option value="">-</option>
             @foreach (['pp', 'p', 'm', 'g', 'gg', 'g1', 'g2', 'g3', 'g4'] as $tamanho)
@@ -72,18 +81,20 @@
             @endforeach
         </select>
     </div>
-    <div class="col-md-3"><label class="form-label">Status</label><select class="form-select" name="status"><option value="disponivel">Disponível</option><option value="vendido" @selected(old('status', $produto->status ?? '')==='vendido')>Vendido</option></select></div>
+    <div class="col-md-3"><label class="form-label">Status</label><select class="form-select" name="status"><option value="disponivel">Disponível</option><option value="vendido" @selected($formValue('status', $produto->status ?? '')==='vendido')>Vendido</option></select></div>
     <div class="col-md-3"><label class="form-label">Gênero</label><select class="form-select" name="genero"><option value="">-</option><option value="masculino">Masculino</option><option value="feminino">Feminino</option><option value="unissex">Unissex</option></select></div>
-    <div class="col-md-3"><label class="form-label">Categoria</label><select class="form-select" name="id_categoria"><option value="">-</option>@foreach($categorias as $item)<option value="{{ $item->id }}" @selected((string)old('id_categoria', $produto->id_categoria ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
-    <div class="col-md-3"><label class="form-label">Cor</label><select class="form-select" name="id_cor"><option value="">-</option>@foreach($cores as $item)<option value="{{ $item->id }}" @selected((string)old('id_cor', $produto->id_cor ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
-    <div class="col-md-3"><label class="form-label">Material</label><select class="form-select" name="id_material"><option value="">-</option>@foreach($materiais as $item)<option value="{{ $item->id }}" @selected((string)old('id_material', $produto->id_material ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
-    <div class="col-md-3"><label class="form-label">Fornecedor</label><select class="form-select" name="id_fornecedor"><option value="">-</option>@foreach($fornecedores as $item)<option value="{{ $item->id }}" @selected((string)old('id_fornecedor', $produto->id_fornecedor ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
-    <div class="col-12"><label class="form-label">Descrição</label><textarea class="form-control" name="descricao" rows="3">{{ old('descricao', $produto->descricao ?? '') }}</textarea></div>
+    <div class="col-md-3"><label class="form-label">Categoria</label><select class="form-select" name="id_categoria"><option value="">-</option>@foreach($categorias as $item)<option value="{{ $item->id }}" @selected($formValue('id_categoria', $produto->id_categoria ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
+    <div class="col-md-3"><label class="form-label">Cor</label><select class="form-select" name="id_cor"><option value="">-</option>@foreach($cores as $item)<option value="{{ $item->id }}" @selected($formValue('id_cor', $produto->id_cor ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
+    <div class="col-md-3"><label class="form-label">Material</label><select class="form-select" name="id_material"><option value="">-</option>@foreach($materiais as $item)<option value="{{ $item->id }}" @selected($formValue('id_material', $produto->id_material ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
+    <div class="col-md-3"><label class="form-label">Fornecedor</label><select class="form-select" name="id_fornecedor"><option value="">-</option>@foreach($fornecedores as $item)<option value="{{ $item->id }}" @selected($formValue('id_fornecedor', $produto->id_fornecedor ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
+    <div class="col-12"><label class="form-label">Descrição</label><textarea class="form-control" name="descricao" rows="3" maxlength="5000">{{ $formValue('descricao', $produto->descricao ?? '') }}</textarea></div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const consignadoFields = document.getElementById('consignado_fields');
+        const consignadoPago = document.getElementById('consignado_pago');
+        const precoCompra = document.getElementById('preco_compra');
         const radios = document.querySelectorAll('input[name="estado"]');
         const tipoProdutoRadios = document.querySelectorAll('input[name="tipo_produto"]');
         const tamanhoRoupa = document.getElementById('tamanho_roupa');
@@ -92,9 +103,11 @@
         function toggleConsignadoFields() {
             const selecionado = document.querySelector('input[name="estado"]:checked')?.value;
             consignadoFields.classList.toggle('d-none', selecionado !== 'consignado');
+            precoCompra.min = selecionado === 'consignado' && consignadoPago.checked ? '0.01' : '0';
         }
 
         radios.forEach(radio => radio.addEventListener('change', toggleConsignadoFields));
+        consignadoPago.addEventListener('change', toggleConsignadoFields);
         tipoProdutoRadios.forEach(radio => radio.addEventListener('change', function () {
             const tipoSelecionado = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;
             const isCalcado = tipoSelecionado === 'calcado';

@@ -97,6 +97,7 @@
             <p class="text-muted">Nenhum produto disponível no momento.</p>
         @endforelse
         </div>
+        {{ $produtos->links('pagination::bootstrap-5') }}
     </div>
 
     <footer class="text-white p-4 mt-auto"

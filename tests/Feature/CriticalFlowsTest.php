@@ -139,6 +139,8 @@ class CriticalFlowsTest extends TestCase
         $produto = $this->produto();
         $data = array_replace($this->productData(), ['estado' => 'consignado', 'consignado_pago' => 1]);
         $this->withoutExceptionHandling();
+        $dispatcher = SaidaCaixa::getEventDispatcher();
+        SaidaCaixa::setEventDispatcher(clone $dispatcher);
         SaidaCaixa::creating(function (): void {
             throw new RuntimeException('Payment failed');
         });
@@ -159,7 +161,7 @@ class CriticalFlowsTest extends TestCase
                 $this->assertSame('novo', $produto->fresh()->estado);
             }
         } finally {
-            SaidaCaixa::flushEventListeners();
+            SaidaCaixa::setEventDispatcher($dispatcher);
         }
     }
 
