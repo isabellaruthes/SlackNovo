@@ -20,7 +20,8 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person"></i></span>
                                 <input id="nome" type="text" class="form-control" name="nome"
-                                    placeholder="Digite seu nome de usuário" value="{{ old('nome') }}" required autofocus>
+                                    placeholder="Digite seu nome de usuário" value="{{ is_string(old('nome')) ? old('nome') : '' }}"
+                                    maxlength="50" autocomplete="username" required autofocus>
                             </div>
                         </div>
 
@@ -29,11 +30,14 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-key"></i></span>
                                 <input id="password" type="password" class="form-control" name="password"
-                                    placeholder="Digite sua senha" required>
+                                    placeholder="Digite sua senha" maxlength="1024" autocomplete="current-password" required>
                             </div>
                         </div>
 
                         @error('nome')
+                            <div class="alert alert-danger py-2">{{ $message }}</div>
+                        @enderror
+                        @error('password')
                             <div class="alert alert-danger py-2">{{ $message }}</div>
                         @enderror
 

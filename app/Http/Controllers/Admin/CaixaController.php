@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Produto;
 use App\Models\SaidaCaixa;
 use App\Models\Venda;
+use App\Support\MoneyRules;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -21,6 +22,7 @@ class CaixaController extends Controller
         $vendas = Venda::with('produto')->latest('data_hora')->get();
 
         $registros = $vendas
+            ->toBase()
             ->map(function (Venda $venda): array {
                 $lucro = (float) $venda->valor_venda_total - (float) $venda->valor_compra_total;
 
@@ -65,7 +67,7 @@ class CaixaController extends Controller
     public function registrarSaida(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'valor' => ['required', 'numeric', 'min:0.01'],
+            'valor' => MoneyRules::rules(),
             'motivo' => ['required', 'string', 'max:50'],
         ]);
 
@@ -80,7 +82,7 @@ class CaixaController extends Controller
             'id_produto' => ['required', 'integer', 'exists:produtos,id'],
             'comprador' => ['required', 'string', 'max:50'],
             'nome' => ['required', 'string', 'max:50'],
-            'valor_venda' => ['required', 'numeric', 'min:0.01'],
+            'valor_venda' => MoneyRules::rules(),
         ]);
 
         $registrada = DB::transaction(function () use ($data): bool {

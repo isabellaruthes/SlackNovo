@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProdutoRequest;
 use App\Models\Categoria;
 use App\Models\Cor;
 use App\Models\Fornecedor;
@@ -11,12 +12,14 @@ use App\Models\Produto;
 use App\Models\SaidaCaixa;
 use App\Models\Venda;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use RuntimeException;
+use Throwable;
 
 class ProdutoController extends Controller
 {
@@ -37,46 +40,9 @@ class ProdutoController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(ProdutoRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'nome' => ['required', 'string', 'max:50'],
-            'imagen' => ['nullable', 'image', 'max:5120'],
-            'estado' => ['nullable', 'in:novo,usado,consignado'],
-            'tipo_produto' => ['required', 'in:roupa,calcado'],
-            'tamanho' => ['nullable', 'in:pp,p,m,g,gg,g1,g2,g3,g4,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46'],
-            'preco_compra' => ['required', 'numeric'],
-            'preco_venda' => ['required', 'numeric'],
-            'genero' => ['nullable', 'in:masculino,feminino,unissex'],
-            'status' => ['nullable', 'in:disponivel,vendido'],
-            'descricao' => ['nullable', 'string'],
-            'id_categoria' => ['nullable', 'integer'],
-            'id_cor' => ['nullable', 'integer'],
-            'id_material' => ['nullable', 'integer'],
-            'id_fornecedor' => ['nullable', 'integer'],
-        ]);
-
-        if ($this->suportaCamposConsignado()) {
-            $data['cliente_consignado'] = $request->input('cliente_consignado');
-            $data['consignado_pago'] = $request->boolean('consignado_pago');
-        }
-
-        if ($request->hasFile('imagen')) {
-            $data['imagen'] = $request->file('imagen')->store('produtos', 'public');
-        }
-
-        if ($this->suportaCamposConsignado() && ($data['estado'] ?? null) !== 'consignado') {
-            $data['cliente_consignado'] = null;
-            $data['consignado_pago'] = false;
-        }
-
-        DB::transaction(function () use ($data): void {
-            $produto = Produto::create($data);
-
-            if ($this->suportaCamposConsignado()) {
-                $this->registrarSaidaConsignadoSeNecessario($produto);
-            }
-        });
+        $this->salvarProduto($request);
 
         return redirect()->route('admin.produtos.index')->with('success', 'Produto criado com sucesso.');
     }
@@ -92,57 +58,93 @@ class ProdutoController extends Controller
         ]);
     }
 
-    public function update(Request $request, Produto $produto): RedirectResponse
+    public function update(ProdutoRequest $request, Produto $produto): RedirectResponse
     {
-        $data = $request->validate([
-            'nome' => ['required', 'string', 'max:50'],
-            'imagen' => ['nullable', 'image', 'max:5120'],
-            'estado' => ['nullable', 'in:novo,usado,consignado'],
-            'tipo_produto' => ['required', 'in:roupa,calcado'],
-            'tamanho' => ['nullable', 'in:pp,p,m,g,gg,g1,g2,g3,g4,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46'],
-            'preco_compra' => ['required', 'numeric'],
-            'preco_venda' => ['required', 'numeric'],
-            'genero' => ['nullable', 'in:masculino,feminino,unissex'],
-            'status' => ['nullable', 'in:disponivel,vendido'],
-            'descricao' => ['nullable', 'string'],
-            'id_categoria' => ['nullable', 'integer'],
-            'id_cor' => ['nullable', 'integer'],
-            'id_material' => ['nullable', 'integer'],
-            'id_fornecedor' => ['nullable', 'integer'],
-        ]);
-
-        if ($this->suportaCamposConsignado()) {
-            $data['cliente_consignado'] = $request->input('cliente_consignado');
-            $data['consignado_pago'] = $request->boolean('consignado_pago');
-        }
-
-        if ($request->hasFile('imagen')) {
-            $data['imagen'] = $request->file('imagen')->store('produtos', 'public');
-        }
-
-        if ($this->suportaCamposConsignado() && ($data['estado'] ?? null) !== 'consignado') {
-            $data['cliente_consignado'] = null;
-            $data['consignado_pago'] = false;
-        }
-
-        DB::transaction(function () use ($data, $produto): void {
-            $produto = Produto::query()->lockForUpdate()->findOrFail($produto->id);
-
-            if (array_key_exists('status', $data) && $data['status'] !== 'vendido'
-                && Venda::where('id_produto', $produto->id)->where('reembolsada', false)->exists()) {
-                throw ValidationException::withMessages([
-                    'status' => 'Reembolse a venda antes de disponibilizar o produto novamente.',
-                ]);
-            }
-
-            $produto->update($data);
-
-            if ($this->suportaCamposConsignado()) {
-                $this->registrarSaidaConsignadoSeNecessario($produto);
-            }
-        });
+        $this->salvarProduto($request, $produto);
 
         return redirect()->route('admin.produtos.index')->with('success', 'Produto atualizado com sucesso.');
+    }
+
+    private function salvarProduto(ProdutoRequest $request, ?Produto $produto = null): void
+    {
+        $data = $request->safe()->except(['imagen']);
+        $suportaConsignado = $this->suportaCamposConsignado();
+
+        if ($suportaConsignado) {
+            $consignado = ($data['estado'] ?? null) === 'consignado';
+            $data['cliente_consignado'] = $consignado ? ($data['cliente_consignado'] ?? null) : null;
+            $data['consignado_pago'] = $consignado && (bool) ($data['consignado_pago'] ?? false);
+        } else {
+            unset($data['cliente_consignado'], $data['consignado_pago']);
+        }
+
+        $novaImagem = null;
+        $imagemAnterior = null;
+
+        try {
+            DB::transaction(function () use ($request, $data, $produto, $suportaConsignado, &$novaImagem, &$imagemAnterior): void {
+                if ($produto !== null) {
+                    $produto = Produto::query()->lockForUpdate()->findOrFail($produto->id);
+
+                    if (array_key_exists('status', $data) && $data['status'] !== 'vendido'
+                        && Venda::where('id_produto', $produto->id)->where('reembolsada', false)->exists()) {
+                        throw ValidationException::withMessages([
+                            'status' => 'Reembolse a venda antes de disponibilizar o produto novamente.',
+                        ]);
+                    }
+                }
+
+                if ($request->hasFile('imagen')) {
+                    $path = $request->file('imagen')->store('produtos', 'public');
+                    if ($path === false) {
+                        throw new RuntimeException('Não foi possível salvar a imagem do produto.');
+                    }
+
+                    $novaImagem = $path;
+                    $imagemAnterior = $produto?->imagen;
+                    $data['imagen'] = $path;
+                }
+
+                $produto ??= new Produto;
+                $produto->fill($data);
+                if (! $produto->save()) {
+                    throw new RuntimeException('Não foi possível salvar o produto.');
+                }
+
+                if ($suportaConsignado) {
+                    $this->registrarSaidaConsignadoSeNecessario($produto);
+                }
+            });
+        } catch (Throwable $exception) {
+            $this->removerImagem($novaImagem);
+
+            throw $exception;
+        }
+
+        if ($novaImagem !== null && DB::transactionLevel() > 0) {
+            // A surrounding transaction may still roll back after this save succeeded.
+            DB::afterRollBack(fn () => $this->removerImagem($novaImagem));
+        }
+
+        if ($novaImagem !== null && $imagemAnterior !== null && $imagemAnterior !== $novaImagem) {
+            DB::afterCommit(fn () => $this->removerImagem($imagemAnterior));
+        }
+    }
+
+    private function removerImagem(?string $path): void
+    {
+        // Only files directly owned by the product upload directory may be removed.
+        if ($path === null || ! preg_match('~\Aprodutos/[A-Za-z0-9][A-Za-z0-9._-]*\z~', $path)) {
+            return;
+        }
+
+        try {
+            if (! Storage::disk('public')->delete($path)) {
+                report(new RuntimeException('Não foi possível remover uma imagem do produto.'));
+            }
+        } catch (Throwable $exception) {
+            report($exception);
+        }
     }
 
     private function suportaCamposConsignado(): bool
@@ -174,7 +176,18 @@ class ProdutoController extends Controller
 
     public function destroy(Produto $produto): RedirectResponse
     {
-        $produto->delete();
+        $imagem = DB::transaction(function () use ($produto): ?string {
+            $produto = Produto::query()->lockForUpdate()->findOrFail($produto->id);
+            $imagem = $produto->imagen;
+
+            if (! $produto->delete()) {
+                throw new RuntimeException('Não foi possível remover o produto.');
+            }
+
+            return $imagem;
+        });
+
+        DB::afterCommit(fn () => $this->removerImagem($imagem));
 
         return back()->with('success', 'Produto removido com sucesso.');
     }

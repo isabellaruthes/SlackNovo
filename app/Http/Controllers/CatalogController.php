@@ -11,8 +11,16 @@ class CatalogController extends Controller
 {
     public function index(Request $request): View
     {
+        $request->validate([
+            'q' => ['nullable', 'string', 'max:100'],
+            'ordenar' => ['nullable', 'in:default,price_asc,price_desc,name_asc,name_desc'],
+            'categoria' => ['nullable', 'integer', 'min:1'],
+            'tamanho' => ['nullable', 'string', 'max:4'],
+            'page' => ['nullable', 'integer', 'min:1'],
+        ]);
+
         $busca = trim((string) $request->string('q'));
-        $ordenar = (string) $request->string('ordenar', 'default');
+        $ordenar = (string) ($request->input('ordenar') ?: 'default');
         $categoria = (string) $request->string('categoria', '');
         $tamanho = (string) $request->string('tamanho', '');
 
@@ -34,7 +42,9 @@ class CatalogController extends Controller
             ->when($ordenar === 'name_asc', fn ($query) => $query->orderBy('nome'))
             ->when($ordenar === 'name_desc', fn ($query) => $query->orderByDesc('nome'))
             ->when($ordenar === 'default', fn ($query) => $query->latest('id'))
-            ->get();
+            ->orderBy('id')
+            ->paginate(24)
+            ->withQueryString();
 
         return view('catalog.dashboard', [
             'produtos' => $produtos,
