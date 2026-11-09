@@ -12,17 +12,24 @@
     <div class="col-md-6">
         <h2 class="h6">Registrar saída</h2>
         <form method="POST" action="{{ route('admin.caixa.saida') }}">@csrf
-            <input class="form-control mb-2" name="valor" type="number" step="0.01" placeholder="Valor" required>
-            <input class="form-control mb-2" name="motivo" placeholder="Motivo" required>
+            <label class="form-label" for="saida_valor">Valor da saída (R$)</label>
+            <input class="form-control mb-2" id="saida_valor" name="valor" type="number" step="0.01" min="0.01" max="99999999.99" placeholder="Valor" required>
+            <label class="form-label" for="saida_motivo">Motivo</label>
+            <input class="form-control mb-2" id="saida_motivo" name="motivo" maxlength="50" placeholder="Motivo" required>
             <button class="btn btn-warning">Salvar saída</button>
         </form>
     </div>
     <div class="col-md-6">
         <h2 class="h6">Registrar venda</h2>
         <form method="POST" action="{{ route('admin.caixa.venda') }}">@csrf
-            <input class="form-control mb-2" name="nome" placeholder="Nome da venda" required>
-            <input class="form-control mb-2" name="id_produto" type="number" placeholder="ID produto" required>
-            <input class="form-control mb-2" name="comprador" placeholder="Comprador" required>
+            <label class="form-label" for="venda_nome">Nome da venda</label>
+            <input class="form-control mb-2" id="venda_nome" name="nome" maxlength="50" placeholder="Nome da venda" required>
+            <label class="form-label" for="venda_produto">ID do produto</label>
+            <input class="form-control mb-2" id="venda_produto" name="id_produto" type="number" min="1" step="1" placeholder="ID produto" required>
+            <label class="form-label" for="venda_valor">Valor da venda (R$)</label>
+            <input class="form-control mb-2" id="venda_valor" name="valor_venda" type="number" step="0.01" min="0.01" max="99999999.99" required>
+            <label class="form-label" for="venda_comprador">Comprador</label>
+            <input class="form-control mb-2" id="venda_comprador" name="comprador" maxlength="50" placeholder="Comprador" required>
             <button class="btn btn-success">Salvar venda</button>
         </form>
     </div>

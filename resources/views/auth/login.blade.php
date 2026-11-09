@@ -34,12 +34,6 @@
                             </div>
                         </div>
 
-                        @error('nome')
-                            <div class="alert alert-danger py-2">{{ $message }}</div>
-                        @enderror
-                        @error('password')
-                            <div class="alert alert-danger py-2">{{ $message }}</div>
-                        @enderror
 
                         <button type="submit" class="btn btn-brand w-100 py-2 fw-semibold">Entrar no sistema</button>
                     </form>

@@ -11,11 +11,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class DashboardController extends Controller
 {
     public function index(Request $request): View
     {
+        $validator = Validator::make($request->all(), [
+            'q' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', 'in:disponivel,vendido'],
+            'categoria' => ['nullable', 'integer', 'min:1'],
+            'tamanho' => ['nullable', 'string', 'max:4'],
+        ]);
+
+        if ($validator->fails()) {
+            // Do not redirect back to the malformed query and create a GET loop.
+            throw (new ValidationException($validator))->redirectTo(route('dashboard'));
+        }
+
         $colunaDataVenda = Schema::hasColumn('vendas', 'data_hora') ? 'data_hora' : 'created_at';
         $colunaCompradorVenda = Schema::hasColumn('vendas', 'comprador') ? 'comprador' : null;
         $colunaValorVenda = Schema::hasColumn('vendas', 'valor_venda_total') ? 'valor_venda_total' : null;
@@ -48,28 +62,29 @@ class DashboardController extends Controller
 
         $produtosQuery = Produto::query()->with(['categoria']);
 
-        if ($podeRelacionarVendaProduto) {
-            $produtosQuery
-                ->leftJoinSub(
-                    Venda::query()
-                        ->select('id_produto', DB::raw('MAX('.$colunaDataVenda.') as ultima_venda_data'))
-                        ->groupBy('id_produto'),
-                    'ult_venda',
-                    'ult_venda.id_produto',
-                    '=',
-                    'produtos.id'
-                )
-                ->leftJoin('vendas as venda_final', function ($join) use ($colunaDataVenda): void {
-                    $join->on('venda_final.id_produto', '=', 'produtos.id')
-                        ->on('venda_final.'.$colunaDataVenda, '=', 'ult_venda.ultima_venda_data');
-                });
-        }
-
         $produtosQuery->select('produtos.*');
-        $produtosQuery->addSelect($podeRelacionarVendaProduto && $colunaCompradorVenda
-            ? 'venda_final.'.$colunaCompradorVenda.' as comprador'
-            : DB::raw('NULL as comprador'));
-        $produtosQuery->addSelect($podeRelacionarVendaProduto ? 'venda_final.'.$colunaDataVenda.' as data_venda' : DB::raw('NULL as data_venda'));
+
+        if ($podeRelacionarVendaProduto) {
+            $vendaAtual = Venda::query()
+                ->whereColumn('vendas.id_produto', 'produtos.id')
+                ->when(Schema::hasColumn('vendas', 'reembolsada'), fn ($query) => $query->where('reembolsada', false))
+                ->orderByDesc($colunaDataVenda)
+                ->orderByDesc('id')
+                ->limit(1);
+
+            $produtosQuery->addSelect([
+                'data_venda' => (clone $vendaAtual)->select($colunaDataVenda),
+            ]);
+            if ($colunaCompradorVenda !== null) {
+                $produtosQuery->addSelect([
+                    'comprador' => (clone $vendaAtual)->select($colunaCompradorVenda),
+                ]);
+            } else {
+                $produtosQuery->addSelect(DB::raw('NULL as comprador'));
+            }
+        } else {
+            $produtosQuery->addSelect(DB::raw('NULL as comprador'), DB::raw('NULL as data_venda'));
+        }
 
         $busca = trim((string) $request->string('q'));
         $status = (string) $request->string('status', '');

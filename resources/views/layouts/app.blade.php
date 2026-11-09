@@ -16,15 +16,18 @@
     @endauth
 
     <main class="@yield('main_class', 'container py-3')">
+        <div class="container">@include('partials.alerts')</div>
         @yield('content')
     </main>
+
+    @yield('footer')
 
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title fs-5">Confirmar exclusão</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
                     <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>
