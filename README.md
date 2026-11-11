@@ -1,106 +1,164 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SlackNovo
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema web de gestão de loja de roupas e calçados (brechó). Reúne um catálogo público de produtos e um painel administrativo com cadastro de produtos, controle de caixa (vendas, reembolsos e saídas), consignação e relatório de vendas em PDF.
 
-## About Laravel
+## Tecnologias
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Camada | Tecnologia |
+|---|---|
+| Linguagem | PHP 8.2+ |
+| Framework | Laravel 12 |
+| Banco de dados | SQLite (`database/database.sqlite`) |
+| Views | Blade |
+| Estilo | Bootstrap 5.3.3 e Bootstrap Icons 1.11.3 (CDN jsDelivr) |
+| Build front-end | Vite 7, Tailwind CSS 4 e axios |
+| Testes | PHPUnit 11 |
+| Padronização de código | Laravel Pint |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Arquitetura
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Monólito Laravel (MVC), sem API REST separada e sem SPA. O servidor renderiza as páginas em Blade.
 
-## Learning Laravel
+```mermaid
+flowchart LR
+    V[Visitante] -->|GET /| C[CatalogController]
+    A[Administrador] -->|/login| AU[AuthController]
+    A -->|/dashboard, /admin/*| M{{middleware auth}}
+    M --> AD[Controllers Admin]
+    C --> MO[(Models Eloquent)]
+    AD --> MO
+    MO --> DB[(SQLite)]
+    AD -->|upload| ST[(storage/app/public/produtos)]
+    AD -->|PDF| R[Relatório de vendas]
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Estrutura de pastas
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Pasta | Conteúdo |
+|---|---|
+| `app/Http/Controllers/` | `CatalogController` (público) e `AuthController` (login e logout) |
+| `app/Http/Controllers/Admin/` | `DashboardController`, `ProdutoController`, `CaixaController`, `RelatorioController` e CRUDs de categorias, cores, materiais e fornecedores |
+| `app/Models/` | `Produto`, `Venda`, `SaidaCaixa`, `Categoria`, `Cor`, `Material`, `Fornecedor`, `User` |
+| `routes/web.php` | Todas as rotas da aplicação |
+| `resources/views/` | Telas Blade: `catalog/`, `auth/`, `admin/*`, `layouts/`, `components/`, `partials/` |
+| `database/migrations/` | Esquema do banco |
+| `tests/Feature/` | Testes dos fluxos críticos |
 
-## Laravel Sponsors
+## Módulos e rotas
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Módulo | Rotas | Acesso |
+|---|---|---|
+| Catálogo público | `GET /` (filtros `q`, `categoria`, `tamanho`, `ordenar`) | Público |
+| Autenticação | `GET/POST /login`, `POST /logout` | Visitante / logado |
+| Dashboard | `GET /dashboard` | Logado |
+| Produtos | `/admin/produtos` (CRUD, sem tela de detalhe) | Logado |
+| Cadastros de apoio | `/admin/categorias`, `/admin/cores`, `/admin/materiais`, `/admin/fornecedores` | Logado |
+| Caixa | `GET /admin/caixa`, `POST /admin/caixa/saida`, `POST /admin/caixa/venda`, `POST /admin/caixa/venda/{venda}/reembolso` | Logado |
+| Relatórios | `GET /admin/relatorios/produtos` (JSON), `GET /admin/relatorios/exportar` (PDF, filtros `inicio` e `fim`) | Logado |
+| Saúde | `GET /up` | Público |
 
-### Premium Partners
+## Banco de dados
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+| Tabela | Papel |
+|---|---|
+| `produtos` | Peças à venda: estado (`novo`, `usado`, `consignado`), `status` (`disponivel`, `vendido`), preços, imagem e dados de consignação |
+| `vendas` | Vendas e reembolsos (`reembolsada`), um produto por venda |
+| `saida_caixas` | Saídas de dinheiro, incluindo pagamento de consignados |
+| `categorias`, `cores`, `materiais`, `fornecedores` | Tabelas de apoio dos produtos |
+| `usuarios` | Contas de acesso ao painel (`nome` e `senha`) |
 
-## Contributing
+O framework também usa as tabelas `sessions`, `cache`, `cache_locks`, `jobs`, `job_batches`, `failed_jobs`, `password_reset_tokens` e `migrations`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Autenticação e autorização
 
-## Code of Conduct
+- Guard `web`, com sessão armazenada no banco (duração de 120 minutos por padrão).
+- Provider Eloquent com o model `App\Models\User`, ligado à tabela `usuarios`.
+- Login por nome de usuário e senha. A senha é guardada com hash na coluna `senha` e a sessão é regenerada no login.
+- Há dois níveis de acesso: visitante (catálogo e login) e usuário autenticado, que acessa todo o painel. Não existem perfis, permissões, cadastro público nem recuperação de senha.
+- Os formulários usam a proteção CSRF padrão do Laravel.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Armazenamento de arquivos
 
-## Security Vulnerabilities
+- A imagem do produto (`imagen`) é validada como imagem de até 5 MB e salva no disco `public`, em `storage/app/public/produtos`.
+- As páginas exibem as imagens por `asset('storage/...')`, então é necessário criar o link simbólico: `php artisan storage:link`.
+- Ao substituir a imagem ou excluir o produto, o arquivo anterior não é apagado do disco.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Integrações e serviços
 
-## License
+- **E-mail:** o sistema não envia e-mails (`MAIL_MAILER=log`).
+- **Filas:** o driver é `database`, mas nenhuma tarefa é enviada para a fila atualmente.
+- **CDN:** Bootstrap e Bootstrap Icons são carregados do jsDelivr. Sem internet, a interface perde o estilo.
+- **WhatsApp:** o catálogo tem um link de contato `wa.me`, com o número definido diretamente na view `catalog/dashboard.blade.php`.
+- **PDF:** o relatório de vendas é gerado no próprio `RelatorioController` (uma página, fonte Helvetica). Listas muito longas não são paginadas.
+- **APIs:** não há API pública nem autenticação por token. `GET /admin/relatorios/produtos` devolve JSON dos produtos apenas para usuários logados.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Fluxos principais
 
+### Venda e reembolso
 
-## Execução local (resolução de erro ao iniciar)
+```mermaid
+sequenceDiagram
+    actor Admin
+    participant CC as CaixaController
+    participant DB as SQLite
+    Admin->>CC: POST /admin/caixa/venda
+    CC->>DB: inicia transação e trava o produto
+    alt produto já vendido ou com venda ativa
+        CC-->>Admin: erro, nada é gravado
+    else disponível
+        CC->>DB: cria a venda (reembolsada = false)
+        CC->>DB: produto.status = vendido
+        CC-->>Admin: sucesso
+    end
+    Admin->>CC: POST /admin/caixa/venda/{id}/reembolso
+    CC->>DB: venda.reembolsada = true
+    CC->>DB: produto volta a disponivel se não houver outra venda ativa
+```
 
-Se o projeto falhar logo no início com erro parecido com `vendor/autoload.php` não encontrado, rode:
+O saldo do caixa é a soma das vendas não reembolsadas menos a soma das saídas. Saídas manuais exigem valor mínimo de 0,01 e motivo de até 50 caracteres.
+
+### Consignação
+
+Um produto com estado `consignado` guarda o nome do cliente e a marcação de pagamento (`consignado_pago`). Ao salvar com o pagamento marcado, o sistema registra uma única saída no caixa com o motivo `Pagamento consignado produto #ID`. Se o registro da saída falhar, a gravação do produto é desfeita.
+
+### Catálogo público
+
+`GET /` lista apenas produtos disponíveis, com busca por nome, descrição ou código, filtros por categoria e tamanho e ordenação por preço ou nome.
+
+### Dashboard e relatório
+
+O dashboard mostra indicadores de vendas e saídas e a lista de produtos com filtros. O relatório em PDF lista as vendas do período informado.
+
+## Como executar
+
+Requisitos: PHP 8.2+, Composer, Node.js e npm.
 
 ```bash
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-php artisan serve
+composer run setup         # dependências, .env, chave, migrations e build do front-end
+php artisan storage:link   # exibição das imagens dos produtos
+composer run dev           # servidor, fila, logs e Vite
+composer run test          # testes automatizados
 ```
 
-Se `composer install` falhar por bloqueio de rede (ex.: erro 403 ao baixar do GitHub), use uma rede sem bloqueio/proxy adequado e execute novamente.
+Use o `.env.example` como base para o `.env`. O arquivo `.env` não deve ser versionado, e chaves, senhas e tokens ficam apenas no ambiente de cada pessoa ou servidor.
 
+Principais variáveis: `APP_*`, `DB_CONNECTION`, `SESSION_DRIVER`, `QUEUE_CONNECTION`, `CACHE_STORE`, `FILESYSTEM_DISK` e `MAIL_*`.
 
-### Erro `Driver [files] not supported`
+## Testes
 
-Se aparecer esse erro, seu `.env` provavelmente está com `CACHE_STORE=files` (plural).
-Este projeto aceita automaticamente esse valor agora, mas o recomendado é usar:
+Os testes ficam em `tests/Feature/CriticalFlowsTest.php` e rodam em SQLite em memória. Cobrem o rehash de senha no login, o CRUD de categorias, a venda de produto já vendido, a venda duplicada, o reembolso (incluindo repetição e outra venda ativa) e a consignação (pagamento único e desfazer em caso de falha).
 
-```env
-CACHE_STORE=file
-SESSION_DRIVER=file
-QUEUE_CONNECTION=database
-```
+## Contribuição
 
+- Trabalhe em uma branch própria a partir de `develop` e abra um Pull Request. Não faça commits diretamente na `main`.
+- Mudanças em migrations, seeds ou consultas também seguem esse fluxo.
+- Não registre secrets, tokens, senhas ou dados reais em código, commits, PRs, logs ou capturas de tela.
 
-> **Importante:** se o erro continuar mesmo após ajustar o `.env`, limpe os caches de configuração:
->
-> ```bash
-> php artisan optimize:clear
-> php artisan config:clear
-> ```
->
-> Em Laravel, valores antigos podem ficar em cache e continuar usando `files` mesmo após a correção.
+## Limitações conhecidas
 
-
-Se ainda ocorrer no carregamento inicial (`GET /`) confira também:
-
-```env
-APP_MAINTENANCE_DRIVER=file
-# APP_MAINTENANCE_STORE=database
-```
-
-Valor `files` (plural) em `APP_MAINTENANCE_DRIVER` também causa `Driver [files] not supported`.
+- O banco não tem chaves estrangeiras nem índices nas tabelas de negócio.
+- Todo usuário autenticado tem acesso total ao painel.
+- Não há tela ou seeder para criar o primeiro usuário; ele precisa ser inserido diretamente no banco.
+- Os arquivos `resources/css/style.css`, `resources/css/login.css`, `resources/js/script.js` e `resources/js/scripts.js` não são carregados por nenhuma view.
+- A dependência `barryvdh/laravel-dompdf` está instalada, mas o PDF é gerado manualmente.
+- Não há pipeline de integração contínua configurado.
