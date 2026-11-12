@@ -88,8 +88,7 @@
                                 @endif
                                 <h3 class="h6 mb-1">{{ $produto->nome }}</h3>
                                 <p class="text-muted mb-2">{{ $produto->categoria?->nome ?? 'Sem categoria' }} • {{ $produto->tamanho }}</p>
-                                <p class="mb-1"><strong>Status:</strong> {{ ucfirst($produto->status) }}</p>
-                                <p class="mb-1"><strong>Estoque:</strong> {{ $produto->status === 'vendido' ? 'Vendido' : 'Disponível' }}</p>
+                                <p class="mb-1"><strong>Status:</strong> <x-status-produto :status="$produto->status" /></p>
                                 <p class="mb-1"><strong>Preço venda:</strong> R$ {{ number_format((float) $produto->preco_venda, 2, ',', '.') }}</p>
                                 <div class="d-flex flex-wrap gap-2 mt-3">
                                     <a href="{{ route('admin.produtos.edit', $produto) }}" class="btn btn-sm btn-secondary">Editar</a>

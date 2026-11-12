@@ -24,7 +24,10 @@ class CaixaController extends Controller
         $registros = $vendas
             ->toBase()
             ->map(function (Venda $venda): array {
-                $lucro = (float) $venda->valor_venda_total - (float) $venda->valor_compra_total;
+                // A refunded sale produced no profit; the list shows "-" as for outflows (BUG-13).
+                $lucro = $venda->reembolsada
+                    ? null
+                    : (float) $venda->valor_venda_total - (float) $venda->valor_compra_total;
 
                 return [
                     'tipo' => 'venda',
