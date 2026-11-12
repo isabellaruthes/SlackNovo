@@ -49,17 +49,20 @@
                 </div>
                 <form method="GET" class="row g-2 mb-3">
                     <div class="col-md-4">
-                        <input type="text" name="q" class="form-control" placeholder="Pesquisar por nome do produto" value="{{ $busca }}">
+                        <label class="visually-hidden" for="filtro_q">Pesquisar por nome do produto</label>
+                        <input type="text" name="q" id="filtro_q" class="form-control" placeholder="Pesquisar por nome do produto" value="{{ $busca }}">
                     </div>
                     <div class="col-md-2">
-                        <select name="status" class="form-select">
+                        <label class="visually-hidden" for="filtro_status">Status</label>
+                        <select name="status" id="filtro_status" class="form-select">
                             <option value="">Status</option>
                             <option value="disponivel" @selected($status === 'disponivel')>Disponível</option>
                             <option value="vendido" @selected($status === 'vendido')>Vendido</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select name="categoria" class="form-select">
+                        <label class="visually-hidden" for="filtro_categoria">Categoria</label>
+                        <select name="categoria" id="filtro_categoria" class="form-select">
                             <option value="">Categoria</option>
                             @foreach ($categorias as $item)
                                 <option value="{{ $item->id }}" @selected((string) $categoria === (string) $item->id)>{{ $item->nome }}</option>
@@ -67,7 +70,8 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <select name="tamanho" class="form-select">
+                        <label class="visually-hidden" for="filtro_tamanho">Tamanho</label>
+                        <select name="tamanho" id="filtro_tamanho" class="form-select">
                             <option value="">Tamanho</option>
                             @foreach ($tamanhos as $item)
                                 <option value="{{ $item }}" @selected($tamanho === $item)>{{ strtoupper($item) }}</option>
