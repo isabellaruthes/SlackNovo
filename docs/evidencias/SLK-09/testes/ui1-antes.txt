@@ -1,0 +1,28 @@
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.11
+Configuration: <repo>\phpunit.xml
+
+Time: 00:02.652, Memory: 44.00 MB
+
+There were 3 failures:
+
+1) Tests\Feature\InterfaceAccessibilityTest::test_every_dashboard_filter_has_an_associated_label
+Filter q has no id
+Failed asserting that two strings are not identical.
+
+<repo>\tests\Feature\InterfaceAccessibilityTest.php:38
+
+2) Tests\Feature\InterfaceAccessibilityTest::test_the_logout_button_uses_a_high_contrast_style_on_the_dark_navbar
+Failed asserting that 'btn btn-outline-danger btn-sm' [ASCII](length: 29) contains "btn-outline-light" [ASCII](length: 17).
+
+<repo>\tests\Feature\InterfaceAccessibilityTest.php:51
+
+3) Tests\Feature\InterfaceAccessibilityTest::test_pages_offer_a_skip_link_to_the_main_content
+Skip link missing on http://localhost/dashboard
+Failed asserting that null is an instance of class DOMElement.
+
+<repo>\tests\Feature\InterfaceAccessibilityTest.php:61
+
+FAILURES!
+Tests: 3, Assertions: 8, Failures: 3.

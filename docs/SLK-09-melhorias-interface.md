@@ -1,5 +1,7 @@
 # SLK-09 — Melhorias de interface
 
+> Continuação em 12/11/2026: [relatório de validação de UI/UX](SLK-09-relatorio-validacao-ui.md). Cobre as pendências encontradas pela auditoria com axe-core e no celular, com uma branch por alteração, o registro de decisões e os prints de antes e depois.
+
 Implementação local em 08/11/2026, baseada na revisão SLK-06. Design Bootstrap e regras de backend preservados. Nenhum commit realizado.
 
 ## Alterações

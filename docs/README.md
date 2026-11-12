@@ -12,6 +12,7 @@ As três atividades solicitadas nos prints são SLK-03, SLK-06 e SLK-10. Foram d
 | SLK-06 | [Revisão de interface e experiência](SLK-06-revisao-interface.md) | Terceira imagem |
 | SLK-07 | [Correções de bugs](SLK-07-correcao-bugs.md) | Correções dos defeitos reproduzidos antes da validação final |
 | SLK-09 | [Melhorias de interface](SLK-09-melhorias-interface.md) | Pré-requisito indicado para SLK-10 |
+| SLK-09 | [Relatório de validação de UI/UX](SLK-09-relatorio-validacao-ui.md) | Acessibilidade, mensagens, responsividade e componentes padronizados, com decisões, antes/depois e evidências (12/11/2026) |
 | SLK-10 | [Testes funcionais e evidências](SLK-10-testes-funcionais.md) | Primeira imagem |
 
 A SLK-03 começou após o levantamento SLK-02; a SLK-06 começou após a revisão SLK-05. As correções de backend e interface ocorreram depois das respectivas revisões, em arquivos separados. A validação final SLK-10 depende da conclusão dessas correções e da SLK-09.

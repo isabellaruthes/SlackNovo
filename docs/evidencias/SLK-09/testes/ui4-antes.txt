@@ -1,0 +1,1952 @@
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.11
+Configuration: <repo>\phpunit.xml
+
+Time: 00:01.364, Memory: 48.00 MB
+
+There were 15 failures:
+
+1) Tests\Feature\StandardComponentsTest::test_every_field_of_a_register_page_has_a_label with data set "categorias" ('App\Models\Categoria', 'admin.categorias', 'Nova categoria', 'Nenhuma categoria cadastrada.')
+Not found: //label[@for="cadastro_novo_nome"]
+Failed asserting that null is an instance of class DOMElement.
+
+<tmp>
+<tmp>
+
+2) Tests\Feature\StandardComponentsTest::test_every_field_of_a_register_page_has_a_label with data set "cores" ('App\Models\Cor', 'admin.cores', 'Nova cor', 'Nenhuma cor cadastrada.')
+Not found: //label[@for="cadastro_novo_nome"]
+Failed asserting that null is an instance of class DOMElement.
+
+<tmp>
+<tmp>
+
+3) Tests\Feature\StandardComponentsTest::test_every_field_of_a_register_page_has_a_label with data set "materiais" ('App\Models\Material', 'admin.materiais', 'Novo material', 'Nenhum material cadastrado.')
+Not found: //label[@for="cadastro_novo_nome"]
+Failed asserting that null is an instance of class DOMElement.
+
+<tmp>
+<tmp>
+
+4) Tests\Feature\StandardComponentsTest::test_every_field_of_a_register_page_has_a_label with data set "fornecedores" ('App\Models\Fornecedor', 'admin.fornecedores', 'Novo fornecedor', 'Nenhum fornecedor cadastrado.')
+Not found: //label[@for="cadastro_novo_nome"]
+Failed asserting that null is an instance of class DOMElement.
+
+<tmp>
+<tmp>
+
+5) Tests\Feature\StandardComponentsTest::test_an_empty_register_page_explains_what_to_do with data set "categorias" ('App\Models\Categoria', 'admin.categorias', 'Nova categoria', 'Nenhuma categoria cadastrada.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Categorias</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="QkgsAdIGx450HmtkuzfHB24ATAR9PVnoqv8T2DRe" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Categorias</h1>\n
+<form method="POST" action="http://localhost/admin/categorias" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="QkgsAdIGx450HmtkuzfHB24ATAR9PVnoqv8T2DRe" autocomplete="off">    <input class="form-control" name="nome" placeholder="Nova categoria" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+    </table>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 4873) contains "Nenhuma categoria cadastrada." [ASCII](length: 29).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+6) Tests\Feature\StandardComponentsTest::test_an_empty_register_page_explains_what_to_do with data set "cores" ('App\Models\Cor', 'admin.cores', 'Nova cor', 'Nenhuma cor cadastrada.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Cores</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="gKkYoP0A46EhpxLxSIs6yy22eQQgfx3gb5ehSavw" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Cores</h1>\n
+<form method="POST" action="http://localhost/admin/cores" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="gKkYoP0A46EhpxLxSIs6yy22eQQgfx3gb5ehSavw" autocomplete="off">    <input class="form-control" name="nome" placeholder="Nova cor" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+    </table>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 4852) contains "Nenhuma cor cadastrada." [ASCII](length: 23).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+7) Tests\Feature\StandardComponentsTest::test_an_empty_register_page_explains_what_to_do with data set "materiais" ('App\Models\Material', 'admin.materiais', 'Novo material', 'Nenhum material cadastrado.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Materiais</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="CpCG7jzFpuCiu1SYYv1pV9VhnBtVpittXNj0XfJD" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Materiais</h1>\n
+<form method="POST" action="http://localhost/admin/materiais" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="CpCG7jzFpuCiu1SYYv1pV9VhnBtVpittXNj0XfJD" autocomplete="off">    <input class="form-control" name="nome" placeholder="Novo material" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+    </table>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 4869) contains "Nenhum material cadastrado." [ASCII](length: 27).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+8) Tests\Feature\StandardComponentsTest::test_an_empty_register_page_explains_what_to_do with data set "fornecedores" ('App\Models\Fornecedor', 'admin.fornecedores', 'Novo fornecedor', 'Nenhum fornecedor cadastrado.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Fornecedores</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="ik6g0vuRp7K4UXSb8AyaufU4AogpmP9kbEAjmTJ7" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Fornecedores</h1>\n
+<form method="POST" action="http://localhost/admin/fornecedores" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="ik6g0vuRp7K4UXSb8AyaufU4AogpmP9kbEAjmTJ7" autocomplete="off">    <input class="form-control" name="nome" placeholder="Novo fornecedor" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+    </table>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 4880) contains "Nenhum fornecedor cadastrado." [ASCII](length: 29).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+9) Tests\Feature\StandardComponentsTest::test_register_pagination_uses_the_bootstrap_component with data set "categorias" ('App\Models\Categoria', 'admin.categorias', 'Nova categoria', 'Nenhuma categoria cadastrada.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Categorias</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Categorias</h1>\n
+<form method="POST" action="http://localhost/admin/categorias" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off">    <input class="form-control" name="nome" placeholder="Nova categoria" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+        <tr>\n
+        <td>Item 01</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/1" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 01" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/1" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 02</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/2" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 02" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/2" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 03</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/3" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 03" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/3" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 04</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/4" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 04" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/4" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 05</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/5" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 05" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/5" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 06</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/6" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 06" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/6" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 07</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/7" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 07" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/7" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 08</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/8" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 08" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/8" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 09</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/9" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 09" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/9" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 10</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/10" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 10" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/10" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 11</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/11" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 11" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/11" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 12</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/12" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 12" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/12" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 13</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/13" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 13" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/13" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 14</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/14" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 14" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/14" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 15</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/categorias/15" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 15" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/categorias/15" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="rD7tkWfAZKLjYrMgK1LDZlLOGrBVMmquM1mXE6JE" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+    </table>\n
+<nav role="navigation" aria-label="Pagination Navigation">\n
+\n
+        <div class="flex gap-2 items-center justify-between sm:hidden">\n
+\n
+                            <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 cursor-not-allowed leading-5 rounded-md dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600">\n
+                    &laquo; Previous\n
+                </span>\n
+            \n
+                            <a href="http://localhost/admin/categorias?page=2" rel="next" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-200">\n
+                    Next &raquo;\n
+                </a>\n
+            \n
+        </div>\n
+\n
+        <div class="hidden sm:flex-1 sm:flex sm:gap-2 sm:items-center sm:justify-between">\n
+\n
+            <div>\n
+                <p class="text-sm text-gray-700 leading-5 dark:text-gray-600">\n
+                    Showing\n
+                                            <span class="font-medium">1</span>\n
+                        to\n
+                        <span class="font-medium">15</span>\n
+                                        of\n
+                    <span class="font-medium">16</span>\n
+                    results\n
+                </p>\n
+            </div>\n
+\n
+            <div>\n
+                <span class="inline-flex rtl:flex-row-reverse shadow-sm rounded-md">\n
+\n
+                    \n
+                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">\n
+                            <span class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-not-allowed rounded-l-md leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" aria-hidden="true">\n
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />\n
+                                </svg>\n
+                            </span>\n
+                        </span>\n
+                    \n
+                    \n
+                                            \n
+                        \n
+                        \n
+                                                                                                                        <span aria-current="page">\n
+                                        <span class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 cursor-default leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">1</span>\n
+                                    </span>\n
+                                                                                                                                <a href="http://localhost/admin/categorias?page=2" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 2">\n
+                                        2\n
+                                    </a>\n
+                                                                                                        \n
+                    \n
+                                            <a href="http://localhost/admin/categorias?page=2" rel="next" class="inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:active:bg-gray-700 dark:focus:border-blue-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-300" aria-label="Next &amp;raquo;">\n
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />\n
+                            </svg>\n
+                        </a>\n
+                                    </span>\n
+            </div>\n
+        </div>\n
+    </nav>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 24240) contains "class="pagination"" [ASCII](length: 18).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+10) Tests\Feature\StandardComponentsTest::test_register_pagination_uses_the_bootstrap_component with data set "cores" ('App\Models\Cor', 'admin.cores', 'Nova cor', 'Nenhuma cor cadastrada.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Cores</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Cores</h1>\n
+<form method="POST" action="http://localhost/admin/cores" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off">    <input class="form-control" name="nome" placeholder="Nova cor" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+        <tr>\n
+        <td>Item 01</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/1" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 01" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/1" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 02</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/2" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 02" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/2" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 03</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/3" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 03" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/3" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 04</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/4" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 04" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/4" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 05</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/5" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 05" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/5" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 06</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/6" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 06" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/6" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 07</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/7" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 07" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/7" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 08</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/8" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 08" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/8" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 09</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/9" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 09" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/9" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 10</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/10" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 10" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/10" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 11</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/11" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 11" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/11" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 12</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/12" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 12" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/12" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 13</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/13" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 13" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/13" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 14</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/14" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 14" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/14" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 15</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/cores/15" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 15" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/cores/15" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="MtENheTi5nMGMKK2Juov3IIiLzcBSqGTqlewgBFf" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+    </table>\n
+<nav role="navigation" aria-label="Pagination Navigation">\n
+\n
+        <div class="flex gap-2 items-center justify-between sm:hidden">\n
+\n
+                            <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 cursor-not-allowed leading-5 rounded-md dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600">\n
+                    &laquo; Previous\n
+                </span>\n
+            \n
+                            <a href="http://localhost/admin/cores?page=2" rel="next" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-200">\n
+                    Next &raquo;\n
+                </a>\n
+            \n
+        </div>\n
+\n
+        <div class="hidden sm:flex-1 sm:flex sm:gap-2 sm:items-center sm:justify-between">\n
+\n
+            <div>\n
+                <p class="text-sm text-gray-700 leading-5 dark:text-gray-600">\n
+                    Showing\n
+                                            <span class="font-medium">1</span>\n
+                        to\n
+                        <span class="font-medium">15</span>\n
+                                        of\n
+                    <span class="font-medium">16</span>\n
+                    results\n
+                </p>\n
+            </div>\n
+\n
+            <div>\n
+                <span class="inline-flex rtl:flex-row-reverse shadow-sm rounded-md">\n
+\n
+                    \n
+                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">\n
+                            <span class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-not-allowed rounded-l-md leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" aria-hidden="true">\n
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />\n
+                                </svg>\n
+                            </span>\n
+                        </span>\n
+                    \n
+                    \n
+                                            \n
+                        \n
+                        \n
+                                                                                                                        <span aria-current="page">\n
+                                        <span class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 cursor-default leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">1</span>\n
+                                    </span>\n
+                                                                                                                                <a href="http://localhost/admin/cores?page=2" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 2">\n
+                                        2\n
+                                    </a>\n
+                                                                                                        \n
+                    \n
+                                            <a href="http://localhost/admin/cores?page=2" rel="next" class="inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:active:bg-gray-700 dark:focus:border-blue-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-300" aria-label="Next &amp;raquo;">\n
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />\n
+                            </svg>\n
+                        </a>\n
+                                    </span>\n
+            </div>\n
+        </div>\n
+    </nav>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 24054) contains "class="pagination"" [ASCII](length: 18).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+11) Tests\Feature\StandardComponentsTest::test_register_pagination_uses_the_bootstrap_component with data set "materiais" ('App\Models\Material', 'admin.materiais', 'Novo material', 'Nenhum material cadastrado.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Materiais</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Materiais</h1>\n
+<form method="POST" action="http://localhost/admin/materiais" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off">    <input class="form-control" name="nome" placeholder="Novo material" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+        <tr>\n
+        <td>Item 01</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/1" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 01" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/1" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 02</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/2" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 02" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/2" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 03</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/3" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 03" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/3" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 04</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/4" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 04" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/4" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 05</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/5" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 05" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/5" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 06</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/6" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 06" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/6" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 07</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/7" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 07" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/7" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 08</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/8" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 08" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/8" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 09</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/9" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 09" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/9" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 10</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/10" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 10" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/10" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 11</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/11" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 11" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/11" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 12</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/12" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 12" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/12" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 13</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/13" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 13" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/13" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 14</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/14" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 14" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/14" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 15</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/materiais/15" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 15" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/materiais/15" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lms5UtawcL7IKxISHcbtGsmLEUhkJK9a6xsqEd4u" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+    </table>\n
+<nav role="navigation" aria-label="Pagination Navigation">\n
+\n
+        <div class="flex gap-2 items-center justify-between sm:hidden">\n
+\n
+                            <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 cursor-not-allowed leading-5 rounded-md dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600">\n
+                    &laquo; Previous\n
+                </span>\n
+            \n
+                            <a href="http://localhost/admin/materiais?page=2" rel="next" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-200">\n
+                    Next &raquo;\n
+                </a>\n
+            \n
+        </div>\n
+\n
+        <div class="hidden sm:flex-1 sm:flex sm:gap-2 sm:items-center sm:justify-between">\n
+\n
+            <div>\n
+                <p class="text-sm text-gray-700 leading-5 dark:text-gray-600">\n
+                    Showing\n
+                                            <span class="font-medium">1</span>\n
+                        to\n
+                        <span class="font-medium">15</span>\n
+                                        of\n
+                    <span class="font-medium">16</span>\n
+                    results\n
+                </p>\n
+            </div>\n
+\n
+            <div>\n
+                <span class="inline-flex rtl:flex-row-reverse shadow-sm rounded-md">\n
+\n
+                    \n
+                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">\n
+                            <span class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-not-allowed rounded-l-md leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" aria-hidden="true">\n
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />\n
+                                </svg>\n
+                            </span>\n
+                        </span>\n
+                    \n
+                    \n
+                                            \n
+                        \n
+                        \n
+                                                                                                                        <span aria-current="page">\n
+                                        <span class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 cursor-default leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">1</span>\n
+                                    </span>\n
+                                                                                                                                <a href="http://localhost/admin/materiais?page=2" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 2">\n
+                                        2\n
+                                    </a>\n
+                                                                                                        \n
+                    \n
+                                            <a href="http://localhost/admin/materiais?page=2" rel="next" class="inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:active:bg-gray-700 dark:focus:border-blue-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-300" aria-label="Next &amp;raquo;">\n
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />\n
+                            </svg>\n
+                        </a>\n
+                                    </span>\n
+            </div>\n
+        </div>\n
+    </nav>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 24203) contains "class="pagination"" [ASCII](length: 18).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+12) Tests\Feature\StandardComponentsTest::test_register_pagination_uses_the_bootstrap_component with data set "fornecedores" ('App\Models\Fornecedor', 'admin.fornecedores', 'Novo fornecedor', 'Nenhum fornecedor cadastrado.')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Fornecedores</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Fornecedores</h1>\n
+<form method="POST" action="http://localhost/admin/fornecedores" class="mb-3 d-flex gap-2">\n
+    <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off">    <input class="form-control" name="nome" placeholder="Novo fornecedor" required>\n
+    <button class="btn btn-primary">Adicionar</button>\n
+</form>\n
+<table class="table table-striped">\n
+        <tr>\n
+        <td>Item 01</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/1" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 01" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/1" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 02</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/2" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 02" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/2" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 03</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/3" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 03" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/3" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 04</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/4" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 04" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/4" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 05</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/5" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 05" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/5" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 06</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/6" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 06" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/6" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 07</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/7" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 07" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/7" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 08</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/8" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 08" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/8" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 09</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/9" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 09" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/9" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 10</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/10" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 10" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/10" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 11</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/11" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 11" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/11" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 12</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/12" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 12" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/12" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 13</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/13" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 13" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/13" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 14</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/14" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 14" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/14" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>Item 15</td>\n
+        <td class="text-end">\n
+            <form method="POST" action="http://localhost/admin/fornecedores/15" class="d-inline-flex gap-2">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="PUT">                <input name="nome" value="Item 15" class="form-control form-control-sm">\n
+                <button class="btn btn-sm btn-success">Salvar</button>\n
+            </form>\n
+            <form method="POST" action="http://localhost/admin/fornecedores/15" class="d-inline js-confirm-delete" data-item-label="este registro">\n
+                <input type="hidden" name="_token" value="lETGs0XVwk8zdx6UDY9IA2DEeXxxak1pmYiWaX1T" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+    </table>\n
+<nav role="navigation" aria-label="Pagination Navigation">\n
+\n
+        <div class="flex gap-2 items-center justify-between sm:hidden">\n
+\n
+                            <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 cursor-not-allowed leading-5 rounded-md dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600">\n
+                    &laquo; Previous\n
+                </span>\n
+            \n
+                            <a href="http://localhost/admin/fornecedores?page=2" rel="next" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-200">\n
+                    Next &raquo;\n
+                </a>\n
+            \n
+        </div>\n
+\n
+        <div class="hidden sm:flex-1 sm:flex sm:gap-2 sm:items-center sm:justify-between">\n
+\n
+            <div>\n
+                <p class="text-sm text-gray-700 leading-5 dark:text-gray-600">\n
+                    Showing\n
+                                            <span class="font-medium">1</span>\n
+                        to\n
+                        <span class="font-medium">15</span>\n
+                                        of\n
+                    <span class="font-medium">16</span>\n
+                    results\n
+                </p>\n
+            </div>\n
+\n
+            <div>\n
+                <span class="inline-flex rtl:flex-row-reverse shadow-sm rounded-md">\n
+\n
+                    \n
+                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">\n
+                            <span class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-not-allowed rounded-l-md leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" aria-hidden="true">\n
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />\n
+                                </svg>\n
+                            </span>\n
+                        </span>\n
+                    \n
+                    \n
+                                            \n
+                        \n
+                        \n
+                                                                                                                        <span aria-current="page">\n
+                                        <span class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 cursor-default leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">1</span>\n
+                                    </span>\n
+                                                                                                                                <a href="http://localhost/admin/fornecedores?page=2" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 2">\n
+                                        2\n
+                                    </a>\n
+                                                                                                        \n
+                    \n
+                                            <a href="http://localhost/admin/fornecedores?page=2" rel="next" class="inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:active:bg-gray-700 dark:focus:border-blue-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-300" aria-label="Next &amp;raquo;">\n
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">\n
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />\n
+                            </svg>\n
+                        </a>\n
+                                    </span>\n
+            </div>\n
+        </div>\n
+    </nav>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 24313) contains "class="pagination"" [ASCII](length: 18).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+13) Tests\Feature\StandardComponentsTest::test_a_failed_edit_highlights_only_the_row_that_was_submitted
+Not found: //input[@id="cadastro_nome_2"]
+Failed asserting that null is an instance of class DOMElement.
+
+<tmp>
+<tmp>
+
+14) Tests\Feature\StandardComponentsTest::test_product_status_uses_the_same_badge_on_the_list_and_the_dashboard
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Produtos</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="9wqz0pHLzijUVXt2FXlk4RTUZZNg8937k3p7DsMj" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <div class="d-flex justify-content-between align-items-center mb-3">\n
+    <h1 class="h4">Produtos</h1>\n
+    <a href="http://localhost/admin/produtos/create" class="btn btn-primary">Novo Produto</a>\n
+</div>\n
+<div class="table-responsive">\n
+<table class="table table-striped">\n
+    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Status</th><th>Consignado</th><th>Ações</th></tr></thead>\n
+    <tbody>\n
+        <tr>\n
+        <td>2</td>\n
+        <td>Camisa vendida</td>\n
+        <td>R$ 30,00</td>\n
+        <td>vendido</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/2/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/2" class="d-inline js-confirm-delete" data-item-label="Camisa vendida">\n
+                <input type="hidden" name="_token" value="9wqz0pHLzijUVXt2FXlk4RTUZZNg8937k3p7DsMj" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>1</td>\n
+        <td>Camisa disponível</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/1/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/1" class="d-inline js-confirm-delete" data-item-label="Camisa disponível">\n
+                <input type="hidden" name="_token" value="9wqz0pHLzijUVXt2FXlk4RTUZZNg8937k3p7DsMj" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        </tbody>\n
+</table>\n
+</div>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 6351) contains "<span class="badge text-bg-success">Disponível</span>" [UTF-8](length: 54).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+15) Tests\Feature\StandardComponentsTest::test_a_refunded_sale_shows_no_profit_and_a_status_badge
+Failed asserting that the value at [registros] fulfills the expectations defined by the closure.
+Failed asserting that false is true.
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1308
+<tmp>
+
+FAILURES!
+Tests: 15, Assertions: 30, Failures: 15.

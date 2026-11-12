@@ -5,7 +5,9 @@ require dirname(__DIR__, 2).'/vendor/autoload.php';
 $app = require dirname(__DIR__, 2).'/bootstrap/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 $database = getenv('DB_DATABASE');
-if (! $database || ! str_starts_with(realpath($database) ?: '', sys_get_temp_dir().'/slacknovo-acceptance-')) {
+// Both sides resolved with realpath(): on Windows the temp dir may be a short (8.3) path and uses "\".
+$temporarios = (realpath(sys_get_temp_dir()) ?: sys_get_temp_dir()).DIRECTORY_SEPARATOR.'slacknovo-acceptance-';
+if (! $database || ! str_starts_with(realpath($database) ?: '', $temporarios)) {
     throw new RuntimeException('Acceptance fixture requires its own temporary database.');
 }
 if (config('database.default') !== 'sqlite'

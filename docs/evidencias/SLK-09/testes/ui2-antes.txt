@@ -1,0 +1,981 @@
+# Executado contra main bbaddcc (antes das alterações)
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.11
+Configuration: <repo>\phpunit.xml
+
+Time: 00:01.502, Memory: 56.00 MB
+
+There were 7 failures:
+
+1) Tests\Feature\InterfaceFeedbackMessagesTest::test_validation_messages_are_in_portuguese_with_readable_field_names
+Failed asserting that an array contains 'O campo nome é obrigatório.'.
+
+The following errors occurred during the last request:
+
+The nome field is required.
+The preco compra field is required.
+The preco venda field is required.
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1644
+<tmp>
+
+2) Tests\Feature\InterfaceFeedbackMessagesTest::test_money_format_errors_explain_the_expected_format
+Failed asserting that an array contains 'Informe o valor da saída como um número positivo com até 2 casas decimais (ex.: 10.50).'.
+
+The following errors occurred during the last request:
+
+The valor field format is invalid.
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1644
+<tmp>
+
+3) Tests\Feature\InterfaceFeedbackMessagesTest::test_the_invalid_product_field_is_highlighted_with_its_own_message
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Novo Produto</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="RVrA6rc0eKhdmnibDxmzWIlWIBdWdbBGvsUzRpDY" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"><div class="alert alert-danger" role="alert">\n
+        <ul class="mb-0">\n
+                            <li>The preco venda field is required.</li>\n
+                    </ul>\n
+    </div>\n
+</div>\n
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">\n
+    <h1 class="h4 mb-0">Novo Produto</h1>\n
+    <a href="http://localhost/dashboard" class="btn btn-outline-secondary">Voltar ao painel administrativo</a>\n
+</div>\n
+<form method="POST" action="http://localhost/admin/produtos" enctype="multipart/form-data">\n
+    <input type="hidden" name="_token" value="RVrA6rc0eKhdmnibDxmzWIlWIBdWdbBGvsUzRpDY" autocomplete="off">    <div class="row g-3">\n
+    <div class="col-md-6">\n
+        <label class="form-label" for="produto_nome">Nome</label>\n
+        <input class="form-control" id="produto_nome" name="nome" maxlength="50" value="Camisa" required>\n
+    </div>\n
+    <div class="col-md-6">\n
+        <label class="form-label" for="produto_imagen">Imagem do produto</label>\n
+        <input class="form-control" name="imagen" type="file" accept="image/jpeg,image/png,image/gif,image/bmp,image/webp" id="produto_imagen">\n
+        <small class="text-muted d-block mt-1">Opcional. JPEG, PNG, GIF, BMP ou WebP, até 5 MB.</small>\n
+            </div>\n
+\n
+    <div class="col-12">\n
+        <label class="form-label d-block mb-2">Estado do produto</label>\n
+                <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_novo" value="novo" >\n
+            <label class="form-check-label" for="estado_novo">Novo</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_usado" value="usado" >\n
+            <label class="form-check-label" for="estado_usado">Usado</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_consignado" value="consignado" >\n
+            <label class="form-check-label" for="estado_consignado">Consignado</label>\n
+        </div>\n
+    </div>\n
+    <div class="col-12">\n
+        <label class="form-label d-block mb-2">Tipo do produto</label>\n
+                <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_roupa" value="roupa" checked>\n
+            <label class="form-check-label" for="tipo_roupa">Roupa</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_calcado" value="calcado" >\n
+            <label class="form-check-label" for="tipo_calcado">Calçado</label>\n
+        </div>\n
+    </div>\n
+\n
+    <div id="consignado_fields" class="row g-3 d-none">\n
+        <div class="col-md-6">\n
+            <label class="form-label" for="produto_cliente_consignado">Cliente que deixou a peça</label>\n
+            <input class="form-control" id="produto_cliente_consignado" name="cliente_consignado" maxlength="120" value="">\n
+        </div>\n
+        <div class="col-md-6">\n
+            <label class="form-label d-block">Pagamento do consignado</label>\n
+            <div class="form-check">\n
+                <input class="form-check-input" type="checkbox" value="1" id="consignado_pago" name="consignado_pago" >\n
+                <label class="form-check-label" for="consignado_pago">Já foi pago para a cliente</label>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <div class="col-md-3"><label class="form-label" for="preco_compra">Preço Compra</label><input class="form-control" name="preco_compra" id="preco_compra" type="number" step="0.01" min="0" max="99999999.99" value="10" required></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_preco_venda">Preço Venda</label><input class="form-control" id="produto_preco_venda" name="preco_venda" type="number" step="0.01" min="0.01" max="99999999.99" value="" required></div>\n
+    <div class="col-md-3">\n
+        <label class="form-label" for="tamanho_roupa" id="tamanho_label">Tamanho</label>\n
+                <select class="form-select" name="tamanho" id="tamanho_roupa">\n
+            <option value="">-</option>\n
+                            <option value="pp" >PP</option>\n
+                            <option value="p" >P</option>\n
+                            <option value="m" >M</option>\n
+                            <option value="g" >G</option>\n
+                            <option value="gg" >GG</option>\n
+                            <option value="g1" >G1</option>\n
+                            <option value="g2" >G2</option>\n
+                            <option value="g3" >G3</option>\n
+                            <option value="g4" >G4</option>\n
+                    </select>\n
+        <select class="form-select d-none" name="tamanho" id="tamanho_calcado">\n
+            <option value="">-</option>\n
+                            <option value="14" >14</option>\n
+                            <option value="15" >15</option>\n
+                            <option value="16" >16</option>\n
+                            <option value="17" >17</option>\n
+                            <option value="18" >18</option>\n
+                            <option value="19" >19</option>\n
+                            <option value="20" >20</option>\n
+                            <option value="21" >21</option>\n
+                            <option value="22" >22</option>\n
+                            <option value="23" >23</option>\n
+                            <option value="24" >24</option>\n
+                            <option value="25" >25</option>\n
+                            <option value="26" >26</option>\n
+                            <option value="27" >27</option>\n
+                            <option value="28" >28</option>\n
+                            <option value="29" >29</option>\n
+                            <option value="30" >30</option>\n
+                            <option value="31" >31</option>\n
+                            <option value="32" >32</option>\n
+                            <option value="33" >33</option>\n
+                            <option value="34" >34</option>\n
+                            <option value="35" >35</option>\n
+                            <option value="36" >36</option>\n
+                            <option value="37" >37</option>\n
+                            <option value="38" >38</option>\n
+                            <option value="39" >39</option>\n
+                            <option value="40" >40</option>\n
+                            <option value="41" >41</option>\n
+                            <option value="42" >42</option>\n
+                            <option value="43" >43</option>\n
+                            <option value="44" >44</option>\n
+                            <option value="45" >45</option>\n
+                            <option value="46" >46</option>\n
+                    </select>\n
+    </div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_status">Status</label><select class="form-select" name="status" id="produto_status"><option value="disponivel">Disponível</option><option value="vendido" >Vendido</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_genero">Gênero</label><select class="form-select" name="genero" id="produto_genero"><option value="">-</option><option value="masculino" >Masculino</option><option value="feminino" >Feminino</option><option value="unissex" >Unissex</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_categoria">Categoria</label><select class="form-select" name="id_categoria" id="produto_id_categoria"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_cor">Cor</label><select class="form-select" name="id_cor" id="produto_id_cor"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_material">Material</label><select class="form-select" name="id_material" id="produto_id_material"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_fornecedor">Fornecedor</label><select class="form-select" name="id_fornecedor" id="produto_id_fornecedor"><option value="">-</option></select></div>\n
+    <div class="col-12"><label class="form-label" for="produto_descricao">Descrição</label><textarea class="form-control" name="descricao" rows="3" maxlength="5000" id="produto_descricao"></textarea></div>\n
+</div>\n
+\n
+<script>\n
+    document.addEventListener('DOMContentLoaded', function () {\n
+        const consignadoFields = document.getElementById('consignado_fields');\n
+        const consignadoPago = document.getElementById('consignado_pago');\n
+        const precoCompra = document.getElementById('preco_compra');\n
+        const radios = document.querySelectorAll('input[name="estado"]');\n
+        const tipoProdutoRadios = document.querySelectorAll('input[name="tipo_produto"]');\n
+        const tamanhoRoupa = document.getElementById('tamanho_roupa');\n
+        const tamanhoCalcado = document.getElementById('tamanho_calcado');\n
+        const tamanhoLabel = document.getElementById('tamanho_label');\n
+\n
+        function toggleConsignadoFields() {\n
+            const selecionado = document.querySelector('input[name="estado"]:checked')?.value;\n
+            consignadoFields.classList.toggle('d-none', selecionado !== 'consignado');\n
+            precoCompra.min = selecionado === 'consignado' && consignadoPago.checked ? '0.01' : '0';\n
+        }\n
+\n
+        radios.forEach(radio => radio.addEventListener('change', toggleConsignadoFields));\n
+        consignadoPago.addEventListener('change', toggleConsignadoFields);\n
+        tipoProdutoRadios.forEach(radio => radio.addEventListener('change', function () {\n
+            const tipoSelecionado = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;\n
+            const isCalcado = tipoSelecionado === 'calcado';\n
+\n
+            tamanhoRoupa.classList.toggle('d-none', isCalcado);\n
+            tamanhoCalcado.classList.toggle('d-none', !isCalcado);\n
+\n
+            tamanhoLabel.htmlFor = isCalcado ? 'tamanho_calcado' : 'tamanho_roupa';\n
+            tamanhoRoupa.disabled = isCalcado;\n
+            tamanhoCalcado.disabled = !isCalcado;\n
+        }));\n
+\n
+        const tipoSelecionadoInicial = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;\n
+        const isCalcadoInicial = tipoSelecionadoInicial === 'calcado';\n
+        tamanhoRoupa.classList.toggle('d-none', isCalcadoInicial);\n
+        tamanhoCalcado.classList.toggle('d-none', !isCalcadoInicial);\n
+        tamanhoLabel.htmlFor = isCalcadoInicial ? 'tamanho_calcado' : 'tamanho_roupa';\n
+        tamanhoRoupa.disabled = isCalcadoInicial;\n
+        tamanhoCalcado.disabled = !isCalcadoInicial;\n
+        toggleConsignadoFields();\n
+    });\n
+</script>\n
+    <button class="btn btn-primary mt-3">Salvar</button>\n
+</form>\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 15383) contains "Revise os dados informados:" [ASCII](length: 27).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+4) Tests\Feature\InterfaceFeedbackMessagesTest::test_cash_forms_keep_typed_values_and_highlight_the_invalid_field
+Failed asserting that 'form-control mb-2' [ASCII](length: 17) contains "is-invalid" [ASCII](length: 10).
+
+<tmp>
+
+5) Tests\Feature\InterfaceFeedbackMessagesTest::test_dates_are_shown_in_the_operator_timezone_without_changing_stored_values
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Caixa</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="0qVPJbLZMemEX3OIjsT7fqmAj0zHpvjcuESgzj2W" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Caixa</h1>\n
+<div class="row g-3 mb-4">\n
+    <div class="col-md-4"><div class="card"><div class="card-body">Saldo: <strong>R$ 30,00</strong></div></div></div>\n
+    <div class="col-md-4"><div class="card"><div class="card-body">Entradas: <strong>R$ 30,00</strong></div></div></div>\n
+    <div class="col-md-4"><div class="card"><div class="card-body">Saídas: <strong>R$ 0,00</strong></div></div></div>\n
+</div>\n
+\n
+<div class="row g-4">\n
+    <div class="col-md-6">\n
+        <h2 class="h6">Registrar saída</h2>\n
+        <form method="POST" action="http://localhost/admin/caixa/saida"><input type="hidden" name="_token" value="0qVPJbLZMemEX3OIjsT7fqmAj0zHpvjcuESgzj2W" autocomplete="off">            <label class="form-label" for="saida_valor">Valor da saída (R$)</label>\n
+            <input class="form-control mb-2" id="saida_valor" name="valor" type="number" step="0.01" min="0.01" max="99999999.99" placeholder="Valor" required>\n
+            <label class="form-label" for="saida_motivo">Motivo</label>\n
+            <input class="form-control mb-2" id="saida_motivo" name="motivo" maxlength="50" placeholder="Motivo" required>\n
+            <button class="btn btn-warning">Salvar saída</button>\n
+        </form>\n
+    </div>\n
+    <div class="col-md-6">\n
+        <h2 class="h6">Registrar venda</h2>\n
+        <form method="POST" action="http://localhost/admin/caixa/venda"><input type="hidden" name="_token" value="0qVPJbLZMemEX3OIjsT7fqmAj0zHpvjcuESgzj2W" autocomplete="off">            <label class="form-label" for="venda_nome">Nome da venda</label>\n
+            <input class="form-control mb-2" id="venda_nome" name="nome" maxlength="50" placeholder="Nome da venda" required>\n
+            <label class="form-label" for="venda_produto">ID do produto</label>\n
+            <input class="form-control mb-2" id="venda_produto" name="id_produto" type="number" min="1" step="1" placeholder="ID produto" required>\n
+            <label class="form-label" for="venda_valor">Valor da venda (R$)</label>\n
+            <input class="form-control mb-2" id="venda_valor" name="valor_venda" type="number" step="0.01" min="0.01" max="99999999.99" required>\n
+            <label class="form-label" for="venda_comprador">Comprador</label>\n
+            <input class="form-control mb-2" id="venda_comprador" name="comprador" maxlength="50" placeholder="Comprador" required>\n
+            <button class="btn btn-success">Salvar venda</button>\n
+        </form>\n
+    </div>\n
+</div>\n
+\n
+<div class="mt-4">\n
+    <h2 class="h6">Registros de vendas e saídas de caixa</h2>\n
+    <div class="table-responsive">\n
+        <table class="table table-striped align-middle">\n
+            <thead>\n
+                <tr>\n
+                    <th>Tipo</th>\n
+                    <th>ID</th>\n
+                    <th>Data e hora</th>\n
+                    <th>Valor</th>\n
+                    <th>Lucro por peça</th>\n
+                    <th>Quem comprou</th>\n
+                    <th>Ações</th>\n
+                </tr>\n
+            </thead>\n
+            <tbody>\n
+                                    <tr>\n
+                        <td>Venda</td>\n
+                        <td>1</td>\n
+                        <td>12/11/2026 15:00</td>\n
+                        <td>R$ 30,00</td>\n
+                        <td>\n
+                                                            R$ 20,00\n
+                                                    </td>\n
+                        <td>Cliente</td>\n
+                        <td>\n
+                                                                                                <form method="POST" action="http://localhost/admin/caixa/venda/1/reembolso">\n
+                                        <input type="hidden" name="_token" value="0qVPJbLZMemEX3OIjsT7fqmAj0zHpvjcuESgzj2W" autocomplete="off">                                        <button class="btn btn-sm btn-danger" type="submit">Reembolso</button>\n
+                                    </form>\n
+                                                                                    </td>\n
+                    </tr>\n
+                            </tbody>\n
+        </table>\n
+    </div>\n
+</div>\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 8520) contains "12/11/2026 12:00" [ASCII](length: 16).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+6) Tests\Feature\InterfaceFeedbackMessagesTest::test_the_report_period_uses_the_same_timezone_as_the_printed_dates
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+<head>\n
+    <meta charset="utf-8">\n
+    <title>Relatório de Vendas</title>\n
+    <style>\n
+        @page { margin: 28px; }\n
+        body { font-family: "DejaVu Sans", sans-serif; font-size: 9px; color: #222; }\n
+        h1 { font-size: 18px; margin-bottom: 8px; }\n
+        .contexto { margin: 4px 0; }\n
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 16px; }\n
+        thead { display: table-header-group; }\n
+        tr { page-break-inside: avoid; }\n
+        th, td { border: 1px solid #ccc; padding: 6px 4px; text-align: left; vertical-align: top; word-wrap: break-word; }\n
+        th { background: #eee; }\n
+        .id { width: 6%; }\n
+        .nome { width: 22%; }\n
+        .comprador { width: 22%; }\n
+        .valor { width: 14%; }\n
+        .situacao { width: 16%; }\n
+        .data { width: 20%; }\n
+    </style>\n
+</head>\n
+<body>\n
+    <h1>Relatório de Vendas</h1>\n
+    <p class="contexto">Histórico de vendas: inclui vendas ativas e reembolsadas.</p>\n
+    <p class="contexto">Período:\n
+        08/11/2026\n
+        até 08/11/2026.\n
+    </p>\n
+    <p class="contexto">Datas no fuso UTC.</p>\n
+    <table>\n
+        <thead>\n
+            <tr>\n
+                <th class="id">ID</th>\n
+                <th class="nome">Produto</th>\n
+                <th class="comprador">Comprador</th>\n
+                <th class="valor">Valor</th>\n
+                <th class="situacao">Situação</th>\n
+                <th class="data">Data</th>\n
+            </tr>\n
+        </thead>\n
+        <tbody>\n
+                            <tr>\n
+                    <td>#3</td>\n
+                    <td>Noite anterior</td>\n
+                    <td>Cliente</td>\n
+                    <td>R$ 30,00</td>\n
+                    <td>Reembolsada</td>\n
+                    <td>08/11/2026 02:59</td>\n
+                </tr>\n
+                            <tr>\n
+                    <td>#1</td>\n
+                    <td>Primeiro minuto do dia</td>\n
+                    <td>Cliente</td>\n
+                    <td>R$ 30,00</td>\n
+                    <td>Reembolsada</td>\n
+                    <td>08/11/2026 03:00</td>\n
+                </tr>\n
+                    </tbody>\n
+    </table>\n
+</body>\n
+</html>\n
+' [UTF-8](length: 2167) contains "08/11/2026 00:00" [ASCII](length: 16).
+
+<tmp>
+
+7) Tests\Feature\InterfaceFeedbackMessagesTest::test_pagination_texts_are_in_portuguese
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Produtos</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <div class="d-flex justify-content-between align-items-center mb-3">\n
+    <h1 class="h4">Produtos</h1>\n
+    <a href="http://localhost/admin/produtos/create" class="btn btn-primary">Novo Produto</a>\n
+</div>\n
+<div class="table-responsive">\n
+<table class="table table-striped">\n
+    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Status</th><th>Consignado</th><th>Ações</th></tr></thead>\n
+    <tbody>\n
+        <tr>\n
+        <td>21</td>\n
+        <td>Peça 21</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/21/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/21" class="d-inline js-confirm-delete" data-item-label="Peça 21">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>20</td>\n
+        <td>Peça 20</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/20/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/20" class="d-inline js-confirm-delete" data-item-label="Peça 20">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>19</td>\n
+        <td>Peça 19</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/19/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/19" class="d-inline js-confirm-delete" data-item-label="Peça 19">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>18</td>\n
+        <td>Peça 18</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/18/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/18" class="d-inline js-confirm-delete" data-item-label="Peça 18">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>17</td>\n
+        <td>Peça 17</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/17/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/17" class="d-inline js-confirm-delete" data-item-label="Peça 17">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>16</td>\n
+        <td>Peça 16</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/16/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/16" class="d-inline js-confirm-delete" data-item-label="Peça 16">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>15</td>\n
+        <td>Peça 15</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/15/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/15" class="d-inline js-confirm-delete" data-item-label="Peça 15">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>14</td>\n
+        <td>Peça 14</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/14/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/14" class="d-inline js-confirm-delete" data-item-label="Peça 14">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>13</td>\n
+        <td>Peça 13</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/13/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/13" class="d-inline js-confirm-delete" data-item-label="Peça 13">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>12</td>\n
+        <td>Peça 12</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/12/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/12" class="d-inline js-confirm-delete" data-item-label="Peça 12">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>11</td>\n
+        <td>Peça 11</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/11/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/11" class="d-inline js-confirm-delete" data-item-label="Peça 11">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>10</td>\n
+        <td>Peça 10</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/10/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/10" class="d-inline js-confirm-delete" data-item-label="Peça 10">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>9</td>\n
+        <td>Peça 9</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/9/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/9" class="d-inline js-confirm-delete" data-item-label="Peça 9">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>8</td>\n
+        <td>Peça 8</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/8/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/8" class="d-inline js-confirm-delete" data-item-label="Peça 8">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>7</td>\n
+        <td>Peça 7</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/7/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/7" class="d-inline js-confirm-delete" data-item-label="Peça 7">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>6</td>\n
+        <td>Peça 6</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/6/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/6" class="d-inline js-confirm-delete" data-item-label="Peça 6">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>5</td>\n
+        <td>Peça 5</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/5/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/5" class="d-inline js-confirm-delete" data-item-label="Peça 5">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>4</td>\n
+        <td>Peça 4</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/4/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/4" class="d-inline js-confirm-delete" data-item-label="Peça 4">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>3</td>\n
+        <td>Peça 3</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/3/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/3" class="d-inline js-confirm-delete" data-item-label="Peça 3">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        <tr>\n
+        <td>2</td>\n
+        <td>Peça 2</td>\n
+        <td>R$ 30,00</td>\n
+        <td>disponivel</td>\n
+        <td>\n
+                            -\n
+                    </td>\n
+        <td>\n
+            <a href="http://localhost/admin/produtos/2/edit" class="btn btn-sm btn-secondary">Editar</a>\n
+            <form method="POST" action="http://localhost/admin/produtos/2" class="d-inline js-confirm-delete" data-item-label="Peça 2">\n
+                <input type="hidden" name="_token" value="UqbcZK29dDk2aqmEdtqcIuSDRQYylvGK7o5PzrRq" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                <button class="btn btn-sm btn-danger">Excluir</button>\n
+            </form>\n
+        </td>\n
+    </tr>\n
+        </tbody>\n
+</table>\n
+</div>\n
+<nav class="d-flex justify-items-center justify-content-between">\n
+        <div class="d-flex justify-content-between flex-fill d-sm-none">\n
+            <ul class="pagination">\n
+                \n
+                                    <li class="page-item disabled" aria-disabled="true">\n
+                        <span class="page-link">&laquo; Previous</span>\n
+                    </li>\n
+                \n
+                \n
+                                    <li class="page-item">\n
+                        <a class="page-link" href="http://localhost/admin/produtos?page=2" rel="next">Next &raquo;</a>\n
+                    </li>\n
+                            </ul>\n
+        </div>\n
+\n
+        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">\n
+            <div>\n
+                <p class="small text-muted">\n
+                    Showing\n
+                    <span class="fw-semibold">1</span>\n
+                    to\n
+                    <span class="fw-semibold">20</span>\n
+                    of\n
+                    <span class="fw-semibold">21</span>\n
+                    results\n
+                </p>\n
+            </div>\n
+\n
+            <div>\n
+                <ul class="pagination">\n
+                    \n
+                                            <li class="page-item disabled" aria-disabled="true" aria-label="&laquo; Previous">\n
+                            <span class="page-link" aria-hidden="true">&lsaquo;</span>\n
+                        </li>\n
+                    \n
+                    \n
+                                            \n
+                        \n
+                        \n
+                                                                                                                        <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>\n
+                                                                                                                                <li class="page-item"><a class="page-link" href="http://localhost/admin/produtos?page=2">2</a></li>\n
+                                                                                                        \n
+                    \n
+                                            <li class="page-item">\n
+                            <a class="page-link" href="http://localhost/admin/produtos?page=2" rel="next" aria-label="Next &raquo;">&rsaquo;</a>\n
+                        </li>\n
+                                    </ul>\n
+            </div>\n
+        </div>\n
+    </nav>\n
+\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 21847) contains "Exibindo" [ASCII](length: 8).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+FAILURES!
+Tests: 7, Assertions: 16, Failures: 7.
