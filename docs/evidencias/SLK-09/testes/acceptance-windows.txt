@@ -1,0 +1,14 @@
+Isolated fixture ready
+Desktop: 24 cards, imagem ausente e modal de detalhes
+Login, persistência de gênero e feedback após editar
+Venda pelo Caixa, reembolso e saída reais com CSRF
+{
+  "results": [
+    "Desktop: 24 cards, imagem ausente e modal de detalhes",
+    "Login, persistência de gênero e feedback após editar",
+    "Venda pelo Caixa, reembolso e saída reais com CSRF",
+    "Mobile 390px: menu abre/fecha, sem overflow horizontal e logout revoga acesso"
+  ],
+  "pageErrors": [],
+  "artifacts": "<tmp>"
+}

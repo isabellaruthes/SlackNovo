@@ -1,0 +1,186 @@
+{
+  "label": "depois",
+  "commit": "6abb228",
+  "fixture": {
+    "produto": 1,
+    "produtos": 30
+  },
+  "pages": [
+    {
+      "viewport": "desktop",
+      "page": "catalogo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "login",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "dashboard",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "produtos",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "produto-novo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "produto-editar",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "caixa",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "categorias",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "cores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "materiais",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "fornecedores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "catalogo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "login",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "dashboard",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "produtos",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "produto-novo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "produto-editar",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "caixa",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "categorias",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "cores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "materiais",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "fornecedores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    }
+  ],
+  "checks": {
+    "nav_desktop": {
+      "toggler_visivel": false,
+      "link_produtos_visivel_inicial": true
+    },
+    "page_errors_desktop": [],
+    "nav_mobile": {
+      "toggler_visivel": true,
+      "link_produtos_visivel_inicial": false,
+      "aberto_aria_expanded": "true",
+      "link_produtos_visivel_aberto": true
+    },
+    "page_errors_mobile": [],
+    "primeiro_tab": {
+      "texto": "Pular para o conteúdo",
+      "href": "#conteudo",
+      "visivel": true
+    },
+    "mensagem_validacao": "Revise os dados informados:\n\nInforme o valor da saída como um número positivo com até 2 casas decimais (ex.: 10.50).",
+    "mensagem_validacao_produto": "Revise os dados informados:\n\nO campo nome é obrigatório.\nO campo preço de compra é obrigatório.\nO campo preço de venda é obrigatório.",
+    "campos_com_is_invalid": 3
+  }
+}

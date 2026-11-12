@@ -1,0 +1,333 @@
+{
+  "label": "antes",
+  "commit": "bbaddcc",
+  "fixture": {
+    "produto": 1,
+    "produtos": 30
+  },
+  "pages": [
+    {
+      "viewport": "desktop",
+      "page": "catalogo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "login",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "desktop",
+      "page": "dashboard",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        },
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "nodes": 3,
+          "help": "Select element must have an accessible name",
+          "exemplo": "select[name=\"status\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "produtos",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "produto-novo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "produto-editar",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "caixa",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "categorias",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 6,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Calçados\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "cores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 8,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Azul\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "materiais",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 6,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Algodão\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "desktop",
+      "page": "fornecedores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "exemplo": ".btn-outline-danger"
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 4,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Ateliê Aurora (Demo)\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "page": "catalogo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "login",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "dashboard",
+      "overflow_px": 46,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "select-name",
+          "impact": "critical",
+          "nodes": 3,
+          "help": "Select element must have an accessible name",
+          "exemplo": "select[name=\"status\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "page": "produtos",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "produto-novo",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "produto-editar",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "caixa",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": []
+    },
+    {
+      "viewport": "mobile",
+      "page": "categorias",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 6,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Calçados\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "page": "cores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 8,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Azul\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "page": "materiais",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 6,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Algodão\"]"
+        }
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "page": "fornecedores",
+      "overflow_px": 0,
+      "css_do_app": true,
+      "axe": [
+        {
+          "id": "label",
+          "impact": "critical",
+          "nodes": 4,
+          "help": "Form elements must have labels",
+          "exemplo": "input[value=\"Ateliê Aurora (Demo)\"]"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "nav_desktop": {
+      "toggler_visivel": false,
+      "link_produtos_visivel_inicial": true
+    },
+    "page_errors_desktop": [],
+    "nav_mobile": {
+      "toggler_visivel": true,
+      "link_produtos_visivel_inicial": false,
+      "aberto_aria_expanded": "true",
+      "link_produtos_visivel_aberto": true
+    },
+    "page_errors_mobile": [],
+    "primeiro_tab": {
+      "texto": "Slacknovo",
+      "href": "http://127.0.0.1:<porta>/dashboard",
+      "visivel": true
+    },
+    "mensagem_validacao": "The valor field format is invalid.",
+    "mensagem_validacao_produto": "The nome field is required.\nThe preco compra field is required.\nThe preco venda field is required.",
+    "campos_com_is_invalid": 0
+  }
+}
