@@ -46,7 +46,7 @@ Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task: **SLK-09** · Status: **me
 | Solução | `<label class="visually-hidden">` associado a cada filtro; "Sair" com `btn-outline-light`; link "Pular para o conteúdo" (`visually-hidden-focusable`) apontando para `<main id="conteudo">`. |
 | Arquivos | `layouts/app.blade.php`, `components/navbar.blade.php`, `admin/dashboard/index.blade.php`, `resources/css/style.css` |
 | Teste | `tests/Feature/InterfaceAccessibilityTest.php`: antes, 3 de 3 falham; depois, `OK (3 tests, 30 assertions)` |
-| Branch / commit | `ui/slk-09-acessibilidade-formularios` / `510acd6` |
+| Branch / commit | `ui/slk-09-acessibilidade-formularios` / `8525d2d` |
 
 ### UI-02 — Mensagens, feedback por campo e fuso de exibição
 
@@ -57,7 +57,7 @@ Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task: **SLK-09** · Status: **me
 | Efeito colateral tratado | Com as datas em São Paulo, o filtro de período do PDF (que era `whereDate` em UTC) e o gráfico mensal passaram a usar o mesmo fuso; sem isso, uma venda das 23h cairia no dia seguinte. |
 | Arquivos | `lang/`, `config/app.php`, `.env.example`, `app/Support/DataHora.php`, `components/erro-campo.blade.php`, `partials/alerts.blade.php`, `admin/produtos/_form.blade.php`, `admin/caixa/index.blade.php`, `admin/dashboard/index.blade.php`, `admin/relatorios/vendas.blade.php`, `RelatorioController`, `DashboardController` |
 | Testes | `tests/Feature/InterfaceFeedbackMessagesTest.php`: antes, 7 de 7 falham; depois, `OK (7 tests, 42 assertions)`. Também foi ajustado o `ReviewRegressionTest`: o teste de limites do período fixa o fuso em UTC (mesma semântica) e o teste do PDF passa a esperar 09:00 (12:00 UTC em São Paulo). |
-| Branch / commits | `ui/slk-09-mensagens-validacao-ptbr` / `1feb7b7`, `1a45348` |
+| Branch / commits | `ui/slk-09-mensagens-validacao-ptbr` / `ec678d5`, `90b4449` |
 
 ### UI-03 — Responsividade do dashboard
 
@@ -67,7 +67,7 @@ Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task: **SLK-09** · Status: **me
 | Solução | Rótulo em duas linhas (mês e ano), colunas com `min-width: 0`; lista oculta equivalente para leitores de tela; paginação de 24 com filtros preservados e ordem estável; estado vazio diferenciando "sem cadastro" de "sem resultado no filtro". |
 | Arquivos | `DashboardController`, `admin/dashboard/index.blade.php`, `resources/css/style.css` |
 | Teste | `tests/Feature/DashboardResponsiveTest.php`: antes, 3 de 4 falham; depois, `OK (4 tests, 19 assertions)`. O vazamento foi verificado no navegador com `scripts/sonda-overflow.cjs`. |
-| Branch / commits | `ui/slk-09-responsividade-dashboard` / `2499aa6`, `a45ab02` (move a regra CSS para evitar conflito de merge com UI-01) |
+| Branch / commits | `ui/slk-09-responsividade-dashboard` / `83d726e`, `1823c2a` (move a regra CSS para evitar conflito de merge com UI-01) |
 
 ### UI-04 — Componentes e estados padronizados
 
@@ -77,11 +77,11 @@ Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task: **SLK-09** · Status: **me
 | Solução | Partial único `admin/partials/cadastro-simples` com campo de inclusão rotulado, campos de edição com rótulo "Novo nome para X", contador de registros, estado vazio, confirmação com o nome do item, paginação Bootstrap e erro destacado só na linha enviada. Componente `<x-status-produto>` (selo com texto e cor). Venda reembolsada sem lucro e com selo "Reembolsada". |
 | Arquivos | `admin/partials/cadastro-simples.blade.php`, as 4 views de cadastro, `components/status-produto.blade.php`, `admin/produtos/index.blade.php`, `admin/dashboard/index.blade.php`, `admin/caixa/index.blade.php`, `CaixaController` |
 | Teste | `tests/Feature/StandardComponentsTest.php`: antes, 15 de 15 falham; depois, `OK (15 tests, 77 assertions)`. `FunctionalAcceptanceTest` foi atualizado para o selo "Reembolsada". |
-| Branch / commit | `ui/slk-09-padroniza-componentes` / `d1f60db` |
+| Branch / commit | `ui/slk-09-padroniza-componentes` / `544de3b` |
 
 ### Ferramenta de validação
 
-O `tests/Browser/router.php` e o `fixture.php` comparavam caminhos com `/`. No Windows, os arquivos de `public/build` não eram servidos e as páginas abriam sem o CSS do app. Os dois agora usam `DIRECTORY_SEPARATOR`. Commit `8a49f0c`, na branch `docs/slk-09-relatorio-ui`. Os avisos do Pint nesses dois arquivos já existiam na `main` (mesmas regras); para manter o diff mínimo, eles não foram reformatados.
+O `tests/Browser/router.php` e o `fixture.php` comparavam caminhos com `/`. No Windows, os arquivos de `public/build` não eram servidos e as páginas abriam sem o CSS do app. Os dois agora usam `DIRECTORY_SEPARATOR`. Commit `f47ab5a`, na branch `docs/slk-09-relatorio-ui`. Os avisos do Pint nesses dois arquivos já existiam na `main` (mesmas regras); para manter o diff mínimo, eles não foram reformatados.
 
 ## 4. Registro de decisões de UI/UX
 
@@ -161,11 +161,11 @@ O Pint passou nos arquivos PHP alterados de cada branch. Os logs estão em [`evi
 
 | Mudança | Branch (local) | Commits | Teste | PR |
 | --- | --- | --- | --- | --- |
-| UI-01 Acessibilidade e navegação | `ui/slk-09-acessibilidade-formularios` | `510acd6` | `InterfaceAccessibilityTest` | Pendente de autorização |
-| UI-02 Mensagens, feedback e fuso | `ui/slk-09-mensagens-validacao-ptbr` | `1feb7b7`, `1a45348` | `InterfaceFeedbackMessagesTest`, `ReviewRegressionTest` | Pendente de autorização |
-| UI-03 Responsividade do dashboard | `ui/slk-09-responsividade-dashboard` | `2499aa6`, `a45ab02` | `DashboardResponsiveTest` | Pendente de autorização |
-| UI-04 Componentes e estados | `ui/slk-09-padroniza-componentes` | `d1f60db` | `StandardComponentsTest`, `FunctionalAcceptanceTest` | Pendente de autorização |
-| Ferramenta de aceite no Windows + este relatório | `docs/slk-09-relatorio-ui` | `8a49f0c` e o commit deste relatório | `tests/Browser/acceptance.cjs` | Pendente de autorização |
+| UI-01 Acessibilidade e navegação | `ui/slk-09-acessibilidade-formularios` | `8525d2d` | `InterfaceAccessibilityTest` | Pendente de autorização |
+| UI-02 Mensagens, feedback e fuso | `ui/slk-09-mensagens-validacao-ptbr` | `ec678d5`, `90b4449` | `InterfaceFeedbackMessagesTest`, `ReviewRegressionTest` | Pendente de autorização |
+| UI-03 Responsividade do dashboard | `ui/slk-09-responsividade-dashboard` | `83d726e`, `1823c2a` | `DashboardResponsiveTest` | Pendente de autorização |
+| UI-04 Componentes e estados | `ui/slk-09-padroniza-componentes` | `544de3b` | `StandardComponentsTest`, `FunctionalAcceptanceTest` | Pendente de autorização |
+| Ferramenta de aceite no Windows + este relatório | `docs/slk-09-relatorio-ui` | `f47ab5a` e o commit deste relatório | `tests/Browser/acceptance.cjs` | Pendente de autorização |
 
 **Ordem de merge sugerida:** UI-01 → UI-02 → UI-03 → UI-04 → docs. Todas as combinações testadas mesclaram sem conflito, inclusive com as branches da SLK-07. Depois da publicação, preencher aqui as URLs de branches, commits e PRs.
 
