@@ -1,0 +1,547 @@
+# Testes finais do BUG-09 executados contra main bbaddcc (antes da correção)
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.11
+Configuration: <repo>\phpunit.xml
+
+Time: 00:01.404, Memory: 46.00 MB
+
+There were 6 failures:
+
+1) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_saving_the_edit_form_without_javascript_preserves_the_size with data set "roupa" ('roupa', 'm')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'m'
++''
+
+<tmp>
+
+2) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_the_create_form_only_enables_the_select_of_the_default_type
+Failed asserting that false is true.
+
+<tmp>
+
+3) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_a_size_from_the_other_product_type_is_rejected with data set "calçado com tamanho de roupa" ('calcado', 'm')
+Session is missing expected key [errors].
+Failed asserting that false is true.
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1547
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1634
+<tmp>
+
+4) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_a_size_from_the_other_product_type_is_rejected with data set "roupa com numeração de calçado" ('roupa', '38')
+Session is missing expected key [errors].
+Failed asserting that false is true.
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1547
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1634
+<tmp>
+
+5) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_a_legacy_size_of_the_other_type_is_reported_instead_of_silently_erased with data set "roupa com numeração" ('roupa', '38', '38 (inválido para roupa)')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Editar Produto</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="UOH3dFWB6qkpbMHZW73ruL2fEafAZbdoCtvVGpQL" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Editar Produto #1</h1>\n
+<form method="POST" action="http://localhost/admin/produtos/1" enctype="multipart/form-data">\n
+    <input type="hidden" name="_token" value="UOH3dFWB6qkpbMHZW73ruL2fEafAZbdoCtvVGpQL" autocomplete="off"> <input type="hidden" name="_method" value="PUT">    <div class="row g-3">\n
+    <div class="col-md-6">\n
+        <label class="form-label" for="produto_nome">Nome</label>\n
+        <input class="form-control" id="produto_nome" name="nome" maxlength="50" value="Produto" required>\n
+    </div>\n
+    <div class="col-md-6">\n
+        <label class="form-label" for="produto_imagen">Imagem do produto</label>\n
+        <input class="form-control" name="imagen" type="file" accept="image/jpeg,image/png,image/gif,image/bmp,image/webp" id="produto_imagen">\n
+        <small class="text-muted d-block mt-1">Opcional. JPEG, PNG, GIF, BMP ou WebP, até 5 MB.</small>\n
+            </div>\n
+\n
+    <div class="col-12">\n
+        <label class="form-label d-block mb-2">Estado do produto</label>\n
+                <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_novo" value="novo" checked>\n
+            <label class="form-check-label" for="estado_novo">Novo</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_usado" value="usado" >\n
+            <label class="form-check-label" for="estado_usado">Usado</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_consignado" value="consignado" >\n
+            <label class="form-check-label" for="estado_consignado">Consignado</label>\n
+        </div>\n
+    </div>\n
+    <div class="col-12">\n
+        <label class="form-label d-block mb-2">Tipo do produto</label>\n
+                <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_roupa" value="roupa" checked>\n
+            <label class="form-check-label" for="tipo_roupa">Roupa</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_calcado" value="calcado" >\n
+            <label class="form-check-label" for="tipo_calcado">Calçado</label>\n
+        </div>\n
+    </div>\n
+\n
+    <div id="consignado_fields" class="row g-3 d-none">\n
+        <div class="col-md-6">\n
+            <label class="form-label" for="produto_cliente_consignado">Cliente que deixou a peça</label>\n
+            <input class="form-control" id="produto_cliente_consignado" name="cliente_consignado" maxlength="120" value="">\n
+        </div>\n
+        <div class="col-md-6">\n
+            <label class="form-label d-block">Pagamento do consignado</label>\n
+            <div class="form-check">\n
+                <input class="form-check-input" type="checkbox" value="1" id="consignado_pago" name="consignado_pago" >\n
+                <label class="form-check-label" for="consignado_pago">Já foi pago para a cliente</label>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <div class="col-md-3"><label class="form-label" for="preco_compra">Preço Compra</label><input class="form-control" name="preco_compra" id="preco_compra" type="number" step="0.01" min="0" max="99999999.99" value="10" required></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_preco_venda">Preço Venda</label><input class="form-control" id="produto_preco_venda" name="preco_venda" type="number" step="0.01" min="0.01" max="99999999.99" value="30" required></div>\n
+    <div class="col-md-3">\n
+        <label class="form-label" for="tamanho_roupa" id="tamanho_label">Tamanho</label>\n
+                <select class="form-select" name="tamanho" id="tamanho_roupa">\n
+            <option value="">-</option>\n
+                            <option value="pp" >PP</option>\n
+                            <option value="p" >P</option>\n
+                            <option value="m" >M</option>\n
+                            <option value="g" >G</option>\n
+                            <option value="gg" >GG</option>\n
+                            <option value="g1" >G1</option>\n
+                            <option value="g2" >G2</option>\n
+                            <option value="g3" >G3</option>\n
+                            <option value="g4" >G4</option>\n
+                    </select>\n
+        <select class="form-select d-none" name="tamanho" id="tamanho_calcado">\n
+            <option value="">-</option>\n
+                            <option value="14" >14</option>\n
+                            <option value="15" >15</option>\n
+                            <option value="16" >16</option>\n
+                            <option value="17" >17</option>\n
+                            <option value="18" >18</option>\n
+                            <option value="19" >19</option>\n
+                            <option value="20" >20</option>\n
+                            <option value="21" >21</option>\n
+                            <option value="22" >22</option>\n
+                            <option value="23" >23</option>\n
+                            <option value="24" >24</option>\n
+                            <option value="25" >25</option>\n
+                            <option value="26" >26</option>\n
+                            <option value="27" >27</option>\n
+                            <option value="28" >28</option>\n
+                            <option value="29" >29</option>\n
+                            <option value="30" >30</option>\n
+                            <option value="31" >31</option>\n
+                            <option value="32" >32</option>\n
+                            <option value="33" >33</option>\n
+                            <option value="34" >34</option>\n
+                            <option value="35" >35</option>\n
+                            <option value="36" >36</option>\n
+                            <option value="37" >37</option>\n
+                            <option value="38" selected>38</option>\n
+                            <option value="39" >39</option>\n
+                            <option value="40" >40</option>\n
+                            <option value="41" >41</option>\n
+                            <option value="42" >42</option>\n
+                            <option value="43" >43</option>\n
+                            <option value="44" >44</option>\n
+                            <option value="45" >45</option>\n
+                            <option value="46" >46</option>\n
+                    </select>\n
+    </div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_status">Status</label><select class="form-select" name="status" id="produto_status"><option value="disponivel">Disponível</option><option value="vendido" >Vendido</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_genero">Gênero</label><select class="form-select" name="genero" id="produto_genero"><option value="">-</option><option value="masculino" >Masculino</option><option value="feminino" >Feminino</option><option value="unissex" >Unissex</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_categoria">Categoria</label><select class="form-select" name="id_categoria" id="produto_id_categoria"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_cor">Cor</label><select class="form-select" name="id_cor" id="produto_id_cor"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_material">Material</label><select class="form-select" name="id_material" id="produto_id_material"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_fornecedor">Fornecedor</label><select class="form-select" name="id_fornecedor" id="produto_id_fornecedor"><option value="">-</option></select></div>\n
+    <div class="col-12"><label class="form-label" for="produto_descricao">Descrição</label><textarea class="form-control" name="descricao" rows="3" maxlength="5000" id="produto_descricao"></textarea></div>\n
+</div>\n
+\n
+<script>\n
+    document.addEventListener('DOMContentLoaded', function () {\n
+        const consignadoFields = document.getElementById('consignado_fields');\n
+        const consignadoPago = document.getElementById('consignado_pago');\n
+        const precoCompra = document.getElementById('preco_compra');\n
+        const radios = document.querySelectorAll('input[name="estado"]');\n
+        const tipoProdutoRadios = document.querySelectorAll('input[name="tipo_produto"]');\n
+        const tamanhoRoupa = document.getElementById('tamanho_roupa');\n
+        const tamanhoCalcado = document.getElementById('tamanho_calcado');\n
+        const tamanhoLabel = document.getElementById('tamanho_label');\n
+\n
+        function toggleConsignadoFields() {\n
+            const selecionado = document.querySelector('input[name="estado"]:checked')?.value;\n
+            consignadoFields.classList.toggle('d-none', selecionado !== 'consignado');\n
+            precoCompra.min = selecionado === 'consignado' && consignadoPago.checked ? '0.01' : '0';\n
+        }\n
+\n
+        radios.forEach(radio => radio.addEventListener('change', toggleConsignadoFields));\n
+        consignadoPago.addEventListener('change', toggleConsignadoFields);\n
+        tipoProdutoRadios.forEach(radio => radio.addEventListener('change', function () {\n
+            const tipoSelecionado = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;\n
+            const isCalcado = tipoSelecionado === 'calcado';\n
+\n
+            tamanhoRoupa.classList.toggle('d-none', isCalcado);\n
+            tamanhoCalcado.classList.toggle('d-none', !isCalcado);\n
+\n
+            tamanhoLabel.htmlFor = isCalcado ? 'tamanho_calcado' : 'tamanho_roupa';\n
+            tamanhoRoupa.disabled = isCalcado;\n
+            tamanhoCalcado.disabled = !isCalcado;\n
+        }));\n
+\n
+        const tipoSelecionadoInicial = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;\n
+        const isCalcadoInicial = tipoSelecionadoInicial === 'calcado';\n
+        tamanhoRoupa.classList.toggle('d-none', isCalcadoInicial);\n
+        tamanhoCalcado.classList.toggle('d-none', !isCalcadoInicial);\n
+        tamanhoLabel.htmlFor = isCalcadoInicial ? 'tamanho_calcado' : 'tamanho_roupa';\n
+        tamanhoRoupa.disabled = isCalcadoInicial;\n
+        tamanhoCalcado.disabled = !isCalcadoInicial;\n
+        toggleConsignadoFields();\n
+    });\n
+</script>\n
+    <button class="btn btn-success mt-3">Atualizar</button>\n
+</form>\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 15074) contains "38 (inválido para roupa)" [UTF-8](length: 25).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+6) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_a_legacy_size_of_the_other_type_is_reported_instead_of_silently_erased with data set "calçado com letra" ('calcado', 'm', 'M (inválido para calçado)')
+Failed asserting that '<!doctype html>\n
+<html lang="pt-BR">\n
+\n
+<head>\n
+    <meta charset="utf-8">\n
+    <meta name="viewport" content="width=device-width, initial-scale=1">\n
+    <title>Editar Produto</title>\n
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">\n
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />\n
+    </head>\n
+\n
+<body>\n
+            <nav class="navbar navbar-expand-lg app-navbar navbar-dark mb-4">\n
+    <div class="container">\n
+        <a class="navbar-brand" href="http://localhost/dashboard">Slacknovo</a>\n
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavigation" aria-controls="adminNavigation" aria-expanded="false" aria-label="Abrir menu administrativo"><span class="navbar-toggler-icon"></span></button>\n
+        <div class="collapse navbar-collapse" id="adminNavigation">\n
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/dashboard">Dashboard</a></li>\n
+                <li class="nav-item"><a class="nav-link active"  aria-current="page"  href="http://localhost/admin/produtos">Produtos</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/categorias">Categorias</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/cores">Cores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/materiais">Materiais</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/fornecedores">Fornecedores</a></li>\n
+                <li class="nav-item"><a class="nav-link "  href="http://localhost/admin/caixa">Caixa</a></li>\n
+            </ul>\n
+        <form method="POST" action="http://localhost/logout">\n
+            <input type="hidden" name="_token" value="K5Knp8lNgHQ5imIfNW14hmuWLdn559NRxTzvAbc4" autocomplete="off">            <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>\n
+        </form>\n
+        </div>\n
+    </div>\n
+</nav>\n
+    \n
+    <main class="container py-3">\n
+        <div class="container"></div>\n
+        <h1 class="h4 mb-3">Editar Produto #1</h1>\n
+<form method="POST" action="http://localhost/admin/produtos/1" enctype="multipart/form-data">\n
+    <input type="hidden" name="_token" value="K5Knp8lNgHQ5imIfNW14hmuWLdn559NRxTzvAbc4" autocomplete="off"> <input type="hidden" name="_method" value="PUT">    <div class="row g-3">\n
+    <div class="col-md-6">\n
+        <label class="form-label" for="produto_nome">Nome</label>\n
+        <input class="form-control" id="produto_nome" name="nome" maxlength="50" value="Produto" required>\n
+    </div>\n
+    <div class="col-md-6">\n
+        <label class="form-label" for="produto_imagen">Imagem do produto</label>\n
+        <input class="form-control" name="imagen" type="file" accept="image/jpeg,image/png,image/gif,image/bmp,image/webp" id="produto_imagen">\n
+        <small class="text-muted d-block mt-1">Opcional. JPEG, PNG, GIF, BMP ou WebP, até 5 MB.</small>\n
+            </div>\n
+\n
+    <div class="col-12">\n
+        <label class="form-label d-block mb-2">Estado do produto</label>\n
+                <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_novo" value="novo" checked>\n
+            <label class="form-check-label" for="estado_novo">Novo</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_usado" value="usado" >\n
+            <label class="form-check-label" for="estado_usado">Usado</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="estado" id="estado_consignado" value="consignado" >\n
+            <label class="form-check-label" for="estado_consignado">Consignado</label>\n
+        </div>\n
+    </div>\n
+    <div class="col-12">\n
+        <label class="form-label d-block mb-2">Tipo do produto</label>\n
+                <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_roupa" value="roupa" >\n
+            <label class="form-check-label" for="tipo_roupa">Roupa</label>\n
+        </div>\n
+        <div class="form-check form-check-inline">\n
+            <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_calcado" value="calcado" checked>\n
+            <label class="form-check-label" for="tipo_calcado">Calçado</label>\n
+        </div>\n
+    </div>\n
+\n
+    <div id="consignado_fields" class="row g-3 d-none">\n
+        <div class="col-md-6">\n
+            <label class="form-label" for="produto_cliente_consignado">Cliente que deixou a peça</label>\n
+            <input class="form-control" id="produto_cliente_consignado" name="cliente_consignado" maxlength="120" value="">\n
+        </div>\n
+        <div class="col-md-6">\n
+            <label class="form-label d-block">Pagamento do consignado</label>\n
+            <div class="form-check">\n
+                <input class="form-check-input" type="checkbox" value="1" id="consignado_pago" name="consignado_pago" >\n
+                <label class="form-check-label" for="consignado_pago">Já foi pago para a cliente</label>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <div class="col-md-3"><label class="form-label" for="preco_compra">Preço Compra</label><input class="form-control" name="preco_compra" id="preco_compra" type="number" step="0.01" min="0" max="99999999.99" value="10" required></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_preco_venda">Preço Venda</label><input class="form-control" id="produto_preco_venda" name="preco_venda" type="number" step="0.01" min="0.01" max="99999999.99" value="30" required></div>\n
+    <div class="col-md-3">\n
+        <label class="form-label" for="tamanho_roupa" id="tamanho_label">Tamanho</label>\n
+                <select class="form-select" name="tamanho" id="tamanho_roupa">\n
+            <option value="">-</option>\n
+                            <option value="pp" >PP</option>\n
+                            <option value="p" >P</option>\n
+                            <option value="m" selected>M</option>\n
+                            <option value="g" >G</option>\n
+                            <option value="gg" >GG</option>\n
+                            <option value="g1" >G1</option>\n
+                            <option value="g2" >G2</option>\n
+                            <option value="g3" >G3</option>\n
+                            <option value="g4" >G4</option>\n
+                    </select>\n
+        <select class="form-select d-none" name="tamanho" id="tamanho_calcado">\n
+            <option value="">-</option>\n
+                            <option value="14" >14</option>\n
+                            <option value="15" >15</option>\n
+                            <option value="16" >16</option>\n
+                            <option value="17" >17</option>\n
+                            <option value="18" >18</option>\n
+                            <option value="19" >19</option>\n
+                            <option value="20" >20</option>\n
+                            <option value="21" >21</option>\n
+                            <option value="22" >22</option>\n
+                            <option value="23" >23</option>\n
+                            <option value="24" >24</option>\n
+                            <option value="25" >25</option>\n
+                            <option value="26" >26</option>\n
+                            <option value="27" >27</option>\n
+                            <option value="28" >28</option>\n
+                            <option value="29" >29</option>\n
+                            <option value="30" >30</option>\n
+                            <option value="31" >31</option>\n
+                            <option value="32" >32</option>\n
+                            <option value="33" >33</option>\n
+                            <option value="34" >34</option>\n
+                            <option value="35" >35</option>\n
+                            <option value="36" >36</option>\n
+                            <option value="37" >37</option>\n
+                            <option value="38" >38</option>\n
+                            <option value="39" >39</option>\n
+                            <option value="40" >40</option>\n
+                            <option value="41" >41</option>\n
+                            <option value="42" >42</option>\n
+                            <option value="43" >43</option>\n
+                            <option value="44" >44</option>\n
+                            <option value="45" >45</option>\n
+                            <option value="46" >46</option>\n
+                    </select>\n
+    </div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_status">Status</label><select class="form-select" name="status" id="produto_status"><option value="disponivel">Disponível</option><option value="vendido" >Vendido</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_genero">Gênero</label><select class="form-select" name="genero" id="produto_genero"><option value="">-</option><option value="masculino" >Masculino</option><option value="feminino" >Feminino</option><option value="unissex" >Unissex</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_categoria">Categoria</label><select class="form-select" name="id_categoria" id="produto_id_categoria"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_cor">Cor</label><select class="form-select" name="id_cor" id="produto_id_cor"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_material">Material</label><select class="form-select" name="id_material" id="produto_id_material"><option value="">-</option></select></div>\n
+    <div class="col-md-3"><label class="form-label" for="produto_id_fornecedor">Fornecedor</label><select class="form-select" name="id_fornecedor" id="produto_id_fornecedor"><option value="">-</option></select></div>\n
+    <div class="col-12"><label class="form-label" for="produto_descricao">Descrição</label><textarea class="form-control" name="descricao" rows="3" maxlength="5000" id="produto_descricao"></textarea></div>\n
+</div>\n
+\n
+<script>\n
+    document.addEventListener('DOMContentLoaded', function () {\n
+        const consignadoFields = document.getElementById('consignado_fields');\n
+        const consignadoPago = document.getElementById('consignado_pago');\n
+        const precoCompra = document.getElementById('preco_compra');\n
+        const radios = document.querySelectorAll('input[name="estado"]');\n
+        const tipoProdutoRadios = document.querySelectorAll('input[name="tipo_produto"]');\n
+        const tamanhoRoupa = document.getElementById('tamanho_roupa');\n
+        const tamanhoCalcado = document.getElementById('tamanho_calcado');\n
+        const tamanhoLabel = document.getElementById('tamanho_label');\n
+\n
+        function toggleConsignadoFields() {\n
+            const selecionado = document.querySelector('input[name="estado"]:checked')?.value;\n
+            consignadoFields.classList.toggle('d-none', selecionado !== 'consignado');\n
+            precoCompra.min = selecionado === 'consignado' && consignadoPago.checked ? '0.01' : '0';\n
+        }\n
+\n
+        radios.forEach(radio => radio.addEventListener('change', toggleConsignadoFields));\n
+        consignadoPago.addEventListener('change', toggleConsignadoFields);\n
+        tipoProdutoRadios.forEach(radio => radio.addEventListener('change', function () {\n
+            const tipoSelecionado = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;\n
+            const isCalcado = tipoSelecionado === 'calcado';\n
+\n
+            tamanhoRoupa.classList.toggle('d-none', isCalcado);\n
+            tamanhoCalcado.classList.toggle('d-none', !isCalcado);\n
+\n
+            tamanhoLabel.htmlFor = isCalcado ? 'tamanho_calcado' : 'tamanho_roupa';\n
+            tamanhoRoupa.disabled = isCalcado;\n
+            tamanhoCalcado.disabled = !isCalcado;\n
+        }));\n
+\n
+        const tipoSelecionadoInicial = document.querySelector('input[name=\"tipo_produto\"]:checked')?.value;\n
+        const isCalcadoInicial = tipoSelecionadoInicial === 'calcado';\n
+        tamanhoRoupa.classList.toggle('d-none', isCalcadoInicial);\n
+        tamanhoCalcado.classList.toggle('d-none', !isCalcadoInicial);\n
+        tamanhoLabel.htmlFor = isCalcadoInicial ? 'tamanho_calcado' : 'tamanho_roupa';\n
+        tamanhoRoupa.disabled = isCalcadoInicial;\n
+        tamanhoCalcado.disabled = !isCalcadoInicial;\n
+        toggleConsignadoFields();\n
+    });\n
+</script>\n
+    <button class="btn btn-success mt-3">Atualizar</button>\n
+</form>\n
+    </main>\n
+\n
+    \n
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">\n
+        <div class="modal-dialog modal-dialog-centered">\n
+            <div class="modal-content">\n
+                <div class="modal-header">\n
+                    <h2 class="modal-title fs-5">Confirmar exclusão</h2>\n
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>\n
+                </div>\n
+                <div class="modal-body">\n
+                    <p class="mb-0" id="confirmDeleteText">Tem certeza que deseja excluir este item?</p>\n
+                </div>\n
+                <div class="modal-footer">\n
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>\n
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>\n
+                </div>\n
+            </div>\n
+        </div>\n
+    </div>\n
+\n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>\n
+    <script>\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            const confirmModalElement = document.getElementById('confirmDeleteModal');\n
+            if (!confirmModalElement) return;\n
+\n
+            const modal = new bootstrap.Modal(confirmModalElement);\n
+            const confirmButton = document.getElementById('confirmDeleteButton');\n
+            const confirmText = document.getElementById('confirmDeleteText');\n
+            let formToSubmit = null;\n
+\n
+            document.querySelectorAll('form.js-confirm-delete').forEach(form => {\n
+                form.addEventListener('submit', function (event) {\n
+                    event.preventDefault();\n
+                    formToSubmit = form;\n
+                    const itemLabel = form.dataset.itemLabel ?? 'este item';\n
+                    confirmText.textContent = `Tem certeza que deseja excluir ${itemLabel}?`;\n
+                    modal.show();\n
+                });\n
+            });\n
+\n
+            confirmButton.addEventListener('click', function () {\n
+                if (formToSubmit) formToSubmit.submit();\n
+            });\n
+        });\n
+    </script>\n
+</body>\n
+\n
+</html>\n
+' [UTF-8](length: 15074) contains "M (inválido para calçado)" [UTF-8](length: 27).
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:710
+<tmp>
+
+FAILURES!
+Tests: 8, Assertions: 21, Failures: 6.

@@ -1,0 +1,11 @@
+# BUG-19: reprodução em SQLite temporário (arquivo descartável)
+$ php artisan migrate --force
+
+$ insert produto sem imagem (imagen NULL é permitido pela aplicação)
+ok
+$ php artisan migrate:rollback --step=3 --force
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table ..................................... 67.48ms DONE
+  2026_10_06_000000_restore_product_foreign_keys_on_sqlite .............................................. 23.08ms DONE
+  2026_08_28_000000_make_produto_imagen_nullable ........................................................ 25.21ms FAIL
+  SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: __temp__produtos.imagen (Connection: sqlite, Database: <tmp>, SQL: insert into "__temp__produtos" ("id", "imagen", "nome", "estado", "tipo_produto", "tamanho", "preco_compra", "preco_venda", "genero", "status", "descricao", "id_categoria", "id_cor", "id_material", "id_fornecedor", "cliente_consignado", "consignado_pago", "created_at", "updated_at") select "id", "imagen", "nome", "estado", "tipo_produto", "tamanho", "preco_compra", "preco_venda", "genero", "status", "descricao", "id_categoria", "id_cor", "id_material", "id_fornecedor", "cliente_consignado", "consignado_pago", "created_at", "updated_at" from "produtos")
+      PDOException::("SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: __temp__produtos.imagen")

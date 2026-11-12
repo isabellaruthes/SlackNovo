@@ -1,0 +1,13 @@
+$ php artisan migrate --force
+  2026_10_06_000000_restore_product_foreign_keys_on_sqlite .............................................. 26.88ms DONE
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table ..................................... 36.41ms DONE
+
+$ php artisan migrate:rollback --step=1 --force
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table ..................................... 73.57ms DONE
+
+$ php artisan migrate --force
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table ..................................... 58.54ms DONE
+
+$ sqlite schema saida_caixas
+CREATE TABLE "saida_caixas" ("id" integer primary key autoincrement not null, "created_at" datetime, "updated_at" datetime, "valor" numeric, "motivo" varchar, "data_saidacaixa" datetime, "id_produto_consignado" integer)
+CREATE UNIQUE INDEX "saida_caixas_id_produto_consignado_unique" on "saida_caixas" ("id_produto_consignado")

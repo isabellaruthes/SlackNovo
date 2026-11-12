@@ -1,5 +1,7 @@
 # SLK-07 — Correção dos bugs reproduzidos
 
+> Continuação em 12/11/2026: [relatório de validação](SLK-07-relatorio-validacao.md). Ele cobre a situação dos bugs de criticidade Alta, as correções de BUG-07, BUG-09 e BUG-14 (uma branch por correção) e o backlog atualizado.
+
 ## Resultado e sequência
 
 Correções implementadas após a conclusão da revisão de interface SLK-06, em 08/11/2026. Esta etapa trata os seis defeitos objetivos da SLK-03. As alterações de interface SLK-09 foram conduzidas separadamente; este documento cobre backend, novo template de relatório e testes de regressão. Nenhum commit foi realizado.

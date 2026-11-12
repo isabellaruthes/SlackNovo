@@ -11,6 +11,7 @@ As três atividades solicitadas nos prints são SLK-03, SLK-06 e SLK-10. Foram d
 | SLK-05 | [Revisão de segurança](SLK-05-revisao-seguranca.md) | Pré-requisito indicado para SLK-06 |
 | SLK-06 | [Revisão de interface e experiência](SLK-06-revisao-interface.md) | Terceira imagem |
 | SLK-07 | [Correções de bugs](SLK-07-correcao-bugs.md) | Correções dos defeitos reproduzidos antes da validação final |
+| SLK-07 | [Relatório de validação: bugs críticos e integridade de dados](SLK-07-relatorio-validacao.md) | Situação dos bugs Altos, correções de BUG-07/09/14 por branch, backlog atualizado e evidências (12/11/2026) |
 | SLK-09 | [Melhorias de interface](SLK-09-melhorias-interface.md) | Pré-requisito indicado para SLK-10 |
 | SLK-10 | [Testes funcionais e evidências](SLK-10-testes-funcionais.md) | Primeira imagem |
 

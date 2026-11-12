@@ -1,0 +1,7 @@
+# Testes de regressão BUG-01/02/03 (escritos em 19/10/2026, branches fix/* locais) executados contra main bbaddcc
+## FeedbackMessagesTest
+OK (4 tests, 9 assertions)
+## CaixaSaleFormTest
+OK (1 test, 6 assertions)
+## ProductFormGeneroTest
+OK (2 tests, 7 assertions)
