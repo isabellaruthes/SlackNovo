@@ -100,6 +100,31 @@ class ProductFormTamanhoWithoutJavaScriptTest extends TestCase
         ];
     }
 
+    #[DataProvider('tamanhosLegados')]
+    public function test_a_legacy_size_of_the_other_type_is_reported_instead_of_silently_erased(string $tipo, string $tamanho, string $rotulo): void
+    {
+        // Before SLK-07 any listed size was accepted for any type, so such rows may exist.
+        $produto = $this->produto(['tipo_produto' => $tipo, 'tamanho' => $tamanho]);
+
+        $html = $this->get(route('admin.produtos.edit', $produto))->assertOk()->assertSee($rotulo)->getContent();
+        $fields = $this->formValues($html, route('admin.produtos.update', $produto));
+        $this->assertSame($tamanho, $fields['tamanho']);
+
+        $this->from(route('admin.produtos.edit', $produto))
+            ->put(route('admin.produtos.update', $produto), $fields)
+            ->assertSessionHasErrors('tamanho');
+
+        $this->assertSame($tamanho, $produto->fresh()->tamanho);
+    }
+
+    public static function tamanhosLegados(): array
+    {
+        return [
+            'roupa com numeração' => ['roupa', '38', '38 (inválido para roupa)'],
+            'calçado com letra' => ['calcado', 'm', 'M (inválido para calçado)'],
+        ];
+    }
+
     private function produto(array $overrides = []): Produto
     {
         return Produto::create($overrides + [
