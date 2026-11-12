@@ -176,8 +176,18 @@ class ProdutoController extends Controller
 
     public function destroy(Produto $produto): RedirectResponse
     {
-        $imagem = DB::transaction(function () use ($produto): ?string {
+        $possuiVendaAtiva = false;
+
+        $imagem = DB::transaction(function () use ($produto, &$possuiVendaAtiva): ?string {
             $produto = Produto::query()->lockForUpdate()->findOrFail($produto->id);
+
+            // Same lock order as sales and refunds: the product row serializes the check.
+            if (Venda::where('id_produto', $produto->id)->where('reembolsada', false)->exists()) {
+                $possuiVendaAtiva = true;
+
+                return null;
+            }
+
             $imagem = $produto->imagen;
 
             if (! $produto->delete()) {
@@ -186,6 +196,10 @@ class ProdutoController extends Controller
 
             return $imagem;
         });
+
+        if ($possuiVendaAtiva) {
+            return back()->with('error', 'Não é possível excluir um produto com venda ativa. Reembolse a venda antes de excluir o produto.');
+        }
 
         DB::afterCommit(fn () => $this->removerImagem($imagem));
 
