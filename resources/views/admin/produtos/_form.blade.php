@@ -67,19 +67,28 @@
     <div class="col-md-3"><label class="form-label" for="preco_compra">Preço Compra</label><input class="form-control" name="preco_compra" id="preco_compra" type="number" step="0.01" min="0" max="99999999.99" value="{{ $formValue('preco_compra', $produto->preco_compra ?? '') }}" required></div>
     <div class="col-md-3"><label class="form-label" for="produto_preco_venda">Preço Venda</label><input class="form-control" id="produto_preco_venda" name="preco_venda" type="number" step="0.01" min="0.01" max="99999999.99" value="{{ $formValue('preco_venda', $produto->preco_venda ?? '') }}" required></div>
     <div class="col-md-3">
-        <label class="form-label" for="tamanho_roupa" id="tamanho_label">Tamanho</label>
         @php($tamanhoAtual = $formValue('tamanho', $produto->tamanho ?? ''))
-        <select class="form-select" name="tamanho" id="tamanho_roupa">
+        {{-- Only the select of the current type is enabled, so the form works without JavaScript. --}}
+        @php($isCalcadoAtual = $tipoProdutoAtual === 'calcado')
+        <label class="form-label" for="{{ $isCalcadoAtual ? 'tamanho_calcado' : 'tamanho_roupa' }}" id="tamanho_label">Tamanho</label>
+        <select class="form-select {{ $isCalcadoAtual ? 'd-none' : '' }}" name="tamanho" id="tamanho_roupa" @disabled($isCalcadoAtual)>
             <option value="">-</option>
-            @foreach (['pp', 'p', 'm', 'g', 'gg', 'g1', 'g2', 'g3', 'g4'] as $tamanho)
+            @foreach (\App\Http\Requests\ProdutoRequest::TAMANHOS_ROUPA as $tamanho)
                 <option value="{{ $tamanho }}" @selected($tamanhoAtual === $tamanho)>{{ strtoupper($tamanho) }}</option>
             @endforeach
+            {{-- Legacy value outside the list: keep it selected so saving reports it instead of erasing it. --}}
+            @if (! $isCalcadoAtual && $tamanhoAtual !== '' && ! in_array($tamanhoAtual, \App\Http\Requests\ProdutoRequest::TAMANHOS_ROUPA, true))
+                <option value="{{ $tamanhoAtual }}" selected>{{ strtoupper($tamanhoAtual) }} (inválido para roupa)</option>
+            @endif
         </select>
-        <select class="form-select d-none" name="tamanho" id="tamanho_calcado">
+        <select class="form-select {{ $isCalcadoAtual ? '' : 'd-none' }}" name="tamanho" id="tamanho_calcado" @disabled(! $isCalcadoAtual)>
             <option value="">-</option>
-            @foreach (range(14, 46) as $numero)
-                <option value="{{ $numero }}" @selected($tamanhoAtual === (string) $numero)>{{ $numero }}</option>
+            @foreach (\App\Http\Requests\ProdutoRequest::TAMANHOS_CALCADO as $numero)
+                <option value="{{ $numero }}" @selected($tamanhoAtual === $numero)>{{ $numero }}</option>
             @endforeach
+            @if ($isCalcadoAtual && $tamanhoAtual !== '' && ! in_array($tamanhoAtual, \App\Http\Requests\ProdutoRequest::TAMANHOS_CALCADO, true))
+                <option value="{{ $tamanhoAtual }}" selected>{{ strtoupper($tamanhoAtual) }} (inválido para calçado)</option>
+            @endif
         </select>
     </div>
     <div class="col-md-3"><label class="form-label" for="produto_status">Status</label><select class="form-select" name="status" id="produto_status"><option value="disponivel">Disponível</option><option value="vendido" @selected($formValue('status', $produto->status ?? '')==='vendido')>Vendido</option></select></div>
