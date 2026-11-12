@@ -129,7 +129,7 @@ Dashboard no celular: [antes](evidencias/SLK-09/navegador/antes/mobile-dashboard
 | `ui/slk-09-responsividade-dashboard` | `OK (85 tests, 1419 assertions)` | `OK (73 tests, 664 assertions)` |
 | `ui/slk-09-padroniza-componentes` | `OK (96 tests, 1477 assertions)` | `OK (84 tests, 722 assertions)` |
 | Integração das 4 branches (merge temporário, sem conflitos) | `OK (110 tests, 1569 assertions)` | `OK (98 tests, 814 assertions)` |
-| Integração SLK-09 + SLK-07 (4 + 3 branches, sem conflitos) | `OK (125 tests, 1630 assertions)` | `OK (113 tests, 875 assertions)` |
+| Integração SLK-09 + SLK-07 (4 + 3 branches de código e as 2 de docs, sem conflitos) | `OK (127 tests, 1642 assertions)` | `OK (115 tests, 887 assertions)` |
 
 (\*) No MySQL, o `AuthenticationSecurityTest` (12 testes) é excluído porque exige SQLite por desenho, como na `main`.
 
@@ -149,7 +149,13 @@ O Pint passou nos arquivos PHP alterados de cada branch. Os logs estão em [`evi
 | Menu no celular: abre, `aria-expanded="true"` e links visíveis | ✅ | ✅ |
 | Erros de JavaScript (`pageerror`) | 0 | 0 |
 
-- **Aceite do projeto:** `tests/Browser/acceptance.cjs` concluiu os 4 cenários (catálogo, login e edição, caixa com venda, reembolso e saída, e mobile com menu e logout), tanto com a correção da ferramenta sobre a `main` quanto na integração das 4 branches. Veja `testes/acceptance-*.txt`.
+- **Aceite do projeto:** `tests/Browser/acceptance.cjs` concluiu os 4 cenários (catálogo, login e edição, caixa com venda, reembolso e saída, e mobile com menu e logout), com a correção da ferramenta sobre a `main`, na integração das 4 branches e na integração conjunta SLK-07 + SLK-09. Veja `testes/acceptance-*.txt`.
+
+**Revisão antes dos PRs (12/11/2026):** revisei o diff de produção das 4 branches e não encontrei defeitos. Pontos conferidos:
+- **Comparação de datas:** os bindings saem no formato `Y-m-d H:i:s`, que funciona em SQLite e MySQL.
+- **Paginação:** funciona com as subconsultas do dashboard.
+- **Cadastros auxiliares:** o campo `_origem` não entra nos dados gravados, porque os controllers usam só os campos validados.
+- **Conflitos de merge:** nenhum em qualquer combinação com a SLK-07.
 
 ## 7. Rastreabilidade
 
