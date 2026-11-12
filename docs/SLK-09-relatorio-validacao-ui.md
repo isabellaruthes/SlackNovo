@@ -1,6 +1,6 @@
 # SLK-09 — Relatório de validação: melhorias prioritárias de UI/UX
 
-Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task: **SLK-09** · Status: **melhorias implementadas e validadas localmente; branches não publicadas e PRs não abertos (aguardando autorização)**
+Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task: **SLK-09** · Status: **melhorias implementadas e validadas localmente; branches publicadas e PRs abertos em 12/11/2026 ([#8](https://github.com/isabellaruthes/SlackNovo/pull/8), [#9](https://github.com/isabellaruthes/SlackNovo/pull/9), [#10](https://github.com/isabellaruthes/SlackNovo/pull/10), [#11](https://github.com/isabellaruthes/SlackNovo/pull/11), [#12](https://github.com/isabellaruthes/SlackNovo/pull/12)), aguardando revisão visual e técnica**
 
 ## 1. Resumo
 
@@ -27,7 +27,7 @@ Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task: **SLK-09** · Status: **me
 | Formulários e feedback ajustados | ✅ Erro destacado em cada campo, valores mantidos após erro, labels em todos os campos e modais | UI-02, UI-04 |
 | Mensagens padronizadas | ✅ Validação e paginação em português; alerta padrão "Revise os dados informados:"; ícones padronizados; estados vazios com orientação | UI-02, UI-04 |
 | Mobile e acessibilidade validados | ✅ Chromium em 1366 px e 390 px, axe-core sem violações, navegação por teclado (primeiro Tab) e menu mobile (`aria-expanded`). ⚠️ Sem teste em aparelho físico nem com leitor de tela (seção 8) | Seção 6 |
-| PRs e evidências registrados | ⚠️ Evidências, branches e commits registrados; **PRs pendentes de autorização** | Seção 7 |
+| PRs e evidências registrados | ✅ Evidências, branches, commits e PRs ([#8](https://github.com/isabellaruthes/SlackNovo/pull/8) a [#12](https://github.com/isabellaruthes/SlackNovo/pull/12)) registrados; ⏳ aguardando revisão | Seção 7 |
 
 **Critério de aceite:** "implementadas, testadas nos fluxos afetados e aprovadas por revisão visual e técnica, sem regressões conhecidas".
 - Implementadas e testadas: ✅
@@ -161,13 +161,13 @@ O Pint passou nos arquivos PHP alterados de cada branch. Os logs estão em [`evi
 
 | Mudança | Branch (local) | Commits | Teste | PR |
 | --- | --- | --- | --- | --- |
-| UI-01 Acessibilidade e navegação | `ui/slk-09-acessibilidade-formularios` | `8525d2d` | `InterfaceAccessibilityTest` | Pendente de autorização |
-| UI-02 Mensagens, feedback e fuso | `ui/slk-09-mensagens-validacao-ptbr` | `ec678d5`, `90b4449` | `InterfaceFeedbackMessagesTest`, `ReviewRegressionTest` | Pendente de autorização |
-| UI-03 Responsividade do dashboard | `ui/slk-09-responsividade-dashboard` | `83d726e`, `1823c2a` | `DashboardResponsiveTest` | Pendente de autorização |
-| UI-04 Componentes e estados | `ui/slk-09-padroniza-componentes` | `544de3b` | `StandardComponentsTest`, `FunctionalAcceptanceTest` | Pendente de autorização |
-| Ferramenta de aceite no Windows + este relatório | `docs/slk-09-relatorio-ui` | `f47ab5a` e o commit deste relatório | `tests/Browser/acceptance.cjs` | Pendente de autorização |
+| UI-01 Acessibilidade e navegação | [`ui/slk-09-acessibilidade-formularios`](https://github.com/isabellaruthes/SlackNovo/tree/ui/slk-09-acessibilidade-formularios) | [`8525d2d`](https://github.com/isabellaruthes/SlackNovo/commit/8525d2d) | `InterfaceAccessibilityTest` | [#8](https://github.com/isabellaruthes/SlackNovo/pull/8) |
+| UI-02 Mensagens, feedback e fuso | [`ui/slk-09-mensagens-validacao-ptbr`](https://github.com/isabellaruthes/SlackNovo/tree/ui/slk-09-mensagens-validacao-ptbr) | [`ec678d5`](https://github.com/isabellaruthes/SlackNovo/commit/ec678d5), [`90b4449`](https://github.com/isabellaruthes/SlackNovo/commit/90b4449) | `InterfaceFeedbackMessagesTest`, `ReviewRegressionTest` | [#9](https://github.com/isabellaruthes/SlackNovo/pull/9) |
+| UI-03 Responsividade do dashboard | [`ui/slk-09-responsividade-dashboard`](https://github.com/isabellaruthes/SlackNovo/tree/ui/slk-09-responsividade-dashboard) | [`83d726e`](https://github.com/isabellaruthes/SlackNovo/commit/83d726e), [`1823c2a`](https://github.com/isabellaruthes/SlackNovo/commit/1823c2a) | `DashboardResponsiveTest` | [#10](https://github.com/isabellaruthes/SlackNovo/pull/10) |
+| UI-04 Componentes e estados | [`ui/slk-09-padroniza-componentes`](https://github.com/isabellaruthes/SlackNovo/tree/ui/slk-09-padroniza-componentes) | [`544de3b`](https://github.com/isabellaruthes/SlackNovo/commit/544de3b) | `StandardComponentsTest`, `FunctionalAcceptanceTest` | [#11](https://github.com/isabellaruthes/SlackNovo/pull/11) |
+| Ferramenta de aceite no Windows + este relatório | [`docs/slk-09-relatorio-ui`](https://github.com/isabellaruthes/SlackNovo/tree/docs/slk-09-relatorio-ui) | [`f47ab5a`](https://github.com/isabellaruthes/SlackNovo/commit/f47ab5a) e os commits deste relatório | `tests/Browser/acceptance.cjs` | [#12](https://github.com/isabellaruthes/SlackNovo/pull/12) |
 
-**Ordem de merge sugerida:** UI-01 → UI-02 → UI-03 → UI-04 → docs. Todas as combinações testadas mesclaram sem conflito, inclusive com as branches da SLK-07. Depois da publicação, preencher aqui as URLs de branches, commits e PRs.
+**Ordem de merge sugerida:** UI-01 → UI-02 → UI-03 → UI-04 → docs. Todas as combinações testadas mesclaram sem conflito, inclusive com as branches da SLK-07. PRs na ordem: [#8](https://github.com/isabellaruthes/SlackNovo/pull/8) → [#9](https://github.com/isabellaruthes/SlackNovo/pull/9) → [#10](https://github.com/isabellaruthes/SlackNovo/pull/10) → [#11](https://github.com/isabellaruthes/SlackNovo/pull/11) → [#12](https://github.com/isabellaruthes/SlackNovo/pull/12).
 
 **Itens do backlog da SLK-07 resolvidos aqui:** BUG-13 (UI-04), BUG-16 (UI-02) e BUG-17 (UI-02, só na exibição). A paginação do dashboard (parte do BUG-11) está na UI-03; a lista do caixa continua sem paginação.
 
@@ -179,8 +179,8 @@ O Pint passou nos arquivos PHP alterados de cada branch. Os logs estão em [`evi
 - Quem já tem `.env` com `APP_LOCALE=en` precisa trocar para `pt_BR`; o `.env.example` já vem atualizado.
 - A lista do caixa continua carregando todos os registros (BUG-11, parcial).
 
-## 9. Próximos passos (dependem de autorização)
+## 9. Próximos passos
 
-1. Publicar as 5 branches e abrir um PR por branch com destino `main`, na ordem da seção 7.
+1. PRs abertos com destino `main`: [#8](https://github.com/isabellaruthes/SlackNovo/pull/8), [#9](https://github.com/isabellaruthes/SlackNovo/pull/9), [#10](https://github.com/isabellaruthes/SlackNovo/pull/10), [#11](https://github.com/isabellaruthes/SlackNovo/pull/11) e [#12](https://github.com/isabellaruthes/SlackNovo/pull/12) (ordem da seção 7).
 2. Revisão visual e técnica pela equipe, que é o critério de aceite.
-3. Preencher na seção 7 os links dos PRs, branches e commits.
+3. Mesclar na ordem da seção 7; em ambientes com `.env` existente, trocar `APP_LOCALE` para `pt_BR`.
