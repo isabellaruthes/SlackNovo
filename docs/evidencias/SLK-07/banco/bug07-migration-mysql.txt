@@ -1,0 +1,27 @@
+# MySQL 8.4.9 descartável (127.0.0.1:3399, datadir temporário)
+$ php artisan migrate --force
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table .................................... 138.98ms DONE
+
+-- dados legados simulados
+$ php artisan migrate --force   (com dados legados)
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table .................................... 626.96ms DONE
+
++----+-------+-------------------------------------------+-----------------------+
+| id | valor | motivo                                    | id_produto_consignado |
++----+-------+-------------------------------------------+-----------------------+
+|  1 | 10.00 | Pagamento consignado produto #5           |                     5 |
+|  2 | 10.00 | Pagamento consignado produto #5           |                  NULL |
+|  3 |  3.00 | Pagamento consignado produto #5 (parcial) |                  NULL |
+|  4 |  7.00 | Compra de cabides                         |                  NULL |
++----+-------+-------------------------------------------+-----------------------+
++--------------+------------+-------------------------------------------+--------------+-----------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table        | Non_unique | Key_name                                  | Seq_in_index | Column_name           | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++--------------+------------+-------------------------------------------+--------------+-----------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| saida_caixas |          0 | saida_caixas_id_produto_consignado_unique |            1 | id_produto_consignado | A         |           1 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++--------------+------------+-------------------------------------------+--------------+-----------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+$ php artisan migrate:rollback --step=1 --force
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table .................................... 415.07ms DONE
+
+$ php artisan migrate --force
+  2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table .................................... 480.75ms DONE
+

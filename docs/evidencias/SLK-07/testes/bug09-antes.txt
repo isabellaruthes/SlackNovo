@@ -1,0 +1,44 @@
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.11
+Configuration: <repo>\phpunit.xml
+
+Time: 00:01.660, Memory: 46.00 MB
+
+There were 4 failures:
+
+1) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_saving_the_edit_form_without_javascript_preserves_the_size with data set "roupa" ('roupa', 'm')
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'m'
++''
+
+<repo>\tests\Feature\ProductFormTamanhoWithoutJavaScriptTest.php:39
+
+2) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_the_create_form_only_enables_the_select_of_the_default_type
+Failed asserting that false is true.
+
+<repo>\tests\Feature\ProductFormTamanhoWithoutJavaScriptTest.php:62
+
+3) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_a_size_from_the_other_product_type_is_rejected with data set "calçado com tamanho de roupa" ('calcado', 'm')
+Session is missing expected key [errors].
+Failed asserting that false is true.
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1547
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1634
+<repo>\tests\Feature\ProductFormTamanhoWithoutJavaScriptTest.php:90
+
+4) Tests\Feature\ProductFormTamanhoWithoutJavaScriptTest::test_a_size_from_the_other_product_type_is_rejected with data set "roupa com numeração de calçado" ('roupa', '38')
+Session is missing expected key [errors].
+Failed asserting that false is true.
+
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:45
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1547
+<repo>\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:1634
+<repo>\tests\Feature\ProductFormTamanhoWithoutJavaScriptTest.php:90
+
+FAILURES!
+Tests: 6, Assertions: 17, Failures: 4.

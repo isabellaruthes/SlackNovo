@@ -1,0 +1,48 @@
+{
+  "label": "depois",
+  "commit": "b85aad1",
+  "ids": {
+    "vendido": 1,
+    "roupa": 2,
+    "calcado": 3,
+    "consignado": 4
+  },
+  "observacoes": {
+    "bug14_exclusao_com_venda_ativa": {
+      "alerta": "Não é possível excluir um produto com venda ativa. Reembolse a venda antes de excluir o produto.",
+      "produto_continua_listado": true
+    },
+    "bug14_exclusao_apos_reembolso": {
+      "alerta": "Produto removido com sucesso.",
+      "produto_continua_listado": false
+    },
+    "bug09_sem_js_roupa": {
+      "tamanho_exibido_antes_de_salvar": "m",
+      "alerta_ao_salvar": "Produto atualizado com sucesso.",
+      "tamanho_apos_salvar": "m",
+      "select_roupa_desabilitado": false,
+      "select_calcado_desabilitado": true
+    },
+    "bug09_sem_js_calcado": {
+      "tamanho_exibido_antes_de_salvar": "38",
+      "alerta_ao_salvar": "Produto atualizado com sucesso.",
+      "tamanho_apos_salvar": "38",
+      "select_roupa_desabilitado": true,
+      "select_calcado_desabilitado": false
+    },
+    "bug09_com_js_troca_para_calcado": {
+      "alerta_ao_salvar": "Produto atualizado com sucesso.",
+      "tipo_apos_salvar": "calcado",
+      "tamanho_apos_salvar": "40",
+      "select_roupa_visivel": false
+    },
+    "bug07_pagamento_consignado": {
+      "alerta_ao_salvar_produto": "Produto atualizado com sucesso.",
+      "saida_manual": "R$ 1,00",
+      "custo_devido_ao_consignante": "R$ 10,00",
+      "total_de_saidas_no_caixa": "Saídas: R$ 11,00",
+      "linhas_de_saida": 2
+    }
+  },
+  "erros_de_pagina": []
+}
