@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Produto;
 use App\Models\Venda;
+use App\Support\DataHora;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,8 +36,9 @@ class RelatorioController extends Controller
 
         $colunaDataVenda = Schema::hasColumn('vendas', 'data_hora') ? 'data_hora' : 'created_at';
         $registros = Venda::query()
-            ->when($inicio, fn ($q) => $q->whereDate($colunaDataVenda, '>=', $inicio))
-            ->when($fim, fn ($q) => $q->whereDate($colunaDataVenda, '<=', $fim))
+            // The period is chosen in the operator's timezone, the same one used to print the dates.
+            ->when($inicio, fn ($q) => $q->where($colunaDataVenda, '>=', DataHora::inicioDoDia($inicio)))
+            ->when($fim, fn ($q) => $q->where($colunaDataVenda, '<=', DataHora::fimDoDia($fim)))
             ->orderBy($colunaDataVenda)
             ->get();
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Produto;
 use App\Models\SaidaCaixa;
 use App\Models\Venda;
+use App\Support\DataHora;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -37,19 +38,20 @@ class DashboardController extends Controller
         $vendasTemIdProduto = Schema::hasColumn('vendas', 'id_produto');
         $vendasTemData = Schema::hasColumn('vendas', $colunaDataVenda);
         $podeRelacionarVendaProduto = $vendasTemIdProduto && $vendasTemData;
-        $inicioJanela = Carbon::now()->startOfMonth()->subMonths(5);
+        // Months are counted in the operator's timezone, the same one used to display dates.
+        $inicioJanela = DataHora::agora()->startOfMonth()->subMonths(5);
 
         $vendasPorMes = collect();
         if ($vendasTemData) {
             $vendasPorMes = Venda::query()
-                ->where($colunaDataVenda, '>=', $inicioJanela)
+                ->where($colunaDataVenda, '>=', $inicioJanela->copy()->setTimezone(config('app.timezone')))
                 ->when(Schema::hasColumn('vendas', 'reembolsada'), fn ($query) => $query->where('reembolsada', false))
                 ->get([$colunaDataVenda])
-                ->groupBy(fn (Venda $venda) => Carbon::parse($venda->{$colunaDataVenda})->format('Y-m'))
+                ->groupBy(fn (Venda $venda) => DataHora::exibir($venda->{$colunaDataVenda}, 'Y-m'))
                 ->map(fn ($grupo) => $grupo->count());
         }
 
-        $meses = collect(range(0, 5))->map(fn (int $i) => Carbon::now()->startOfMonth()->subMonths(5 - $i));
+        $meses = collect(range(0, 5))->map(fn (int $i) => DataHora::agora()->startOfMonth()->subMonths(5 - $i));
         $labelsMeses = $meses->map(fn (Carbon $data) => $data->translatedFormat('M/Y'));
         $totaisMeses = $meses->map(fn (Carbon $data) => (int) ($vendasPorMes[$data->format('Y-m')] ?? 0));
 

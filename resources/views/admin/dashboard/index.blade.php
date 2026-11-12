@@ -105,34 +105,34 @@
                                 </div>
                                 @if ($produto->status === 'vendido')
                                     <p class="mb-1"><strong>Comprador:</strong> {{ $produto->comprador ?? 'Não identificado' }}</p>
-                                    <p class="mb-0"><strong>Data da venda:</strong> {{ $produto->data_venda ? \Illuminate\Support\Carbon::parse($produto->data_venda)->format('d/m/Y H:i') : '-' }}</p>
+                                    <p class="mb-0"><strong>Data da venda:</strong> {{ \App\Support\DataHora::exibir($produto->data_venda) ?? '-' }}</p>
                                 @endif
                             </div>
                         </div>
                         @if ($produto->status !== 'vendido')
-                            <div class="modal fade" id="modalVenderProduto{{ $produto->id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal fade" id="modalVenderProduto{{ $produto->id }}" tabindex="-1" aria-hidden="true" aria-labelledby="modalVenderTitulo{{ $produto->id }}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <form method="POST" action="{{ route('admin.caixa.venda') }}">
                                             @csrf
                                             <input type="hidden" name="id_produto" value="{{ $produto->id }}">
                                             <div class="modal-header">
-                                                <h2 class="modal-title fs-5">Registrar venda</h2>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                <h2 class="modal-title fs-5" id="modalVenderTitulo{{ $produto->id }}">Registrar venda</h2>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Nome da venda</label>
-                                                    <input type="text" name="nome" class="form-control" value="{{ $produto->nome }}" required>
+                                                    <label class="form-label" for="modal_venda_nome_{{ $produto->id }}">Nome da venda</label>
+                                                    <input type="text" name="nome" id="modal_venda_nome_{{ $produto->id }}" class="form-control" maxlength="50" value="{{ $produto->nome }}" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label">Valor da venda (R$)</label>
-                                                    <input type="number" step="0.01" min="0.01" name="valor_venda" class="form-control"
+                                                    <label class="form-label" for="modal_venda_valor_{{ $produto->id }}">Valor da venda (R$)</label>
+                                                    <input type="number" step="0.01" min="0.01" max="99999999.99" name="valor_venda" id="modal_venda_valor_{{ $produto->id }}" class="form-control"
                                                         value="{{ number_format((float) $produto->preco_venda, 2, '.', '') }}" required>
                                                 </div>
                                                 <div class="mb-0">
-                                                    <label class="form-label">Comprador</label>
-                                                    <input type="text" name="comprador" class="form-control" placeholder="Nome de quem comprou" required>
+                                                    <label class="form-label" for="modal_venda_comprador_{{ $produto->id }}">Comprador</label>
+                                                    <input type="text" name="comprador" id="modal_venda_comprador_{{ $produto->id }}" class="form-control" maxlength="50" placeholder="Nome de quem comprou" required>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -152,25 +152,25 @@
         </div>
     </section>
 
-    <div class="modal fade" id="modalExportacao" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="modalExportacao" tabindex="-1" aria-hidden="true" aria-labelledby="modalExportacaoTitulo">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form method="GET" action="{{ route('admin.relatorios.exportar') }}">
                     <div class="modal-header">
-                        <h2 class="modal-title fs-5">Exportar relatório</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <h2 class="modal-title fs-5" id="modalExportacaoTitulo">Exportar relatório</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                     </div>
                     <div class="modal-body">
                         <p class="mb-3 text-muted">A exportação será gerada em PDF com todas as vendas do período.</p>
 
                         <div class="row">
                             <div class="col">
-                                <label class="form-label">Data inicial</label>
-                                <input type="date" name="inicio" class="form-control">
+                                <label class="form-label" for="exportar_inicio">Data inicial</label>
+                                <input type="date" name="inicio" id="exportar_inicio" class="form-control">
                             </div>
                             <div class="col">
-                                <label class="form-label">Data final</label>
-                                <input type="date" name="fim" class="form-control">
+                                <label class="form-label" for="exportar_fim">Data final</label>
+                                <input type="date" name="fim" id="exportar_fim" class="form-control">
                             </div>
                         </div>
                     </div>
