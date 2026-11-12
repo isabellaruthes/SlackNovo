@@ -159,19 +159,22 @@ class ProdutoController extends Controller
             return;
         }
 
-        $motivo = 'Pagamento consignado produto #'.$produto->id;
+        // The payment is identified by its product link, never by the free-text motivo,
+        // which a manual outflow can repeat. A unique index backs this check.
+        $jaExistePagamento = SaidaCaixa::query()->where('id_produto_consignado', $produto->id)->exists();
 
-        $jaExisteSaida = SaidaCaixa::query()->where('motivo', $motivo)->exists();
-
-        if ($jaExisteSaida) {
+        if ($jaExistePagamento) {
             return;
         }
 
-        SaidaCaixa::create([
+        $pagamento = new SaidaCaixa([
             'valor' => $produto->preco_compra,
-            'motivo' => $motivo,
+            'motivo' => 'Pagamento consignado produto #'.$produto->id,
             'data_saidacaixa' => Carbon::now(),
         ]);
+        // Set explicitly: the column is not mass assignable, so request data can never link an outflow.
+        $pagamento->id_produto_consignado = $produto->id;
+        $pagamento->save();
     }
 
     public function destroy(Produto $produto): RedirectResponse
