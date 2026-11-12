@@ -5,7 +5,8 @@
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $public = realpath(dirname(__DIR__, 2).'/public');
 $file = realpath($public.$path);
-if ($path !== '/' && $file && str_starts_with($file, $public.'/') && is_file($file)) {
+// realpath() uses "\" on Windows, so compare with DIRECTORY_SEPARATOR (built assets were not served there).
+if ($path !== '/' && $file && str_starts_with($file, $public.DIRECTORY_SEPARATOR) && is_file($file)) {
     return false;
 }
 require dirname(__DIR__, 2).'/vendor/autoload.php';
