@@ -53,7 +53,7 @@ Evidência: [`testes/bug01-02-03-verificacao-main.txt`](evidencias/SLK-07/testes
 | Arquivo | `app/Http/Controllers/Admin/ProdutoController.php` |
 | Teste de regressão | `tests/Feature/ProductDeletionWithActiveSaleTest.php` (3 testes) |
 | Antes / depois | Antes: 1 falha (o produto foi excluído). Depois: `OK (3 tests, 12 assertions)` |
-| Branch / commit | `fix/slk-07-produto-venda-ativa-exclusao` / `f37c2626620ed1f13b8676217e3252ddf1b0ca27` |
+| Branch / commit | `fix/slk-07-produto-venda-ativa-exclusao` / `f56c675c40dae0952cac17973bd00a6ee58645db` |
 | PR | Não aberto (aguardando autorização) |
 
 | Antes (`main`) | Depois |
@@ -73,7 +73,7 @@ Depois do reembolso, a exclusão funciona: [print](evidencias/SLK-07/navegador/d
 | Arquivos | `resources/views/admin/produtos/_form.blade.php`, `app/Http/Requests/ProdutoRequest.php` |
 | Teste de regressão | `tests/Feature/ProductFormTamanhoWithoutJavaScriptTest.php` (8 testes). Serializa o formulário renderizado como um navegador sem JS e o reenvia. |
 | Antes / depois | Antes: 6 de 8 falham (`'m'` → `''`, select de calçado habilitado, tamanhos incompatíveis aceitos, tamanho legado apagado). Depois: `OK (8 tests, 36 assertions)` |
-| Branch / commits | `fix/slk-07-form-produto-tamanho-sem-js` / `f5da3b3e5b400be4c965892405d7240d8fb90a9d` e `9c1318c` (tamanho legado) |
+| Branch / commits | `fix/slk-07-form-produto-tamanho-sem-js` / `9b6982ecb4d02deeebe4f8c383e43673e9cffff2` e `5f8384d` (tamanho legado) |
 | PR | Não aberto (aguardando autorização) |
 
 | Antes (`main`), sem JS: tamanho apagado | Depois, sem JS: tamanho preservado |
@@ -94,7 +94,7 @@ Regressão com JS ativo (trocar roupa por calçado tamanho 40): funciona antes e
 | Arquivos | `database/migrations/2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table.php`, `app/Http/Controllers/Admin/ProdutoController.php` |
 | Testes de regressão | `tests/Feature/ConsignmentPaymentIdempotencyTest.php` (4) e `tests/Feature/ConsignmentPaymentMigrationTest.php` (2: vínculo dos dados legados e ausência de pagamento em dobro após o deploy) |
 | Antes / depois | Antes: 2 falhas e 3 erros (saída manual suprime o pagamento; pagamento não vinculado; a coluna e a migration não existem). Depois, com `--filter Consignment`: `OK (9 tests, 45 assertions)` (6 novos e 3 de consignação já existentes), e as suítes completas passam em SQLite e MySQL |
-| Branch / commit | `fix/slk-07-consignado-pagamento-idempotente` / `b54effd28c8170a19b8cec7968ec7d26311345d6` |
+| Branch / commit | `fix/slk-07-consignado-pagamento-idempotente` / `f67e0c7701ac484e0838b58e123622dce7f8cf5d` |
 | PR | Não aberto (aguardando autorização) |
 
 | Antes (`main`): saídas = R$ 1,00 (pagamento de R$ 10,00 perdido) | Depois: saídas = R$ 11,00 |
@@ -134,7 +134,7 @@ Roteiro reproduzível: [`scripts/slk07-browser.cjs`](evidencias/SLK-07/scripts/s
 - Ambiente: Chromium headless (Playwright 1.49.1, ferramenta externa e fora das dependências do projeto) e servidor embutido do PHP.
 - Dados: banco SQLite temporário e senha aleatória por execução. O banco local da aplicação não foi usado.
 - O mesmo roteiro rodou na `main` (antes) e na integração (depois).
-- **Prints refeitos em 12/11/2026 com o CSS do app.** A primeira captura saiu só com o Bootstrap, porque `tests/Browser/router.php` não servia `public/build` no Windows. A ferramenta foi corrigida no commit `8a49f0c` (branch `docs/slk-09-relatorio-ui`), aplicado temporariamente sobre a `main` e sobre a integração apenas para a captura. No Windows, o roteiro precisa dessa correção; em Linux e macOS funciona sem ela.
+- **Prints refeitos em 12/11/2026 com o CSS do app.** A primeira captura saiu só com o Bootstrap, porque `tests/Browser/router.php` não servia `public/build` no Windows. A ferramenta foi corrigida no commit `f47ab5a` (branch `docs/slk-09-relatorio-ui`), aplicado temporariamente sobre a `main` e sobre a integração apenas para a captura. No Windows, o roteiro precisa dessa correção; em Linux e macOS funciona sem ela.
 
 | Cenário | Antes (`main`) | Depois |
 | --- | --- | --- |
@@ -156,9 +156,9 @@ Resultados brutos: [`resultados-antes.json`](evidencias/SLK-07/navegador/resulta
 | BUG-03 | ALTA | — (commit direto na `main`) | `0548ce1` | `FunctionalAcceptanceTest` | Não houve |
 | BUG-04 | ALTA | — (commit direto na `main`) | `0548ce1` | `ReviewRegressionTest` | Não houve |
 | BUG-05 | ALTA | — (commit direto na `main`) | `0548ce1` | `ReviewRegressionTest` | Não houve |
-| BUG-14 | BAIXA → integridade | `fix/slk-07-produto-venda-ativa-exclusao` (local) | `f37c262` | `ProductDeletionWithActiveSaleTest` | Pendente de autorização |
-| BUG-09 | MÉDIA | `fix/slk-07-form-produto-tamanho-sem-js` (local) | `f5da3b3`, `9c1318c` | `ProductFormTamanhoWithoutJavaScriptTest` | Pendente de autorização |
-| BUG-07 | MÉDIA | `fix/slk-07-consignado-pagamento-idempotente` (local) | `b54effd` | `ConsignmentPaymentIdempotencyTest`, `ConsignmentPaymentMigrationTest` | Pendente de autorização |
+| BUG-14 | BAIXA → integridade | `fix/slk-07-produto-venda-ativa-exclusao` (local) | `f56c675` | `ProductDeletionWithActiveSaleTest` | Pendente de autorização |
+| BUG-09 | MÉDIA | `fix/slk-07-form-produto-tamanho-sem-js` (local) | `9b6982e`, `5f8384d` | `ProductFormTamanhoWithoutJavaScriptTest` | Pendente de autorização |
+| BUG-07 | MÉDIA | `fix/slk-07-consignado-pagamento-idempotente` (local) | `f67e0c7` | `ConsignmentPaymentIdempotencyTest`, `ConsignmentPaymentMigrationTest` | Pendente de autorização |
 
 Depois da publicação autorizada, preencher aqui as URLs das branches (`https://github.com/isabellaruthes/SlackNovo/tree/<branch>`), dos commits e dos PRs.
 
