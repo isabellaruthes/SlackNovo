@@ -11,11 +11,13 @@
 </head>
 
 <body>
+    <a href="#conteudo" class="visually-hidden-focusable btn btn-light position-absolute top-0 start-0 m-2 skip-link">Pular para o conteúdo</a>
+
     @auth
         @include('components.navbar')
     @endauth
 
-    <main class="@yield('main_class', 'container py-3')">
+    <main id="conteudo" tabindex="-1" class="@yield('main_class', 'container py-3')">
         <div class="container">@include('partials.alerts')</div>
         @yield('content')
     </main>
