@@ -10,7 +10,8 @@ Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task de origem: **SLK-07** (corr
 | Bugs **Altos** (BUG-01 a BUG-05) | **Corrigidos na `main`** pelo commit [`0548ce1`](https://github.com/isabellaruthes/SlackNovo/commit/0548ce1e6b46c530ce8bb0999f03396c017fe1d5), com testes de regressão que passam (seção 3) |
 | Bugs de integridade de dados aprovados nesta etapa | **BUG-07, BUG-09, BUG-14 corrigidos**, um por branch, com teste de regressão que falha antes e passa depois |
 | Suíte na `main` (linha de base) | SQLite `OK (81 tests, 1400 assertions)` · MySQL 8.4 `OK (69 tests, 645 assertions)` |
-| Suíte com as três correções integradas | SQLite `OK (96 tests, 1461 assertions)` · MySQL 8.4 `OK (84 tests, 706 assertions)` · nenhuma regressão |
+| Suíte com as três correções integradas | SQLite `OK (98 tests, 1473 assertions)` · MySQL 8.4 `OK (86 tests, 718 assertions)` · nenhuma regressão |
+| Integração com a SLK-09 (7 branches de código e 2 de docs) | Sem conflitos · SQLite `OK (127 tests, 1642 assertions)` · MySQL `OK (115 tests, 887 assertions)` · `tests/Browser/acceptance.cjs` com 4 cenários aprovados |
 | Navegador (Chromium headless, com e sem JavaScript) | Defeitos reproduzidos na `main` e ausentes com as correções (seção 5.3) |
 | Estilo (Pint) nos arquivos alterados | Aprovado nas três branches |
 | Fora do escopo por decisão | BUG-10 (reconstrução da tabela `produtos` no SQLite, maior risco) |
@@ -27,13 +28,13 @@ Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task de origem: **SLK-07** (corr
 
 Esses bugs foram encontrados na auditoria de 19/10. Na época, as correções ficaram em branches locais (`fix/exibe-mensagens-feedback`, `fix/caixa-form-venda-valor`, `fix/form-produto-preserva-genero`, `fix/relatorio-vendas-*`), que nunca foram publicadas. Em 08/11, o commit `0548ce1` (isabellaruthes) incorporou correções equivalentes **direto na `main`, sem PR**. As branches antigas ficaram obsoletas e não serão publicadas.
 
-| Achado | Correção na `main` | Verificação em 12/11 |
-| --- | --- | --- |
-| BUG-01 Mensagens do painel nunca exibidas | `layouts/app.blade.php` inclui `partials.alerts`, que trata `success`, `error` e erros de validação | Teste original `FeedbackMessagesTest`: `OK (4 tests)`; `FunctionalAcceptanceTest` |
-| BUG-02 Venda pela tela Caixa sempre rejeitada | Campo `valor_venda` no formulário do caixa | Teste original `CaixaSaleFormTest`: `OK (1 test)`; `FunctionalAcceptanceTest` |
-| BUG-03 Editar produto apagava o gênero | `@selected` no select de gênero | Teste original `ProductFormGeneroTest`: `OK (2 tests)`; `FunctionalAcceptanceTest` |
-| BUG-04 PDF somava reembolsadas como receita | PDF Dompdf com coluna "Situação" (Ativa/Reembolsada) e sem total que infle a receita | `ReviewRegressionTest` (REV-03) |
-| BUG-05 PDF truncava após ~56 vendas | Dompdf com paginação real | `ReviewRegressionTest` (REV-01): 100 vendas, 3 páginas |
+| Achado | Causa | Impacto | Correção na `main` | Verificação em 12/11 |
+| --- | --- | --- | --- | --- |
+| BUG-01 Mensagens do painel nunca exibidas | O parcial `partials/alerts` existia, mas nenhuma view o incluía, e ele também não tratava `session('error')` | Toda falha no painel era silenciosa: uma venda rejeitada apenas recarregava a página e o operador achava que tinha registrado | `layouts/app.blade.php` inclui `partials.alerts`, que trata `success`, `error` e erros de validação | Teste original `FeedbackMessagesTest`: `OK (4 tests)`; `FunctionalAcceptanceTest` |
+| BUG-02 Venda pela tela Caixa sempre rejeitada | O formulário não enviava `valor_venda`, campo obrigatório em `CaixaController::registrarVenda` | 100% das vendas lançadas pelo caixa eram rejeitadas, sem aviso por causa do BUG-01 | Campo `valor_venda` no formulário do caixa | Teste original `CaixaSaleFormTest`: `OK (1 test)`; `FunctionalAcceptanceTest` |
+| BUG-03 Editar produto apagava o gênero | O select de gênero não marcava a opção atual (`@selected` ausente), então era enviado vazio e gravado como `NULL` | Perda silenciosa de dado a cada edição e filtro por gênero quebrado | `@selected` no select de gênero | Teste original `ProductFormGeneroTest`: `OK (2 tests)`; `FunctionalAcceptanceTest` |
+| BUG-04 PDF somava reembolsadas como receita | A consulta do relatório ignorava `reembolsada` e as linhas não indicavam o reembolso | Relatório financeiro superestimava a receita e divergia do caixa e do dashboard | PDF Dompdf com coluna "Situação" (Ativa/Reembolsada) e sem total que infle a receita | `ReviewRegressionTest` (REV-03) |
+| BUG-05 PDF truncava após ~56 vendas | O gerador manual criava uma única página; a partir da 57ª venda o texto ficava fora da área visível | Períodos com mais de ~56 vendas omitiam registros sem aviso | Dompdf com paginação real | `ReviewRegressionTest` (REV-01): 100 vendas, 3 páginas |
 
 Evidência: [`testes/bug01-02-03-verificacao-main.txt`](evidencias/SLK-07/testes/bug01-02-03-verificacao-main.txt).
 
@@ -68,11 +69,11 @@ Depois do reembolso, a exclusão funciona: [print](evidencias/SLK-07/navegador/d
 | Severidade | MÉDIA (perda de dado) |
 | Causa | O formulário tem dois `<select name="tamanho">`, um para roupa e outro para calçado, e o inativo só era desabilitado por JavaScript. Sem JS (bloqueado, com erro de script ou CDN indisponível), o navegador enviava os dois selects, e o de calçado, vazio, chegava por último. |
 | Impacto | Salvar uma roupa apagava o tamanho dela, sem nenhum aviso |
-| Solução | (1) O servidor já renderiza o select inativo com `disabled` e `d-none` conforme o tipo atual, inclusive após erro de validação; o JS continua alternando os selects ao trocar o tipo. (2) `ProdutoRequest` valida o tamanho contra a lista do tipo enviado, então roupa não aceita numeração e calçado não aceita letra. (3) O formulário e a validação usam as mesmas constantes de tamanho. |
+| Solução | (1) O servidor já renderiza o select inativo com `disabled` e `d-none` conforme o tipo atual, inclusive após erro de validação; o JS continua alternando os selects ao trocar o tipo. (2) `ProdutoRequest` valida o tamanho contra a lista do tipo enviado, então roupa não aceita numeração e calçado não aceita letra. (3) O formulário e a validação usam as mesmas constantes de tamanho. (4) Encontrado na revisão: como a regra antiga aceitava qualquer tamanho para qualquer tipo, podem existir roupas com numeração (ex.: `38`) ou calçados com letra. O select do tipo atual não tinha essa opção e o valor sumia ao salvar. Agora o valor legado aparece marcado como "38 (inválido para roupa)" e a validação aponta o campo, em vez de apagar o dado. |
 | Arquivos | `resources/views/admin/produtos/_form.blade.php`, `app/Http/Requests/ProdutoRequest.php` |
-| Teste de regressão | `tests/Feature/ProductFormTamanhoWithoutJavaScriptTest.php` (6 testes). Serializa o formulário renderizado como um navegador sem JS e o reenvia. |
-| Antes / depois | Antes: 4 falhas (`'m'` → `''`, select de calçado habilitado, tamanhos incompatíveis aceitos). Depois: `OK (6 tests, 24 assertions)` |
-| Branch / commit | `fix/slk-07-form-produto-tamanho-sem-js` / `f5da3b3e5b400be4c965892405d7240d8fb90a9d` |
+| Teste de regressão | `tests/Feature/ProductFormTamanhoWithoutJavaScriptTest.php` (8 testes). Serializa o formulário renderizado como um navegador sem JS e o reenvia. |
+| Antes / depois | Antes: 6 de 8 falham (`'m'` → `''`, select de calçado habilitado, tamanhos incompatíveis aceitos, tamanho legado apagado). Depois: `OK (8 tests, 36 assertions)` |
+| Branch / commits | `fix/slk-07-form-produto-tamanho-sem-js` / `f5da3b3e5b400be4c965892405d7240d8fb90a9d` e `9c1318c` (tamanho legado) |
 | PR | Não aberto (aguardando autorização) |
 
 | Antes (`main`), sem JS: tamanho apagado | Depois, sem JS: tamanho preservado |
@@ -114,9 +115,10 @@ Regressão com JS ativo (trocar roupa por calçado tamanho 40): funciona antes e
 | --- | --- | --- |
 | `main` @ `bbaddcc` (linha de base) | `OK (81 tests, 1400 assertions)` | `OK (69 tests, 645 assertions)` |
 | `fix/slk-07-produto-venda-ativa-exclusao` | `OK (84 tests, 1412 assertions)` | `OK (72 tests, 657 assertions)` |
-| `fix/slk-07-form-produto-tamanho-sem-js` | `OK (87 tests, 1424 assertions)` | `OK (75 tests, 669 assertions)` |
+| `fix/slk-07-form-produto-tamanho-sem-js` | `OK (89 tests, 1436 assertions)` | `OK (77 tests, 681 assertions)` |
 | `fix/slk-07-consignado-pagamento-idempotente` | `OK (87 tests, 1425 assertions)` | `OK (75 tests, 670 assertions)` |
-| Integração: merge temporário das 3 branches sobre a `main` (sem conflitos; branch descartada) | `OK (96 tests, 1461 assertions)` | `OK (84 tests, 706 assertions)` |
+| Integração: merge temporário das 3 branches sobre a `main` (sem conflitos; branch descartada) | `OK (98 tests, 1473 assertions)` | `OK (86 tests, 718 assertions)` |
+| Integração SLK-07 + SLK-09 (inclui as branches de docs; sem conflitos) | `OK (127 tests, 1642 assertions)` | `OK (115 tests, 887 assertions)` |
 
 (\*) No MySQL, o `AuthenticationSecurityTest` (12 testes) é excluído porque o próprio teste exige SQLite `:memory:` e lança `LogicException` em outro banco. O comportamento é igual na `main`.
 
@@ -132,6 +134,7 @@ Roteiro reproduzível: [`scripts/slk07-browser.cjs`](evidencias/SLK-07/scripts/s
 - Ambiente: Chromium headless (Playwright 1.49.1, ferramenta externa e fora das dependências do projeto) e servidor embutido do PHP.
 - Dados: banco SQLite temporário e senha aleatória por execução. O banco local da aplicação não foi usado.
 - O mesmo roteiro rodou na `main` (antes) e na integração (depois).
+- **Prints refeitos em 12/11/2026 com o CSS do app.** A primeira captura saiu só com o Bootstrap, porque `tests/Browser/router.php` não servia `public/build` no Windows. A ferramenta foi corrigida no commit `8a49f0c` (branch `docs/slk-09-relatorio-ui`), aplicado temporariamente sobre a `main` e sobre a integração apenas para a captura. No Windows, o roteiro precisa dessa correção; em Linux e macOS funciona sem ela.
 
 | Cenário | Antes (`main`) | Depois |
 | --- | --- | --- |
@@ -154,7 +157,7 @@ Resultados brutos: [`resultados-antes.json`](evidencias/SLK-07/navegador/resulta
 | BUG-04 | ALTA | — (commit direto na `main`) | `0548ce1` | `ReviewRegressionTest` | Não houve |
 | BUG-05 | ALTA | — (commit direto na `main`) | `0548ce1` | `ReviewRegressionTest` | Não houve |
 | BUG-14 | BAIXA → integridade | `fix/slk-07-produto-venda-ativa-exclusao` (local) | `f37c262` | `ProductDeletionWithActiveSaleTest` | Pendente de autorização |
-| BUG-09 | MÉDIA | `fix/slk-07-form-produto-tamanho-sem-js` (local) | `f5da3b3` | `ProductFormTamanhoWithoutJavaScriptTest` | Pendente de autorização |
+| BUG-09 | MÉDIA | `fix/slk-07-form-produto-tamanho-sem-js` (local) | `f5da3b3`, `9c1318c` | `ProductFormTamanhoWithoutJavaScriptTest` | Pendente de autorização |
 | BUG-07 | MÉDIA | `fix/slk-07-consignado-pagamento-idempotente` (local) | `b54effd` | `ConsignmentPaymentIdempotencyTest`, `ConsignmentPaymentMigrationTest` | Pendente de autorização |
 
 Depois da publicação autorizada, preencher aqui as URLs das branches (`https://github.com/isabellaruthes/SlackNovo/tree/<branch>`), dos commits e dos PRs.
@@ -169,13 +172,13 @@ Depois da publicação autorizada, preencher aqui as URLs das branches (`https:/
 | BUG-08 Dashboard com venda reembolsada / cards duplicados | MÉDIA | **Corrigido** (`0548ce1`, REV-04) | — |
 | BUG-09 Tamanho depende de JS | MÉDIA | **Corrigido nesta etapa** (branch local) | — |
 | BUG-10 CHECKs perdidos em `produtos` (SQLite) | MÉDIA | **Aberto**, adiado por decisão | Exige reconstruir a tabela; o MySQL não é afetado |
-| BUG-11 Caixa e Dashboard sem paginação | BAIXA | Aberto | `CaixaController` e `DashboardController` usam `get()` |
+| BUG-11 Caixa e Dashboard sem paginação | BAIXA | **Parcial**: dashboard paginado na [SLK-09](SLK-09-relatorio-validacao-ui.md) (`ui/slk-09-responsividade-dashboard`) | A lista do caixa continua com `get()` |
 | BUG-12 Sem mecanismo para criar o primeiro usuário | BAIXA | Aberto (documentado no README) | — |
-| BUG-13 "Lucro por peça" exibido em venda reembolsada | BAIXA | Aberto | Visível no print do caixa do BUG-07 |
+| BUG-13 "Lucro por peça" exibido em venda reembolsada | BAIXA | **Corrigido na SLK-09** (`ui/slk-09-padroniza-componentes`) | Ainda visível nos prints do BUG-07, que foram feitos sem as branches da SLK-09 |
 | BUG-14 Exclusão de produto com venda ativa | BAIXA | **Corrigido nesta etapa** (branch local) | — |
 | BUG-15 Data sem formatação no PDF | BAIXA | **Corrigido** (`0548ce1`, REV-06) | — |
-| BUG-16 Mensagens de validação em inglês | BAIXA | Aberto | `APP_LOCALE=en`; não há pasta `lang/` |
-| BUG-17 Horários em UTC | BAIXA | Aberto | `config/app.php` usa `timezone => 'UTC'`; o PDF informa o fuso |
+| BUG-16 Mensagens de validação em inglês | BAIXA | **Corrigido na SLK-09** (`ui/slk-09-mensagens-validacao-ptbr`) | `lang/pt_BR` e locale padrão `pt_BR` |
+| BUG-17 Horários em UTC | BAIXA | **Corrigido na SLK-09** (`ui/slk-09-mensagens-validacao-ptbr`) | Exibição em `APP_DISPLAY_TIMEZONE`; armazenamento continua em UTC |
 | BUG-18 Limite de upload do PHP abaixo de 5 MB | MÉDIA | Aberto (configuração do servidor) | Definir `upload_max_filesize` ≥ 6M e `post_max_size` ≥ 8M no ambiente |
 | **BUG-19** Rollback da migration `2026_08_28_000000_make_produto_imagen_nullable` falha com produto sem imagem (novo) | BAIXA | Aberto | `down()` volta `imagen` para NOT NULL e o SQLite rejeita as linhas com `NULL`. Afeta só o rollback, não a operação. [Reprodução](evidencias/SLK-07/banco/bug19-rollback-sqlite.txt) |
 | SEC-01 Cabeçalhos de segurança / clickjacking | P2 | Aberto (SLK-05) | — |
@@ -213,6 +216,6 @@ PLAYWRIGHT_MODULE=<caminho>/playwright node docs/evidencias/SLK-07/scripts/slk07
 
 ## 10. Próximos passos (dependem de autorização)
 
-1. Publicar `fix/slk-07-produto-venda-ativa-exclusao`, `fix/slk-07-form-produto-tamanho-sem-js`, `fix/slk-07-consignado-pagamento-idempotente` e `docs/slk-07-relatorio-validacao`, e abrir um PR por branch com destino `main`.
+1. Publicar `fix/slk-07-produto-venda-ativa-exclusao`, `fix/slk-07-form-produto-tamanho-sem-js`, `fix/slk-07-consignado-pagamento-idempotente` e `docs/slk-07-relatorio-validacao`, e abrir um PR por branch com destino `main`. Quem mesclar o PR do BUG-07 precisa rodar `php artisan migrate`.
 2. Preencher na seção 6 as URLs de branches, commits e PRs.
-3. Priorizar no backlog: BUG-10 (com plano próprio), BUG-18 (configuração), BUG-13 e a regra de ajuste do pagamento de consignado.
+3. Priorizar no backlog: BUG-10 (com plano próprio), BUG-18 (configuração), BUG-19 e a regra de ajuste do pagamento de consignado.

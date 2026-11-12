@@ -3,6 +3,6 @@ PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
 Runtime:       PHP 8.5.11
 Configuration: <repo>\phpunit.xml
 
-Time: 00:22.466, Memory: 94.00 MB
+Time: 00:23.530, Memory: 94.00 MB
 
-OK (96 tests, 1461 assertions)
+OK (98 tests, 1473 assertions)

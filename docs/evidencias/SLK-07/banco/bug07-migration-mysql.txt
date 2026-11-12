@@ -24,4 +24,3 @@ $ php artisan migrate:rollback --step=1 --force
 
 $ php artisan migrate --force
   2026_11_12_000000_add_id_produto_consignado_to_saida_caixas_table .................................... 480.75ms DONE
-
