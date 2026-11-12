@@ -1,6 +1,6 @@
 # SLK-07 — Relatório de validação: correção de bugs críticos e de integridade de dados
 
-Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task de origem: **SLK-07** (correção de bugs) · Status: **correções concluídas e validadas localmente; branches não publicadas e PRs não abertos (aguardando autorização)**
+Data: 12/11/2026 · Base: `main` @ `bbaddcc` · Task de origem: **SLK-07** (correção de bugs) · Status: **correções concluídas e validadas localmente; branches publicadas e PRs abertos em 12/11/2026 ([#4](https://github.com/isabellaruthes/SlackNovo/pull/4), [#5](https://github.com/isabellaruthes/SlackNovo/pull/5), [#6](https://github.com/isabellaruthes/SlackNovo/pull/6), [#7](https://github.com/isabellaruthes/SlackNovo/pull/7)), aguardando revisão**
 
 ## 1. Resumo
 
@@ -54,7 +54,7 @@ Evidência: [`testes/bug01-02-03-verificacao-main.txt`](evidencias/SLK-07/testes
 | Teste de regressão | `tests/Feature/ProductDeletionWithActiveSaleTest.php` (3 testes) |
 | Antes / depois | Antes: 1 falha (o produto foi excluído). Depois: `OK (3 tests, 12 assertions)` |
 | Branch / commit | `fix/slk-07-produto-venda-ativa-exclusao` / `f56c675c40dae0952cac17973bd00a6ee58645db` |
-| PR | Não aberto (aguardando autorização) |
+| PR | [#4](https://github.com/isabellaruthes/SlackNovo/pull/4) (aguardando revisão) |
 
 | Antes (`main`) | Depois |
 | --- | --- |
@@ -74,7 +74,7 @@ Depois do reembolso, a exclusão funciona: [print](evidencias/SLK-07/navegador/d
 | Teste de regressão | `tests/Feature/ProductFormTamanhoWithoutJavaScriptTest.php` (8 testes). Serializa o formulário renderizado como um navegador sem JS e o reenvia. |
 | Antes / depois | Antes: 6 de 8 falham (`'m'` → `''`, select de calçado habilitado, tamanhos incompatíveis aceitos, tamanho legado apagado). Depois: `OK (8 tests, 36 assertions)` |
 | Branch / commits | `fix/slk-07-form-produto-tamanho-sem-js` / `9b6982ecb4d02deeebe4f8c383e43673e9cffff2` e `5f8384d` (tamanho legado) |
-| PR | Não aberto (aguardando autorização) |
+| PR | [#5](https://github.com/isabellaruthes/SlackNovo/pull/5) (aguardando revisão) |
 
 | Antes (`main`), sem JS: tamanho apagado | Depois, sem JS: tamanho preservado |
 | --- | --- |
@@ -95,7 +95,7 @@ Regressão com JS ativo (trocar roupa por calçado tamanho 40): funciona antes e
 | Testes de regressão | `tests/Feature/ConsignmentPaymentIdempotencyTest.php` (4) e `tests/Feature/ConsignmentPaymentMigrationTest.php` (2: vínculo dos dados legados e ausência de pagamento em dobro após o deploy) |
 | Antes / depois | Antes: 2 falhas e 3 erros (saída manual suprime o pagamento; pagamento não vinculado; a coluna e a migration não existem). Depois, com `--filter Consignment`: `OK (9 tests, 45 assertions)` (6 novos e 3 de consignação já existentes), e as suítes completas passam em SQLite e MySQL |
 | Branch / commit | `fix/slk-07-consignado-pagamento-idempotente` / `f67e0c7701ac484e0838b58e123622dce7f8cf5d` |
-| PR | Não aberto (aguardando autorização) |
+| PR | [#6](https://github.com/isabellaruthes/SlackNovo/pull/6) (aguardando revisão) |
 
 | Antes (`main`): saídas = R$ 1,00 (pagamento de R$ 10,00 perdido) | Depois: saídas = R$ 11,00 |
 | --- | --- |
@@ -156,11 +156,11 @@ Resultados brutos: [`resultados-antes.json`](evidencias/SLK-07/navegador/resulta
 | BUG-03 | ALTA | — (commit direto na `main`) | `0548ce1` | `FunctionalAcceptanceTest` | Não houve |
 | BUG-04 | ALTA | — (commit direto na `main`) | `0548ce1` | `ReviewRegressionTest` | Não houve |
 | BUG-05 | ALTA | — (commit direto na `main`) | `0548ce1` | `ReviewRegressionTest` | Não houve |
-| BUG-14 | BAIXA → integridade | `fix/slk-07-produto-venda-ativa-exclusao` (local) | `f56c675` | `ProductDeletionWithActiveSaleTest` | Pendente de autorização |
-| BUG-09 | MÉDIA | `fix/slk-07-form-produto-tamanho-sem-js` (local) | `9b6982e`, `5f8384d` | `ProductFormTamanhoWithoutJavaScriptTest` | Pendente de autorização |
-| BUG-07 | MÉDIA | `fix/slk-07-consignado-pagamento-idempotente` (local) | `f67e0c7` | `ConsignmentPaymentIdempotencyTest`, `ConsignmentPaymentMigrationTest` | Pendente de autorização |
+| BUG-14 | BAIXA → integridade | [`fix/slk-07-produto-venda-ativa-exclusao`](https://github.com/isabellaruthes/SlackNovo/tree/fix/slk-07-produto-venda-ativa-exclusao) | [`f56c675`](https://github.com/isabellaruthes/SlackNovo/commit/f56c675) | `ProductDeletionWithActiveSaleTest` | [#4](https://github.com/isabellaruthes/SlackNovo/pull/4) |
+| BUG-09 | MÉDIA | [`fix/slk-07-form-produto-tamanho-sem-js`](https://github.com/isabellaruthes/SlackNovo/tree/fix/slk-07-form-produto-tamanho-sem-js) | [`9b6982e`](https://github.com/isabellaruthes/SlackNovo/commit/9b6982e), [`5f8384d`](https://github.com/isabellaruthes/SlackNovo/commit/5f8384d) | `ProductFormTamanhoWithoutJavaScriptTest` | [#5](https://github.com/isabellaruthes/SlackNovo/pull/5) |
+| BUG-07 | MÉDIA | [`fix/slk-07-consignado-pagamento-idempotente`](https://github.com/isabellaruthes/SlackNovo/tree/fix/slk-07-consignado-pagamento-idempotente) | [`f67e0c7`](https://github.com/isabellaruthes/SlackNovo/commit/f67e0c7) | `ConsignmentPaymentIdempotencyTest`, `ConsignmentPaymentMigrationTest` | [#6](https://github.com/isabellaruthes/SlackNovo/pull/6) |
 
-Depois da publicação autorizada, preencher aqui as URLs das branches (`https://github.com/isabellaruthes/SlackNovo/tree/<branch>`), dos commits e dos PRs.
+Relatório e evidências: [`docs/slk-07-relatorio-validacao`](https://github.com/isabellaruthes/SlackNovo/tree/docs/slk-07-relatorio-validacao), PR [#7](https://github.com/isabellaruthes/SlackNovo/pull/7). Ordem de merge sugerida: [#4](https://github.com/isabellaruthes/SlackNovo/pull/4) → [#5](https://github.com/isabellaruthes/SlackNovo/pull/5) → [#6](https://github.com/isabellaruthes/SlackNovo/pull/6) → [#7](https://github.com/isabellaruthes/SlackNovo/pull/7) (o PR de documentação por último).
 
 ## 7. Backlog atualizado
 
@@ -214,8 +214,8 @@ PLAYWRIGHT_MODULE=<caminho>/playwright node docs/evidencias/SLK-07/scripts/slk07
 - A verificação sem JavaScript cobre o formulário de produto. Outras telas não foram avaliadas nessa condição.
 - A migration do BUG-07 foi testada com dados legados simulados, não com uma cópia do banco de produção. Recomenda-se rodá-la antes em uma cópia.
 
-## 10. Próximos passos (dependem de autorização)
+## 10. Próximos passos
 
-1. Publicar `fix/slk-07-produto-venda-ativa-exclusao`, `fix/slk-07-form-produto-tamanho-sem-js`, `fix/slk-07-consignado-pagamento-idempotente` e `docs/slk-07-relatorio-validacao`, e abrir um PR por branch com destino `main`. Quem mesclar o PR do BUG-07 precisa rodar `php artisan migrate`.
-2. Preencher na seção 6 as URLs de branches, commits e PRs.
+1. Revisão e aprovação dos PRs [#4](https://github.com/isabellaruthes/SlackNovo/pull/4), [#5](https://github.com/isabellaruthes/SlackNovo/pull/5), [#6](https://github.com/isabellaruthes/SlackNovo/pull/6) e [#7](https://github.com/isabellaruthes/SlackNovo/pull/7) pela equipe. Quem mesclar o PR do BUG-07 ([#6](https://github.com/isabellaruthes/SlackNovo/pull/6)) precisa rodar `php artisan migrate`.
+2. Mesclar na ordem da seção 6.
 3. Priorizar no backlog: BUG-10 (com plano próprio), BUG-18 (configuração), BUG-19 e a regra de ajuste do pagamento de consignado.
