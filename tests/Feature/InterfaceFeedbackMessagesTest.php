@@ -144,6 +144,23 @@ class InterfaceFeedbackMessagesTest extends TestCase
         $this->assertStringNotContainsString('Madrugada seguinte', $pdf->html);
     }
 
+    public function test_pagination_texts_are_in_portuguese(): void
+    {
+        for ($i = 1; $i <= 21; $i++) {
+            Produto::create([
+                'nome' => 'Peça '.$i, 'tipo_produto' => 'roupa', 'estado' => 'novo',
+                'preco_compra' => 10, 'preco_venda' => 30, 'status' => 'disponivel',
+            ]);
+        }
+
+        $this->get(route('admin.produtos.index'))->assertOk()
+            ->assertSee('Exibindo')
+            ->assertSee('resultados')
+            ->assertSee('aria-label="Próxima &raquo;"', false)
+            ->assertDontSee('Showing')
+            ->assertDontSee('results');
+    }
+
     private function xpath(string $html): DOMXPath
     {
         $document = new DOMDocument;
