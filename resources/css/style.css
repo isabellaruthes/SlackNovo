@@ -146,3 +146,8 @@ main {
         right: 16px;
     }
 }
+
+/* Dashboard chart: columns may shrink below the label's natural width on phones. */
+.grafico-vendas-coluna {
+	min-width: 0;
+}
