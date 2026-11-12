@@ -12,17 +12,24 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h2 class="h6 mb-3">Produtos vendidos por mês (últimos 6 meses)</h2>
-                        <div class="d-flex align-items-end gap-2" style="height: 220px;">
+                        {{-- Visual bars are hidden from assistive tech; the list below carries the same data. --}}
+                        <div class="d-flex align-items-end gap-2 grafico-vendas" style="height: 220px;" aria-hidden="true">
                             @php($maiorTotal = max(1, $totaisMeses->max()))
                             @foreach ($totaisMeses as $index => $total)
-                                @php($altura = $total > 0 ? max(12, ($total / $maiorTotal) * 180) : 12)
-                                <div class="text-center flex-fill">
+                                @php($altura = $total > 0 ? max(12, ($total / $maiorTotal) * 160) : 12)
+                                @php([$mes, $ano] = array_pad(explode('/', $labelsMeses[$index], 2), 2, ''))
+                                <div class="text-center flex-fill grafico-vendas-coluna">
                                     <div class="bg-dark rounded-top" style="height: {{ $altura }}px;"></div>
-                                    <small class="d-block mt-2">{{ $labelsMeses[$index] }}</small>
+                                    <small class="d-block mt-2 lh-sm">{{ $mes }}<span class="d-block text-muted">{{ $ano }}</span></small>
                                     <strong>{{ $total }}</strong>
                                 </div>
                             @endforeach
                         </div>
+                        <ul class="visually-hidden">
+                            @foreach ($totaisMeses as $index => $total)
+                                <li>{{ $labelsMeses[$index] }}: {{ $total }} {{ $total === 1 ? 'produto vendido' : 'produtos vendidos' }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -145,9 +152,16 @@
                             </div>
                         @endif
                     @empty
-                        <p class="text-muted">Nenhum produto cadastrado.</p>
+                        <p class="text-muted">
+                            {{ ($busca !== '' || $status !== '' || $categoria !== '' || $tamanho !== '') ? 'Nenhum produto encontrado com os filtros atuais.' : 'Nenhum produto cadastrado.' }}
+                        </p>
                     @endforelse
                 </div>
+                @if ($produtos->hasPages())
+                    <nav class="mt-3" aria-label="Paginação do catálogo administrativo">
+                        {{ $produtos->links('pagination::bootstrap-5') }}
+                    </nav>
+                @endif
             </div>
         </div>
     </section>

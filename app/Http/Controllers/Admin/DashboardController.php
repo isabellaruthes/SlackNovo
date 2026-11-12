@@ -16,6 +16,8 @@ use Illuminate\Validation\ValidationException;
 
 class DashboardController extends Controller
 {
+    private const PRODUTOS_POR_PAGINA = 24;
+
     public function index(Request $request): View
     {
         $validator = Validator::make($request->all(), [
@@ -97,7 +99,10 @@ class DashboardController extends Controller
             ->when($categoria !== '', fn ($query) => $query->where('produtos.id_categoria', $categoria))
             ->when($tamanho !== '', fn ($query) => $query->where('produtos.tamanho', $tamanho))
             ->orderByDesc('produtos.created_at')
-            ->get();
+            // Stable order across pages when several products share created_at.
+            ->orderByDesc('produtos.id')
+            ->paginate(self::PRODUTOS_POR_PAGINA)
+            ->withQueryString();
 
         return view('admin.dashboard.index', [
             'labelsMeses' => $labelsMeses,
