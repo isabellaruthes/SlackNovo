@@ -10,12 +10,14 @@
 <div class="row g-3">
     <div class="col-md-6">
         <label class="form-label" for="produto_nome">Nome</label>
-        <input class="form-control" id="produto_nome" name="nome" maxlength="50" value="{{ $formValue('nome', $produto->nome ?? '') }}" required>
+        <input class="form-control @error('nome') is-invalid @enderror" id="produto_nome" name="nome" maxlength="50" value="{{ $formValue('nome', $produto->nome ?? '') }}" required @error('nome') aria-invalid="true" aria-describedby="erro_nome" @enderror>
+        <x-erro-campo campo="nome" />
     </div>
     <div class="col-md-6">
         <label class="form-label" for="produto_imagen">Imagem do produto</label>
-        <input class="form-control" name="imagen" type="file" accept="image/jpeg,image/png,image/gif,image/bmp,image/webp" id="produto_imagen">
-        <small class="text-muted d-block mt-1">Opcional. JPEG, PNG, GIF, BMP ou WebP, até 5 MB.</small>
+        <input class="form-control @error('imagen') is-invalid @enderror" name="imagen" type="file" accept="image/jpeg,image/png,image/gif,image/bmp,image/webp" id="produto_imagen" aria-describedby="produto_imagen_ajuda @error('imagen') erro_imagen @enderror" @error('imagen') aria-invalid="true" @enderror>
+        <x-erro-campo campo="imagen" />
+        <small class="text-muted d-block mt-1" id="produto_imagen_ajuda">Opcional. JPEG, PNG, GIF, BMP ou WebP, até 5 MB.</small>
         @if (!empty($produto?->imagen))
             <small class="text-muted d-block mt-1">Imagem atual: {{ $produto->imagen }}</small>
         @endif
@@ -36,6 +38,7 @@
             <input class="form-check-input" type="radio" name="estado" id="estado_consignado" value="consignado" @checked($estadoAtual === 'consignado')>
             <label class="form-check-label" for="estado_consignado">Consignado</label>
         </div>
+        <x-erro-campo campo="estado" :bloco="true" />
     </div>
     <div class="col-12">
         <label class="form-label d-block mb-2">Tipo do produto</label>
@@ -48,12 +51,14 @@
             <input class="form-check-input" type="radio" name="tipo_produto" id="tipo_calcado" value="calcado" @checked($tipoProdutoAtual === 'calcado')>
             <label class="form-check-label" for="tipo_calcado">Calçado</label>
         </div>
+        <x-erro-campo campo="tipo_produto" :bloco="true" />
     </div>
 
     <div id="consignado_fields" class="row g-3 {{ $estadoAtual === 'consignado' ? '' : 'd-none' }}">
         <div class="col-md-6">
             <label class="form-label" for="produto_cliente_consignado">Cliente que deixou a peça</label>
-            <input class="form-control" id="produto_cliente_consignado" name="cliente_consignado" maxlength="120" value="{{ $formValue('cliente_consignado', $produto->cliente_consignado ?? '') }}">
+            <input class="form-control @error('cliente_consignado') is-invalid @enderror" id="produto_cliente_consignado" name="cliente_consignado" maxlength="120" value="{{ $formValue('cliente_consignado', $produto->cliente_consignado ?? '') }}" @error('cliente_consignado') aria-invalid="true" aria-describedby="erro_cliente_consignado" @enderror>
+            <x-erro-campo campo="cliente_consignado" />
         </div>
         <div class="col-md-6">
             <label class="form-label d-block">Pagamento do consignado</label>
@@ -61,11 +66,12 @@
                 <input class="form-check-input" type="checkbox" value="1" id="consignado_pago" name="consignado_pago" @checked($formValue('consignado_pago', $produto->consignado_pago ?? false) === '1')>
                 <label class="form-check-label" for="consignado_pago">Já foi pago para a cliente</label>
             </div>
+            <x-erro-campo campo="consignado_pago" :bloco="true" />
         </div>
     </div>
 
-    <div class="col-md-3"><label class="form-label" for="preco_compra">Preço Compra</label><input class="form-control" name="preco_compra" id="preco_compra" type="number" step="0.01" min="0" max="99999999.99" value="{{ $formValue('preco_compra', $produto->preco_compra ?? '') }}" required></div>
-    <div class="col-md-3"><label class="form-label" for="produto_preco_venda">Preço Venda</label><input class="form-control" id="produto_preco_venda" name="preco_venda" type="number" step="0.01" min="0.01" max="99999999.99" value="{{ $formValue('preco_venda', $produto->preco_venda ?? '') }}" required></div>
+    <div class="col-md-3"><label class="form-label" for="preco_compra">Preço Compra</label><input class="form-control @error('preco_compra') is-invalid @enderror" name="preco_compra" id="preco_compra" type="number" step="0.01" min="0" max="99999999.99" value="{{ $formValue('preco_compra', $produto->preco_compra ?? '') }}" required @error('preco_compra') aria-invalid="true" aria-describedby="erro_preco_compra" @enderror><x-erro-campo campo="preco_compra" /></div>
+    <div class="col-md-3"><label class="form-label" for="produto_preco_venda">Preço Venda</label><input class="form-control @error('preco_venda') is-invalid @enderror" id="produto_preco_venda" name="preco_venda" type="number" step="0.01" min="0.01" max="99999999.99" value="{{ $formValue('preco_venda', $produto->preco_venda ?? '') }}" required @error('preco_venda') aria-invalid="true" aria-describedby="erro_preco_venda" @enderror><x-erro-campo campo="preco_venda" /></div>
     <div class="col-md-3">
         <label class="form-label" for="tamanho_roupa" id="tamanho_label">Tamanho</label>
         @php($tamanhoAtual = $formValue('tamanho', $produto->tamanho ?? ''))
@@ -88,7 +94,7 @@
     <div class="col-md-3"><label class="form-label" for="produto_id_cor">Cor</label><select class="form-select" name="id_cor" id="produto_id_cor"><option value="">-</option>@foreach($cores as $item)<option value="{{ $item->id }}" @selected($formValue('id_cor', $produto->id_cor ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
     <div class="col-md-3"><label class="form-label" for="produto_id_material">Material</label><select class="form-select" name="id_material" id="produto_id_material"><option value="">-</option>@foreach($materiais as $item)<option value="{{ $item->id }}" @selected($formValue('id_material', $produto->id_material ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
     <div class="col-md-3"><label class="form-label" for="produto_id_fornecedor">Fornecedor</label><select class="form-select" name="id_fornecedor" id="produto_id_fornecedor"><option value="">-</option>@foreach($fornecedores as $item)<option value="{{ $item->id }}" @selected($formValue('id_fornecedor', $produto->id_fornecedor ?? '')===(string)$item->id)>{{ $item->nome }}</option>@endforeach</select></div>
-    <div class="col-12"><label class="form-label" for="produto_descricao">Descrição</label><textarea class="form-control" name="descricao" rows="3" maxlength="5000" id="produto_descricao">{{ $formValue('descricao', $produto->descricao ?? '') }}</textarea></div>
+    <div class="col-12"><label class="form-label" for="produto_descricao">Descrição</label><textarea class="form-control @error('descricao') is-invalid @enderror" name="descricao" rows="3" maxlength="5000" id="produto_descricao" @error('descricao') aria-invalid="true" aria-describedby="erro_descricao" @enderror>{{ $formValue('descricao', $produto->descricao ?? '') }}</textarea><x-erro-campo campo="descricao" /></div>
 </div>
 
 <script>

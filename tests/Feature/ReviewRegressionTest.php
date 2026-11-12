@@ -24,6 +24,7 @@ class ReviewRegressionTest extends TestCase
 
     public function test_pdf_paginates_a_large_history_and_preserves_accents_dates_and_refund_status(): void
     {
+        config(['app.display_timezone' => 'America/Sao_Paulo']);
         $produto = $this->produto();
         for ($i = 1; $i <= 100; $i++) {
             $this->venda($produto, [
@@ -44,7 +45,9 @@ class ReviewRegressionTest extends TestCase
             $this->assertStringContainsString('Peça ação '.$i, $text);
         }
         $this->assertStringContainsString('João (á à ã â é ê í ó ô õ ú ç)', $text);
-        $this->assertStringContainsString('08/11/2026 12:00', $text);
+        // Stored at 12:00 UTC, printed in the operator's timezone (SLK-09).
+        $this->assertStringContainsString('08/11/2026 09:00', $text);
+        $this->assertStringContainsString('Datas no fuso America/Sao_Paulo', $text);
         $this->assertStringContainsString('Reembolsada', $text);
         $this->assertStringContainsString('Ativa', $text);
         $this->assertStringContainsString('DejaVuSans', $response->getContent());
@@ -53,6 +56,9 @@ class ReviewRegressionTest extends TestCase
     #[DataProvider('reportDateFilters')]
     public function test_pdf_date_filter_includes_the_entire_final_day(array $query, bool $includesBefore, bool $includesAfter): void
     {
+        // Boundaries below are written in UTC; the operator-timezone case is covered by
+        // InterfaceFeedbackMessagesTest (SLK-09).
+        config(['app.display_timezone' => 'UTC']);
         $produto = $this->produto();
         $this->venda($produto, ['nome' => 'Dentro do período', 'data_hora' => '2026-11-08 23:59:59']);
         $this->venda($produto, ['nome' => 'Antes do período', 'data_hora' => '2026-11-07 23:59:59']);

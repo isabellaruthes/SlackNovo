@@ -28,7 +28,7 @@
         {{ $inicio ? \Illuminate\Support\Carbon::parse($inicio)->format('d/m/Y') : 'Sem limite inicial' }}
         até {{ $fim ? \Illuminate\Support\Carbon::parse($fim)->format('d/m/Y') : 'Sem limite final' }}.
     </p>
-    <p class="contexto">Datas no fuso {{ config('app.timezone') }}.</p>
+    <p class="contexto">Datas no fuso {{ \App\Support\DataHora::fuso() }}.</p>
     <table>
         <thead>
             <tr>
@@ -48,7 +48,7 @@
                     <td>{{ $venda->comprador ?? 'Não informado' }}</td>
                     <td>R$ {{ number_format((float) ($venda->valor_venda_total ?? 0), 2, ',', '.') }}</td>
                     <td>{{ $venda->reembolsada ? 'Reembolsada' : 'Ativa' }}</td>
-                    <td>{{ $venda->{$colunaDataVenda} ? \Illuminate\Support\Carbon::parse($venda->{$colunaDataVenda})->timezone(config('app.timezone'))->format('d/m/Y H:i') : 'Não informada' }}</td>
+                    <td>{{ \App\Support\DataHora::exibir($venda->{$colunaDataVenda}) ?? 'Não informada' }}</td>
                 </tr>
             @empty
                 <tr><td colspan="6">Nenhuma venda encontrada no período informado.</td></tr>
