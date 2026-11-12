@@ -90,7 +90,7 @@ class FunctionalAcceptanceTest extends TestCase
             ->assertOk()->assertSee('Saída registrada com sucesso.')->assertViewHas('saldo', 25);
         $id = Venda::firstOrFail()->id;
         $this->from('/admin/caixa')->followingRedirects()->post('/admin/caixa/venda/'.$id.'/reembolso')
-            ->assertOk()->assertSee('Venda reembolsada com sucesso.')->assertSee('Reembolsado')->assertViewHas('saldo', -5);
+            ->assertOk()->assertSee('Venda reembolsada com sucesso.')->assertSee('<span class="badge text-bg-secondary">Reembolsada</span>', false)->assertViewHas('saldo', -5);
         $this->assertSame('disponivel', $product->fresh()->status);
     }
 

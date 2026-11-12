@@ -6,15 +6,15 @@
     <a href="{{ route('admin.produtos.create') }}" class="btn btn-primary">Novo Produto</a>
 </div>
 <div class="table-responsive">
-<table class="table table-striped">
-    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Status</th><th>Consignado</th><th>Ações</th></tr></thead>
+<table class="table table-striped align-middle">
+    <thead><tr><th scope="col">ID</th><th scope="col">Nome</th><th scope="col">Preço</th><th scope="col">Status</th><th scope="col">Consignado</th><th scope="col">Ações</th></tr></thead>
     <tbody>
     @forelse($produtos as $produto)
     <tr>
         <td>{{ $produto->id }}</td>
         <td>{{ $produto->nome }}</td>
         <td>R$ {{ number_format($produto->preco_venda, 2, ',', '.') }}</td>
-        <td>{{ $produto->status }}</td>
+        <td><x-status-produto :status="$produto->status" /></td>
         <td>
             @if ($produto->estado === 'consignado')
                 <div><strong>Cliente:</strong> {{ $produto->cliente_consignado ?: '-' }}</div>
@@ -37,5 +37,9 @@
     </tbody>
 </table>
 </div>
-{{ $produtos->links('pagination::bootstrap-5') }}
+@if ($produtos->hasPages())
+    <nav aria-label="Paginação de produtos">
+        {{ $produtos->links('pagination::bootstrap-5') }}
+    </nav>
+@endif
 @endsection
