@@ -4,9 +4,17 @@ namespace App\Http\Requests;
 
 use App\Support\MoneyRules;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProdutoRequest extends FormRequest
 {
+    public const TAMANHOS_ROUPA = ['pp', 'p', 'm', 'g', 'gg', 'g1', 'g2', 'g3', 'g4'];
+
+    public const TAMANHOS_CALCADO = [
+        '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
+        '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46',
+    ];
+
     public function authorize(): bool
     {
         return true;
@@ -23,7 +31,8 @@ class ProdutoRequest extends FormRequest
             'imagen' => ['nullable', 'image', 'max:5120'],
             'estado' => ['nullable', 'in:novo,usado,consignado'],
             'tipo_produto' => ['required', 'in:roupa,calcado'],
-            'tamanho' => ['nullable', 'in:pp,p,m,g,gg,g1,g2,g3,g4,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46'],
+            // The size must belong to the submitted product type (clothing letters or shoe numbers).
+            'tamanho' => ['nullable', Rule::in($this->input('tipo_produto') === 'calcado' ? self::TAMANHOS_CALCADO : self::TAMANHOS_ROUPA)],
             'preco_compra' => MoneyRules::rules(allowZero: ! $pagamentoConsignado),
             'preco_venda' => MoneyRules::rules(),
             'genero' => ['nullable', 'in:masculino,feminino,unissex'],
