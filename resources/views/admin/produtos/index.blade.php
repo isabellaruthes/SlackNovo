@@ -7,11 +7,19 @@
 </div>
 <div class="table-responsive">
 <table class="table table-striped">
-    <thead><tr><th>ID</th><th>Nome</th><th>Preço</th><th>Status</th><th>Consignado</th><th>Ações</th></tr></thead>
+    <thead><tr><th>ID</th><th>Foto</th><th>Nome</th><th>Preço</th><th>Status</th><th>Consignado</th><th>Ações</th></tr></thead>
     <tbody>
     @forelse($produtos as $produto)
     <tr>
         <td>{{ $produto->id }}</td>
+        <td>
+            @if ($produto->imagen)
+                <img src="{{ asset('storage/' . $produto->imagen) }}" alt="{{ $produto->nome }}"
+                    class="rounded" width="64" height="64" style="object-fit:cover;" loading="lazy">
+            @else
+                <span class="text-muted small">Sem foto</span>
+            @endif
+        </td>
         <td>{{ $produto->nome }}</td>
         <td>R$ {{ number_format($produto->preco_venda, 2, ',', '.') }}</td>
         <td>{{ $produto->status }}</td>
@@ -32,7 +40,7 @@
         </td>
     </tr>
     @empty
-    <tr><td colspan="6" class="text-center text-muted">Nenhum produto cadastrado.</td></tr>
+    <tr><td colspan="7" class="text-center text-muted">Nenhum produto cadastrado.</td></tr>
     @endforelse
     </tbody>
 </table>

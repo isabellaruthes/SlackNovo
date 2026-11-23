@@ -13,12 +13,17 @@
         <input class="form-control" id="produto_nome" name="nome" maxlength="50" value="{{ $formValue('nome', $produto->nome ?? '') }}" required>
     </div>
     <div class="col-md-6">
-        <label class="form-label" for="produto_imagen">Imagem do produto</label>
-        <input class="form-control" name="imagen" type="file" accept="image/jpeg,image/png,image/gif,image/bmp,image/webp" id="produto_imagen">
-        <small class="text-muted d-block mt-1">Opcional. JPEG, PNG, GIF, BMP ou WebP, até 5 MB.</small>
-        @if (!empty($produto?->imagen))
-            <small class="text-muted d-block mt-1">Imagem atual: {{ $produto->imagen }}</small>
-        @endif
+        <label class="form-label" for="produto_imagen">Foto do produto</label>
+        <input class="form-control @error('imagen') is-invalid @enderror" id="produto_imagen" name="imagen" type="file"
+            accept="image/jpeg,image/png,image/gif,image/bmp,image/webp" aria-describedby="imagen_help">
+        <small class="text-muted d-block mt-1" id="imagen_help">
+            Opcional. JPG, PNG, GIF, BMP ou WebP, até 5 MB. Escolha outra foto para substituir a atual.
+        </small>
+        @php($imagemAtual = !empty($produto?->imagen) ? asset('storage/' . $produto->imagen) : '')
+        <img id="imagen_preview" @if ($imagemAtual) src="{{ $imagemAtual }}" @endif
+            data-current-src="{{ $imagemAtual }}" alt="Prévia da foto do produto"
+            class="img-thumbnail mt-2" style="max-width:200px;max-height:200px;object-fit:contain;"
+            @if (!$imagemAtual) hidden @endif>
     </div>
 
     <div class="col-12">
@@ -93,6 +98,24 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const imagemInput = document.getElementById('produto_imagen');
+        const imagemPreview = document.getElementById('imagen_preview');
+        let imagemUrl = null;
+
+        imagemInput.addEventListener('change', function () {
+            if (imagemUrl) URL.revokeObjectURL(imagemUrl);
+            const arquivo = imagemInput.files[0];
+            imagemUrl = arquivo ? URL.createObjectURL(arquivo) : null;
+            const src = imagemUrl || imagemPreview.dataset.currentSrc;
+
+            if (src) {
+                imagemPreview.src = src;
+            } else {
+                imagemPreview.removeAttribute('src');
+            }
+            imagemPreview.hidden = !src;
+        });
+
         const consignadoFields = document.getElementById('consignado_fields');
         const consignadoPago = document.getElementById('consignado_pago');
         const precoCompra = document.getElementById('preco_compra');
