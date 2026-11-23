@@ -12,6 +12,15 @@ class ProdutoRequest extends FormRequest
         return true;
     }
 
+    public function messages(): array
+    {
+        return [
+            'imagen.image' => 'A foto deve ser uma imagem JPG, PNG, GIF, BMP ou WebP.',
+            'imagen.max' => 'A foto deve ter no máximo 5 MB.',
+            'imagen.uploaded' => 'Não foi possível enviar a foto. Tente um arquivo menor.',
+        ];
+    }
+
     public function rules(): array
     {
         // A zero acquisition cost is allowed only when no consignment payment is requested.

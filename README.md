@@ -79,9 +79,14 @@ O framework também usa as tabelas `sessions`, `cache`, `cache_locks`, `jobs`, `
 
 ## Armazenamento de arquivos
 
-- A imagem do produto (`imagen`) é validada como imagem de até 5 MB e salva no disco `public`, em `storage/app/public/produtos`.
-- As páginas exibem as imagens por `asset('storage/...')`, então é necessário criar o link simbólico: `php artisan storage:link`.
-- Ao substituir a imagem ou excluir o produto, o arquivo anterior não é apagado do disco.
+Em **Produtos → Novo Produto** ou **Editar**, selecione a foto e salve. Cada produto tem uma foto opcional, com prévia no formulário e exibição na lista e no catálogo.
+
+- Os arquivos ficam no próprio servidor, em `storage/app/public/produtos`; o banco guarda apenas o caminho no campo `imagen`.
+- As páginas exibem as imagens por `asset('storage/...')`. O comando `composer run setup` já cria o link necessário; em ambientes existentes, execute `php artisan storage:link` uma vez.
+- Ao enviar outra foto ou excluir o produto, o arquivo anterior é removido após a confirmação da transação no banco.
+- As fotos são públicas e não são versionadas no Git; inclua `storage/app/public` no backup junto com o banco.
+
+São aceitas imagens JPG, PNG, GIF, BMP e WebP de até 5 MB. O PHP também limita o envio: para usar os 5 MB, configure `upload_max_filesize = 5M` e `post_max_size = 8M` no `php.ini` do servidor e reinicie o PHP/Herd. Se o limite do PHP for menor, use fotos menores ou ajuste essa configuração.
 
 ## Integrações e serviços
 
@@ -134,8 +139,7 @@ O dashboard mostra indicadores de vendas e saídas e a lista de produtos com fil
 Requisitos: PHP 8.2+, Composer, Node.js e npm.
 
 ```bash
-composer run setup         # dependências, .env, chave, migrations e build do front-end
-php artisan storage:link   # exibição das imagens dos produtos
+composer run setup         # dependências, .env, chave, migrations, link das fotos e build do front-end
 composer run dev           # servidor, fila, logs e Vite
 composer run test          # testes automatizados
 ```
